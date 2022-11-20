@@ -1,0 +1,26 @@
+{
+  "name": "godmode",
+  "version": "1.0.0",
+  "description": "music app",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest",
+    "coverage": "npx jest --coverage --runInBand",
+    "start": "nodemon",
+    "debug": "tsnd --inspect --respawn --transpile-only --ignore-watch node_modules src/Server.ts"
+  },
+  "author": "Guilherme Alves Pimenta",
+  "license": "ISC",
+  "dependencies": {
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.2.3",
+    "jest": "^29.3.1",
+    "ts-jest": "^29.0.3",
+    "ts-node-dev": "^2.0.0"
+  }
+}
