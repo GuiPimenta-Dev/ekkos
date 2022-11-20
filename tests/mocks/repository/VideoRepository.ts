@@ -1,5 +1,6 @@
 import Video from "../../../src/domain/entity/Video";
 import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepository";
+import Profile from "../../../src/domain/entity/Profile";
 
 export default class VideoRepository implements VideoRepositoryInterface {
   readonly videos: Video[] = [];
@@ -19,5 +20,10 @@ export default class VideoRepository implements VideoRepositoryInterface {
   async isDuplicated(url: string): Promise<Boolean> {
     const video = this.videos.find((video) => video.url === url);
     return video !== undefined;
+  }
+
+  async likeVideo(profile: Profile, videoId: string): Promise<void> {
+    const video = await this.getVideo(videoId);
+    video.likes.push(profile);
   }
 }
