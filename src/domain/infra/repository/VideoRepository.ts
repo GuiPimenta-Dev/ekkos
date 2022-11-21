@@ -7,4 +7,5 @@ export default interface VideoRepositoryInterface {
   getVideo(id: string): Promise<Video>;
   isDuplicated(url: string): Promise<Boolean>;
   likeVideo(profile: Profile, videoId: string): Promise<void>;
+  commentVideo(profile: Profile, videoId: string, comment: string): Promise<void>;
 }

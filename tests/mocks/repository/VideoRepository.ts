@@ -26,4 +26,9 @@ export default class VideoRepository implements VideoRepositoryInterface {
     const video = await this.getVideo(videoId);
     video.likes.push(profile);
   }
+
+  async commentVideo(profile: Profile, videoId: string, comment: string): Promise<void> {
+    const video = await this.getVideo(videoId);
+    video.comments.push({ profile, comment });
+  }
 }
