@@ -9,10 +9,10 @@ export default class CommentVideo {
     private videoRepository: VideoRepositoryInterface
   ) {}
 
-  async execute(userId: string, videoId: string, content: string): Promise<string> {
-    const profile = await this.profileRepository.getProfileById(userId);
+  async execute(id: string, videoId: string, text: string): Promise<string> {
+    const profile = await this.profileRepository.getProfileById(id);
     const video = await this.videoRepository.getVideoById(videoId);
-    const comment = new Comment(uuid(), profile, content);
+    const comment = new Comment(uuid(), profile, text);
     video.comments.push(comment);
     await this.videoRepository.update(video);
     return comment.id;
