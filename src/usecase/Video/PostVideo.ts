@@ -8,7 +8,7 @@ export default class PostVideo {
 
   async execute(input: PostVideoDTO): Promise<string> {
     const videoId = uuid();
-    const video = new Video(videoId, input.profileId, input.title, input.description, input.url);
+    const video = new Video(videoId, input.userId, input.title, input.description, input.url);
     await this.videoRepository.save(video);
     return videoId;
   }

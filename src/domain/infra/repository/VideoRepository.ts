@@ -3,11 +3,12 @@ import Profile from "../../entity/Profile";
 import Comment from "../../entity/Comment";
 
 export default interface VideoRepositoryInterface {
-  save(input: Video): Promise<void>;
-  getVideos(profileId: string): Promise<Video[]>;
+  save(video: Video): Promise<void>;
+  getVideos(userId: string): Promise<Video[]>;
   getVideo(id: string): Promise<Video>;
-  likeVideo(profile: Profile, videoId: string): Promise<void>;
-  unlikeVideo(profile: Profile, videoId: string): Promise<void>;
+  likeVideo(profile: Profile, video: Video): Promise<void>;
+  unlikeVideo(profile: Profile, video: Video): Promise<void>;
   commentVideo(videoId: string, comment: Comment): Promise<void>;
-  deleteComment(videoId: string, commentId: string): Promise<void>;
+  deleteComment(videoId: string, comment: Comment): Promise<void>;
+  getComment(videoId: string, commentId: string): Promise<Comment>;
 }

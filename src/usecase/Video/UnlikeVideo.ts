@@ -7,8 +7,12 @@ export default class LikeVideo {
     private videoRepository: VideoRepositoryInterface
   ) {}
 
-  async execute(profileId: string, videoId: string): Promise<void> {
-    const profile = await this.profileRepository.getProfile(profileId);
-    await this.videoRepository.unlikeVideo(profile, videoId);
+  async execute(userId: string, videoId: string): Promise<void> {
+    const profile = await this.profileRepository.getProfile(userId);
+    const video = await this.videoRepository.getVideo(videoId);
+    if (!video.likes.includes(profile)) {
+      throw new Error("You didn't like this video");
+    }
+    await this.videoRepository.unlikeVideo(profile, video);
   }
 }

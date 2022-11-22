@@ -11,8 +11,8 @@ export default class VideoRepository implements VideoRepositoryInterface {
     this.videos.push(input);
   }
 
-  async getVideos(profileId: string): Promise<Video[]> {
-    const videos = this.videos.filter((video) => video.userId === profileId);
+  async getVideos(userId: string): Promise<Video[]> {
+    const videos = this.videos.filter((video) => video.userId === userId);
     if (!videos) throw new Error("Profile not found");
     return videos;
   }
@@ -28,13 +28,11 @@ export default class VideoRepository implements VideoRepositoryInterface {
     return video !== undefined;
   }
 
-  async likeVideo(profile: Profile, videoId: string): Promise<void> {
-    const video = await this.getVideo(videoId);
+  async likeVideo(profile: Profile, video: Video): Promise<void> {
     video.likes.push(profile);
   }
 
-  async unlikeVideo(profile: Profile, videoId: string): Promise<void> {
-    const video = await this.getVideo(videoId);
+  async unlikeVideo(profile: Profile, video: Video): Promise<void> {
     const profileIndex = video.likes.indexOf(profile);
     video.likes.splice(profileIndex, 1);
   }
@@ -44,9 +42,8 @@ export default class VideoRepository implements VideoRepositoryInterface {
     video.comments.push(comment);
   }
 
-  async deleteComment(videoId: string, commentId: string): Promise<void> {
+  async deleteComment(videoId: string, comment: Comment): Promise<void> {
     const video = await this.getVideo(videoId);
-    const comment = await this.getComment(videoId, commentId);
     const commentIndex = video.comments.indexOf(comment);
     video.comments.splice(commentIndex, 1);
   }
