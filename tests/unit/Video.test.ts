@@ -55,6 +55,12 @@ test("It should not to be able to like a video twice", async () => {
   expect(usecase.execute("userId", videoId)).rejects.toThrow("You already like this video");
 });
 
+test("It should not to be able to like a non existent video", async () => {
+  const usecase = new LikeVideo(profileRepository, videoRepository);
+  await usecase.execute("userId", videoId);
+  expect(usecase.execute("userId", "videoId")).rejects.toThrow("Video not found");
+});
+
 test("It has to be able to unlike a video", async () => {
   const likeVideoUseCase = new LikeVideo(profileRepository, videoRepository);
   await likeVideoUseCase.execute("userId", videoId);
