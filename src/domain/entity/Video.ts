@@ -1,13 +1,14 @@
 import Profile from "./Profile";
+import Comment from "./Comment";
 
 export default class Video {
   constructor(
     readonly id: string,
-    readonly profileId: string,
+    readonly userId: string,
     readonly title: string,
     readonly description: string,
     readonly url: string,
     readonly likes: Profile[] = [],
-    readonly comments: { id: string; profile: Profile; comment: string }[] = []
+    readonly comments: Comment[] = []
   ) {}
 }

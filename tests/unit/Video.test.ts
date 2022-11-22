@@ -68,3 +68,11 @@ test("It has to be able to comment a video", async () => {
   expect(video.comments).toHaveLength(1);
   expect(video.comments[0].comment).toBe("This is a really nice video");
 });
+
+test("It has to be able to delete a comment on a video", async () => {
+  const usecase = new CommentVideo(profileRepository, videoRepository);
+  await usecase.execute("profileId", videoId, "This is a really nice video");
+  const video = await videoRepository.getVideo(videoId);
+  expect(video.comments).toHaveLength(1);
+  expect(video.comments[0].comment).toBe("This is a really nice video");
+});

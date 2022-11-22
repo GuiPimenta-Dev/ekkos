@@ -1,7 +1,7 @@
 import Video from "../../../src/domain/entity/Video";
+import Comment from "../../../src/domain/entity/Comment";
 import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepository";
 import Profile from "../../../src/domain/entity/Profile";
-import { v4 as uuid } from "uuid";
 
 export default class VideoRepository implements VideoRepositoryInterface {
   readonly videos: Video[] = [];
@@ -12,7 +12,7 @@ export default class VideoRepository implements VideoRepositoryInterface {
   }
 
   async getVideos(profileId: string): Promise<Video[]> {
-    const videos = this.videos.filter((video) => video.profileId === profileId);
+    const videos = this.videos.filter((video) => video.userId === profileId);
     if (!videos) throw new Error("Profile not found");
     return videos;
   }
@@ -39,8 +39,8 @@ export default class VideoRepository implements VideoRepositoryInterface {
     video.likes.splice(profileIndex, 1);
   }
 
-  async commentVideo(profile: Profile, videoId: string, comment: string): Promise<void> {
+  async commentVideo(videoId: string, comment: Comment): Promise<void> {
     const video = await this.getVideo(videoId);
-    video.comments.push({ id: uuid(), profile, comment });
+    video.comments.push(comment);
   }
 }

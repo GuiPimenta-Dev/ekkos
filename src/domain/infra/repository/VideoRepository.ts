@@ -1,5 +1,6 @@
 import Video from "../../entity/Video";
 import Profile from "../../entity/Profile";
+import Comment from "../../entity/Comment";
 
 export default interface VideoRepositoryInterface {
   save(input: Video): Promise<void>;
@@ -7,5 +8,5 @@ export default interface VideoRepositoryInterface {
   getVideo(id: string): Promise<Video>;
   likeVideo(profile: Profile, videoId: string): Promise<void>;
   unlikeVideo(profile: Profile, videoId: string): Promise<void>;
-  commentVideo(profile: Profile, videoId: string, comment: string): Promise<void>;
+  commentVideo(videoId: string, comment: Comment): Promise<void>;
 }
