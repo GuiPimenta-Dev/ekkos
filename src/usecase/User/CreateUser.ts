@@ -4,7 +4,7 @@ import User from "../../domain/entity/User";
 import BrokerInterface from "../../domain/infra/broker/Broker";
 import UserCreatedEvent from "../../domain/event/UserCreatedEvent";
 
-export default class CreateAccount {
+export default class CreateUser {
   constructor(private userRepository: UserRepositoryInterface, private broker: BrokerInterface) {}
 
   async execute(email: string, password: string): Promise<string> {

@@ -8,10 +8,8 @@ export default class MemoryUserRepository implements UserRepositoryInterface {
     this.users.push(user);
   }
 
-  async getUserById(id: string): Promise<User> {
-    const user = this.users.find((user) => user.id === id);
-    if (!user) throw new Error("User not found");
-    return user;
+  async getUserByEmail(email: string): Promise<User> {
+    return this.users.find((user) => user.email === email);
   }
 
   async update(user: User): Promise<void> {

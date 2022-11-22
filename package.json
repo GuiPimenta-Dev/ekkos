@@ -15,6 +15,7 @@
   "author": "Guilherme Alves Pimenta",
   "license": "ISC",
   "dependencies": {
+    "jsonwebtoken": "^8.5.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
