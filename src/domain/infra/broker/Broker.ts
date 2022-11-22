@@ -1,4 +1,4 @@
-import HandlerInterface from "../../../application/implements/Handler";
+import HandlerInterface from "../../../application/handler/implements/Handler";
 import DomainEvent from "../../event/implements/DomainEvent";
 
 export default interface BrokerInterface {

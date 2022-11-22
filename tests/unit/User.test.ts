@@ -4,6 +4,8 @@ import MemoryBroker from "../../src/infra/broker/MemoryBroker";
 import UserRepositoryInterface from "../../src/domain/infra/repository/UserRepository";
 import LoginUser from "../../src/usecase/User/LoginUser";
 import jwt from "jsonwebtoken";
+import CreateUserHandler from "../../src/application/handler/CreateUserHandler";
+import EmailGatewayFake from "../mocks/fake/EmailGatewayFake";
 
 let userRepository: UserRepositoryInterface;
 let createUserUseCase: CreateUser;
@@ -21,6 +23,17 @@ test("It should be able to create an user", async () => {
   const usecase = new CreateUser(userRepository, broker);
   await usecase.execute("email", "password");
   expect(userRepository.users).toHaveLength(1);
+});
+
+test("Welcome email should be sent after create an user", async () => {
+  const userRepository = new MemoryUserRepository();
+  const broker = new MemoryBroker();
+  const emailGateway = new EmailGatewayFake();
+  const handler = new CreateUserHandler(emailGateway);
+  broker.register(handler);
+  const usecase = new CreateUser(userRepository, broker);
+  await usecase.execute("email", "password");
+  expect(emailGateway.emailSent).toEqual({ to: "email", subject: "Welcome to our app!", body: "Welcome to our app!" });
 });
 
 test("It should not be able to create an user if email is already taken", async () => {

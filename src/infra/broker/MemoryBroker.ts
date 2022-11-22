@@ -1,4 +1,4 @@
-import HandlerInterface from "../../application/implements/Handler";
+import HandlerInterface from "../../application/handler/implements/Handler";
 import DomainEvent from "../../domain/event/implements/DomainEvent";
 import BrokerInterface from "../../domain/infra/broker/Broker";
 
