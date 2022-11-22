@@ -53,6 +53,12 @@ test("It has to be able to like a video", async () => {
   expect(video.likes).toHaveLength(1);
 });
 
+test("It should not to be able to like a video twice", async () => {
+  const usecase = new LikeVideo(profileRepository, videoRepository);
+  await usecase.execute("userId", videoId);
+  expect(usecase.execute("userId", videoId)).rejects.toThrow("You already like this video");
+});
+
 test("It has to be able to unlike a video", async () => {
   const likeVideoUseCase = new LikeVideo(profileRepository, videoRepository);
   await likeVideoUseCase.execute("userId", videoId);
@@ -60,6 +66,11 @@ test("It has to be able to unlike a video", async () => {
   await usecase.execute("userId", videoId);
   const video = await videoRepository.getVideoById(videoId);
   expect(video.likes).toHaveLength(0);
+});
+
+test("It should not be able to unlike a video you don't like", async () => {
+  const usecase = new UnlikeVideo(profileRepository, videoRepository);
+  expect(usecase.execute("userId", videoId)).rejects.toThrow("You can't unlike a video you don't like");
 });
 
 test("It has to be able to comment a video", async () => {
@@ -76,4 +87,11 @@ test("It has to be able to delete a comment on a video", async () => {
   await usecase.execute("userId", videoId, commentId);
   const video = await videoRepository.getVideoById(videoId);
   expect(video.comments).toHaveLength(0);
+});
+
+test("It should not to be able to delete a comment on a video if you are not the owner of it", async () => {
+  const commentVideoUseCase = new CommentVideo(profileRepository, videoRepository);
+  const commentId = await commentVideoUseCase.execute("userId", videoId, "This is a really nice video");
+  const usecase = new DeleteComment(videoRepository);
+  expect(usecase.execute("anotherUserId", videoId, commentId)).rejects.toThrow("You can't delete this comment");
 });

@@ -10,7 +10,7 @@ export default class LikeVideo {
   async execute(userId: string, videoId: string): Promise<void> {
     const profile = await this.profileRepository.getProfileById(userId);
     const video = await this.videoRepository.getVideoById(videoId);
-    if (video.likes.includes(profile)) throw new Error("You already liked this video");
+    if (video.likes.includes(profile)) throw new Error("You already like this video");
     video.likes.push(profile);
     await this.videoRepository.update(video);
   }
