@@ -1,7 +1,7 @@
-import PostVideoDTO from "../dto/PostVideo";
-import VideoRepositoryInterface from "../domain/infra/repository/VideoRepository";
+import PostVideoDTO from "../../dto/PostVideo";
+import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 import { v4 as uuid } from "uuid";
-import Video from "../domain/entity/Video";
+import Video from "../../domain/entity/Video";
 
 export default class PostVideo {
   constructor(private videoRepository: VideoRepositoryInterface) {}

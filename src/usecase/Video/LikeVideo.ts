@@ -1,5 +1,5 @@
-import ProfileRepositoryInterface from "../domain/infra/repository/ProfileRepository";
-import VideoRepositoryInterface from "../domain/infra/repository/VideoRepository";
+import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
+import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 
 export default class LikeVideo {
   constructor(

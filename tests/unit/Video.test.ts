@@ -1,12 +1,12 @@
 import VideoRepository from "../mocks/repository/VideoRepository";
-import PostVideo from "../../src/usecase/PostVideo";
+import PostVideo from "../../src/usecase/Video/PostVideo";
 import VideoRepositoryInterface from "../../src/domain/infra/repository/VideoRepository";
-import LikeVideo from "../../src/usecase/LikeVideo";
+import LikeVideo from "../../src/usecase/Video/LikeVideo";
 import ProfileRepositoryInterface from "../../src/domain/infra/repository/ProfileRepository";
 import ProfileRepository from "../mocks/repository/ProfileRepository";
-import CreateProfile from "../../src/usecase/CreateProfile";
-import CommentVideo from "../../src/usecase/CommentVideo";
-import UnlikeVideo from "../../src/usecase/UnlikeVideo";
+import CreateProfile from "../../src/usecase/Profile/CreateProfile";
+import CommentVideo from "../../src/usecase/Video/CommentVideo";
+import UnlikeVideo from "../../src/usecase/Video/UnlikeVideo";
 
 let videoRepository: VideoRepositoryInterface;
 let profileRepository: ProfileRepositoryInterface;

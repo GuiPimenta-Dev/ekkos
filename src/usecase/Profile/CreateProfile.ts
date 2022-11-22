@@ -1,5 +1,5 @@
-import Profile from "../domain/entity/Profile";
-import ProfileRepositoryInterface from "../domain/infra/repository/ProfileRepository";
+import Profile from "../../domain/entity/Profile";
+import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
 
 export default class CreateProfile {
   constructor(private profileRepository: ProfileRepositoryInterface) {}

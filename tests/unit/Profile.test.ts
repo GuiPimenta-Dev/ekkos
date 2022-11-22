@@ -1,6 +1,6 @@
-import CreateProfile from "../../src/usecase/CreateProfile";
-import FollowProfile from "../../src/usecase/FollowProfile";
-import UnfollowProfile from "../../src/usecase/UnfollowProfile";
+import CreateProfile from "../../src/usecase/Profile/CreateProfile";
+import FollowProfile from "../../src/usecase/Profile/FollowProfile";
+import UnfollowProfile from "../../src/usecase/Profile/UnfollowProfile";
 import ProfileRepository from "../mocks/repository/ProfileRepository";
 
 test("It should be able to create a profile", async () => {

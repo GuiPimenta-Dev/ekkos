@@ -1,4 +1,4 @@
-import ProfileRepositoryInterface from "../domain/infra/repository/ProfileRepository";
+import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
 
 export default class FollowProfile {
   constructor(private profileRepository: ProfileRepositoryInterface) {}
