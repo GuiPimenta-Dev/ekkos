@@ -6,15 +6,20 @@ export default class VideoRepository implements VideoRepositoryInterface {
   readonly videos: Video[] = [];
 
   async save(input: Video): Promise<void> {
+    if (await this.isDuplicated(input.url)) throw new Error("Duplicated video");
     this.videos.push(input);
   }
 
   async getVideos(profileId: string): Promise<Video[]> {
-    return this.videos.filter((video) => video.profileId === profileId);
+    const videos = this.videos.filter((video) => video.profileId === profileId);
+    if (!videos) throw new Error("Profile not found");
+    return videos;
   }
 
   async getVideo(id: string): Promise<Video> {
-    return this.videos.find((video) => video.id === id);
+    const video = this.videos.find((video) => video.id === id);
+    if (!video) throw new Error("Video not found");
+    return video;
   }
 
   async isDuplicated(url: string): Promise<Boolean> {

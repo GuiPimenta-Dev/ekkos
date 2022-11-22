@@ -9,9 +9,6 @@ export default class CommentVideo {
 
   async execute(profileId: string, videoId: string, comment: string): Promise<void> {
     const profile = await this.profileRepository.getProfile(profileId);
-    if (!profile) throw new Error("Profile does not exist");
-    const video = await this.videoRepository.getVideo(videoId);
-    if (!video) throw new Error("Video does not exist");
     await this.videoRepository.commentVideo(profile, videoId, comment);
   }
 }
