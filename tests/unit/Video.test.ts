@@ -1,9 +1,9 @@
-import VideoRepository from "../mocks/repository/VideoRepository";
+import MemoryVideoRepository from "../../src/infra/repository/memory/MemoryVideoRepository";
 import PostVideo from "../../src/usecase/Video/PostVideo";
 import VideoRepositoryInterface from "../../src/domain/infra/repository/VideoRepository";
 import LikeVideo from "../../src/usecase/Video/LikeVideo";
 import ProfileRepositoryInterface from "../../src/domain/infra/repository/ProfileRepository";
-import ProfileRepository from "../mocks/repository/ProfileRepository";
+import MemoryProfileRepository from "../../src/infra/repository/memory/MemoryProfileRepository";
 import CreateProfile from "../../src/usecase/Profile/CreateProfile";
 import CommentVideo from "../../src/usecase/Video/CommentVideo";
 import DeleteComment from "../../src/usecase/Video/DeleteComment";
@@ -12,22 +12,18 @@ import UnlikeVideo from "../../src/usecase/Video/UnlikeVideo";
 let videoRepository: VideoRepositoryInterface;
 let profileRepository: ProfileRepositoryInterface;
 let videoId: string;
+
 beforeEach(async () => {
-  profileRepository = new ProfileRepository();
+  profileRepository = new MemoryProfileRepository();
   const createProfileUseCase = new CreateProfile(profileRepository);
   await createProfileUseCase.execute("userId", "userId");
-  videoRepository = new VideoRepository();
+  videoRepository = new MemoryVideoRepository();
   const usecase = new PostVideo(videoRepository);
-  videoId = await usecase.execute({
-    userId: "userId",
-    title: "title",
-    description: "description",
-    url: "url",
-  });
+  videoId = await usecase.execute({ userId: "userId", title: "title", description: "description", url: "url" });
 });
 
 test("It should be able to post a video", async () => {
-  const videoRepository = new VideoRepository();
+  const videoRepository = new MemoryVideoRepository();
   const usecase = new PostVideo(videoRepository);
   await usecase.execute({
     userId: "userId",
@@ -39,7 +35,7 @@ test("It should be able to post a video", async () => {
 });
 
 test("It should not be able to post a duplicated video", async () => {
-  const videoRepository = new VideoRepository();
+  const videoRepository = new MemoryVideoRepository();
   const usecase = new PostVideo(videoRepository);
   const info = { userId: "userId", title: "title", description: "description", url: "url" };
   await usecase.execute(info);

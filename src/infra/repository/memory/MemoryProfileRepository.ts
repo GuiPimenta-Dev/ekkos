@@ -1,7 +1,7 @@
-import Profile from "../../../src/domain/entity/Profile";
-import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
+import Profile from "../../../domain/entity/Profile";
+import ProfileRepositoryInterface from "../../../domain/infra/repository/ProfileRepository";
 
-export default class ProfileRepository implements ProfileRepositoryInterface {
+export default class MemoryProfileRepository implements ProfileRepositoryInterface {
   readonly profiles: Profile[] = [];
 
   async save(input: Profile): Promise<void> {

@@ -1,24 +1,24 @@
 import CreateProfile from "../../src/usecase/Profile/CreateProfile";
 import FollowProfile from "../../src/usecase/Profile/FollowProfile";
 import UnfollowProfile from "../../src/usecase/Profile/UnfollowProfile";
-import ProfileRepository from "../mocks/repository/ProfileRepository";
+import MemoryProfileRepository from "../../src/infra/repository/memory/MemoryProfileRepository";
 
 test("It should be able to create a profile", async () => {
-  const profileRepository = new ProfileRepository();
+  const profileRepository = new MemoryProfileRepository();
   const usecase = new CreateProfile(profileRepository);
   await usecase.execute("id", "userId");
   expect(profileRepository.profiles).toHaveLength(1);
 });
 
 test("It should not be able to create a profile if it already exists", async () => {
-  const profileRepository = new ProfileRepository();
+  const profileRepository = new MemoryProfileRepository();
   const usecase = new CreateProfile(profileRepository);
   await usecase.execute("id", "userId");
   await expect(usecase.execute("id", "userId")).rejects.toThrow("Profile already exists");
 });
 
 test("It should be able to follow a profile", async () => {
-  const profileRepository = new ProfileRepository();
+  const profileRepository = new MemoryProfileRepository();
   const createProfileUseCase = new CreateProfile(profileRepository);
   await createProfileUseCase.execute("id", "userId");
   await createProfileUseCase.execute("id2", "userId2");
@@ -31,7 +31,7 @@ test("It should be able to follow a profile", async () => {
 });
 
 test("It should be able to unfollow a profile", async () => {
-  const profileRepository = new ProfileRepository();
+  const profileRepository = new MemoryProfileRepository();
   const createProfileUseCase = new CreateProfile(profileRepository);
   await createProfileUseCase.execute("id", "userId");
   await createProfileUseCase.execute("id2", "userId2");

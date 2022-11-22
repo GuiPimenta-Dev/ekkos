@@ -1,8 +1,8 @@
-import Video from "../../../src/domain/entity/Video";
-import Comment from "../../../src/domain/entity/Comment";
-import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepository";
+import Video from "../../../domain/entity/Video";
+import Comment from "../../../domain/entity/Comment";
+import VideoRepositoryInterface from "../../../domain/infra/repository/VideoRepository";
 
-export default class VideoRepository implements VideoRepositoryInterface {
+export default class MemoryVideoRepository implements VideoRepositoryInterface {
   readonly videos: Video[] = [];
 
   async save(input: Video): Promise<void> {
