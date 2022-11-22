@@ -1,5 +1,6 @@
 import CreateProfile from "../../src/usecase/CreateProfile";
 import FollowProfile from "../../src/usecase/FollowProfile";
+import UnfollowProfile from "../../src/usecase/UnfollowProfile";
 import ProfileRepository from "../mocks/repository/ProfileRepository";
 
 test("It should be able to create a profile", async () => {
@@ -27,4 +28,19 @@ test("It should be able to follow a profile", async () => {
   const followee = await profileRepository.getProfile("id2");
   expect(follower.following).toContain(followee);
   expect(followee.followers).toContain(follower);
+});
+
+test("It should be able to unfollow a profile", async () => {
+  const profileRepository = new ProfileRepository();
+  const createProfileUseCase = new CreateProfile(profileRepository);
+  await createProfileUseCase.execute("id", "userId");
+  await createProfileUseCase.execute("id2", "userId2");
+  const followProfileUseCase = new FollowProfile(profileRepository);
+  await followProfileUseCase.execute("id", "id2");
+  const unfollowProfileUseCase = new UnfollowProfile(profileRepository);
+  await unfollowProfileUseCase.execute("id", "id2");
+  const follower = await profileRepository.getProfile("id");
+  const followee = await profileRepository.getProfile("id2");
+  expect(follower.following).toHaveLength(0);
+  expect(followee.followers).toHaveLength(0);
 });

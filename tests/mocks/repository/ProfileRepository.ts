@@ -24,4 +24,11 @@ export default class ProfileRepository implements ProfileRepositoryInterface {
     follower.following.push(followee);
     followee.followers.push(follower);
   }
+
+  async unfollow(unfollower: Profile, unfollowee: Profile): Promise<void> {
+    const unfollowerIndex = unfollower.following.indexOf(unfollowee);
+    const unfolloweeIndex = unfollowee.followers.indexOf(unfollower);
+    unfollower.following.splice(unfollowerIndex, 1);
+    unfollowee.followers.splice(unfolloweeIndex, 1);
+  }
 }
