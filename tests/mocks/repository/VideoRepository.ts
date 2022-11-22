@@ -1,57 +1,41 @@
 import Video from "../../../src/domain/entity/Video";
 import Comment from "../../../src/domain/entity/Comment";
 import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepository";
-import Profile from "../../../src/domain/entity/Profile";
 
 export default class VideoRepository implements VideoRepositoryInterface {
   readonly videos: Video[] = [];
 
   async save(input: Video): Promise<void> {
-    if (await this.isDuplicated(input.url)) throw new Error("Duplicated video");
     this.videos.push(input);
   }
 
-  async getVideos(userId: string): Promise<Video[]> {
+  async getVideosByUserId(userId: string): Promise<Video[]> {
     const videos = this.videos.filter((video) => video.userId === userId);
     if (!videos) throw new Error("Profile not found");
     return videos;
   }
 
-  async getVideo(id: string): Promise<Video> {
+  async getVideoById(id: string): Promise<Video> {
     const video = this.videos.find((video) => video.id === id);
     if (!video) throw new Error("Video not found");
     return video;
   }
 
-  async isDuplicated(url: string): Promise<Boolean> {
+  async update(video: Video): Promise<void> {
+    const index = this.videos.indexOf(video);
+    this.videos[index] = video;
+  }
+
+  async getCommentById(id: string): Promise<Comment> {
+    for (let index = 0; index < this.videos.length; index++) {
+      const video = this.videos[index];
+      const comment = video.comments.find((comment) => comment.id === id);
+      if (comment) return comment;
+    }
+  }
+
+  async isVideoDuplicated(url: string): Promise<Boolean> {
     const video = this.videos.find((video) => video.url === url);
     return video !== undefined;
-  }
-
-  async likeVideo(profile: Profile, video: Video): Promise<void> {
-    video.likes.push(profile);
-  }
-
-  async unlikeVideo(profile: Profile, video: Video): Promise<void> {
-    const profileIndex = video.likes.indexOf(profile);
-    video.likes.splice(profileIndex, 1);
-  }
-
-  async commentVideo(videoId: string, comment: Comment): Promise<void> {
-    const video = await this.getVideo(videoId);
-    video.comments.push(comment);
-  }
-
-  async deleteComment(videoId: string, comment: Comment): Promise<void> {
-    const video = await this.getVideo(videoId);
-    const commentIndex = video.comments.indexOf(comment);
-    video.comments.splice(commentIndex, 1);
-  }
-
-  async getComment(videoId: string, commentId: string): Promise<Comment> {
-    const video = await this.getVideo(videoId);
-    const comment = video.comments.find((comment) => comment.id === commentId);
-    if (!comment) throw new Error("Comment not found");
-    return comment;
   }
 }

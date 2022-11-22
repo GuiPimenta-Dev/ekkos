@@ -4,8 +4,11 @@ export default class FollowProfile {
   constructor(private profileRepository: ProfileRepositoryInterface) {}
 
   async execute(followerId: string, followeeId: string) {
-    const follower = await this.profileRepository.getProfile(followerId);
-    const followee = await this.profileRepository.getProfile(followeeId);
-    this.profileRepository.follow(follower, followee);
+    const follower = await this.profileRepository.getProfileById(followerId);
+    const followee = await this.profileRepository.getProfileById(followeeId);
+    follower.following.push(followee);
+    followee.followers.push(follower);
+    this.profileRepository.update(follower);
+    this.profileRepository.update(followee);
   }
 }
