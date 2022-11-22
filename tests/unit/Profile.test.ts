@@ -22,8 +22,8 @@ test("It should be able to follow a profile", async () => {
   const createProfileUseCase = new CreateProfile(profileRepository);
   await createProfileUseCase.execute("id", "userId");
   await createProfileUseCase.execute("id2", "userId2");
-  const followProfileUseCase = new FollowProfile(profileRepository);
-  await followProfileUseCase.execute("id", "id2");
+  const usecase = new FollowProfile(profileRepository);
+  await usecase.execute("id", "id2");
   const follower = await profileRepository.getProfile("id");
   const followee = await profileRepository.getProfile("id2");
   expect(follower.following).toContain(followee);
@@ -35,8 +35,8 @@ test("It should be able to unfollow a profile", async () => {
   const createProfileUseCase = new CreateProfile(profileRepository);
   await createProfileUseCase.execute("id", "userId");
   await createProfileUseCase.execute("id2", "userId2");
-  const followProfileUseCase = new FollowProfile(profileRepository);
-  await followProfileUseCase.execute("id", "id2");
+  const usecase = new FollowProfile(profileRepository);
+  await usecase.execute("id", "id2");
   const unfollowProfileUseCase = new UnfollowProfile(profileRepository);
   await unfollowProfileUseCase.execute("id", "id2");
   const follower = await profileRepository.getProfile("id");

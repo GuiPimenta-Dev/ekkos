@@ -9,4 +9,5 @@ export default interface VideoRepositoryInterface {
   likeVideo(profile: Profile, videoId: string): Promise<void>;
   unlikeVideo(profile: Profile, videoId: string): Promise<void>;
   commentVideo(videoId: string, comment: Comment): Promise<void>;
+  deleteComment(videoId: string, commentId: string): Promise<void>;
 }

@@ -7,6 +7,7 @@ import ProfileRepository from "../mocks/repository/ProfileRepository";
 import CreateProfile from "../../src/usecase/Profile/CreateProfile";
 import CommentVideo from "../../src/usecase/Video/CommentVideo";
 import UnlikeVideo from "../../src/usecase/Video/UnlikeVideo";
+import DeleteComment from "../../src/usecase/Video/DeleteComment";
 
 let videoRepository: VideoRepositoryInterface;
 let profileRepository: ProfileRepositoryInterface;
@@ -16,8 +17,8 @@ beforeEach(async () => {
   const createProfileUseCase = new CreateProfile(profileRepository);
   await createProfileUseCase.execute("profileId", "userId");
   videoRepository = new VideoRepository();
-  const postVideoUseCase = new PostVideo(videoRepository);
-  videoId = await postVideoUseCase.execute({
+  const usecase = new PostVideo(videoRepository);
+  videoId = await usecase.execute({
     profileId: "profileId",
     title: "title",
     description: "description",
@@ -55,8 +56,8 @@ test("It has to be able to like a video", async () => {
 test("It has to be able to unlike a video", async () => {
   const likeVideoUseCase = new LikeVideo(profileRepository, videoRepository);
   await likeVideoUseCase.execute("profileId", videoId);
-  const unlikeVideoUseCase = new UnlikeVideo(profileRepository, videoRepository);
-  await unlikeVideoUseCase.execute("profileId", videoId);
+  const usecase = new UnlikeVideo(profileRepository, videoRepository);
+  await usecase.execute("profileId", videoId);
   const video = await videoRepository.getVideo(videoId);
   expect(video.likes).toHaveLength(0);
 });
@@ -70,9 +71,10 @@ test("It has to be able to comment a video", async () => {
 });
 
 test("It has to be able to delete a comment on a video", async () => {
-  const usecase = new CommentVideo(profileRepository, videoRepository);
-  await usecase.execute("profileId", videoId, "This is a really nice video");
+  const commentVideoUseCase = new CommentVideo(profileRepository, videoRepository);
+  const commentId = await commentVideoUseCase.execute("profileId", videoId, "This is a really nice video");
+  const usecase = new DeleteComment(videoRepository);
+  await usecase.execute("userId", videoId, commentId);
   const video = await videoRepository.getVideo(videoId);
-  expect(video.comments).toHaveLength(1);
-  expect(video.comments[0].comment).toBe("This is a really nice video");
+  expect(video.comments).toHaveLength(0);
 });

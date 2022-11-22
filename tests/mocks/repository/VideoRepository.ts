@@ -43,4 +43,18 @@ export default class VideoRepository implements VideoRepositoryInterface {
     const video = await this.getVideo(videoId);
     video.comments.push(comment);
   }
+
+  async deleteComment(videoId: string, commentId: string): Promise<void> {
+    const video = await this.getVideo(videoId);
+    const comment = await this.getComment(videoId, commentId);
+    const commentIndex = video.comments.indexOf(comment);
+    video.comments.splice(commentIndex, 1);
+  }
+
+  async getComment(videoId: string, commentId: string): Promise<Comment> {
+    const video = await this.getVideo(videoId);
+    const comment = video.comments.find((comment) => comment.id === commentId);
+    if (!comment) throw new Error("Comment not found");
+    return comment;
+  }
 }
