@@ -9,9 +9,7 @@ export default class MemoryProfileRepository implements ProfileRepositoryInterfa
   }
 
   async getProfileById(id: string): Promise<Profile> {
-    const profile = this.profiles.find((video) => video.id === id);
-    if (!profile) throw new Error("Profile not found");
-    return profile;
+    return this.profiles.find((profile) => profile.id === id);
   }
 
   async update(profile: Profile): Promise<void> {
@@ -19,8 +17,8 @@ export default class MemoryProfileRepository implements ProfileRepositoryInterfa
     this.profiles[index] = profile;
   }
 
-  async isProfileExistent(id: string): Promise<Boolean> {
-    const profile = this.profiles.find((profile) => profile.id === id);
+  async isNicknameTaken(nickname: string): Promise<Boolean> {
+    const profile = this.profiles.find((profile) => profile.nickname === nickname);
     return profile !== undefined;
   }
 }

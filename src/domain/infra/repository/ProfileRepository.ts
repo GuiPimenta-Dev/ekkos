@@ -4,5 +4,5 @@ export default interface ProfileRepositoryInterface {
   save(input: Profile): Promise<void>;
   getProfileById(id: string): Promise<Profile>;
   update(profile: Profile): Promise<void>;
-  isProfileExistent(id: string): Promise<Boolean>;
+  isNicknameTaken(nickname: string): Promise<Boolean>;
 }

@@ -14,7 +14,7 @@ test("It should not be able to create a profile if it already exists", async () 
   const profileRepository = new MemoryProfileRepository();
   const usecase = new CreateProfile(profileRepository);
   await usecase.execute("id", "userId");
-  await expect(usecase.execute("id", "userId")).rejects.toThrow("Profile already exists");
+  await expect(usecase.execute("id", "userId")).rejects.toThrow("Nickname is already taken");
 });
 
 test("It should be able to follow a profile", async () => {
