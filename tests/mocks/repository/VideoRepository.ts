@@ -1,6 +1,7 @@
 import Video from "../../../src/domain/entity/Video";
 import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepository";
 import Profile from "../../../src/domain/entity/Profile";
+import { v4 as uuid } from "uuid";
 
 export default class VideoRepository implements VideoRepositoryInterface {
   readonly videos: Video[] = [];
@@ -34,6 +35,6 @@ export default class VideoRepository implements VideoRepositoryInterface {
 
   async commentVideo(profile: Profile, videoId: string, comment: string): Promise<void> {
     const video = await this.getVideo(videoId);
-    video.comments.push({ profile, comment });
+    video.comments.push({ id: uuid(), profile, comment });
   }
 }
