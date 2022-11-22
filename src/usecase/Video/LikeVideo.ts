@@ -11,7 +11,7 @@ export default class LikeVideo {
     const profile = await this.profileRepository.getProfile(userId);
     const video = await this.videoRepository.getVideo(videoId);
     if (video.likes.includes(profile)) {
-      throw new Error("You already liked this video");
+      return await this.videoRepository.unlikeVideo(profile, video);
     }
     await this.videoRepository.likeVideo(profile, video);
   }
