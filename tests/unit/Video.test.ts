@@ -6,6 +6,7 @@ import ProfileRepositoryInterface from "../../src/domain/infra/repository/Profil
 import ProfileRepository from "../mocks/repository/ProfileRepository";
 import CreateProfile from "../../src/usecase/CreateProfile";
 import CommentVideo from "../../src/usecase/CommentVideo";
+import UnlikeVideo from "../../src/usecase/UnlikeVideo";
 
 let videoRepository: VideoRepositoryInterface;
 let profileRepository: ProfileRepositoryInterface;
@@ -49,6 +50,15 @@ test("It has to be able to like a video", async () => {
   await usecase.execute("profileId", videoId);
   const video = await videoRepository.getVideo(videoId);
   expect(video.likes).toHaveLength(1);
+});
+
+test("It has to be able to unlike a video", async () => {
+  const likeVideoUseCase = new LikeVideo(profileRepository, videoRepository);
+  await likeVideoUseCase.execute("profileId", videoId);
+  const unlikeVideoUseCase = new UnlikeVideo(profileRepository, videoRepository);
+  await unlikeVideoUseCase.execute("profileId", videoId);
+  const video = await videoRepository.getVideo(videoId);
+  expect(video.likes).toHaveLength(0);
 });
 
 test("It has to be able to comment a video", async () => {
