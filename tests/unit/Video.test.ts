@@ -8,6 +8,7 @@ import CreateProfile from "../../src/usecase/Profile/CreateProfile";
 import CommentVideo from "../../src/usecase/Video/CommentVideo";
 import DeleteComment from "../../src/usecase/Video/DeleteComment";
 import UnlikeVideo from "../../src/usecase/Video/UnlikeVideo";
+import GetVideos from "../../src/usecase/Video/GetVideos";
 
 let videoRepository: VideoRepositoryInterface;
 let profileRepository: ProfileRepositoryInterface;
@@ -16,7 +17,7 @@ let videoId: string;
 beforeEach(async () => {
   profileRepository = new MemoryProfileRepository();
   const createProfileUseCase = new CreateProfile(profileRepository);
-  await createProfileUseCase.execute("userId", "userId");
+  await createProfileUseCase.execute("userId", "nickname");
   videoRepository = new MemoryVideoRepository();
   const usecase = new PostVideo(videoRepository);
   videoId = await usecase.execute({ userId: "userId", title: "title", description: "description", url: "url" });
@@ -25,21 +26,22 @@ beforeEach(async () => {
 test("It should be able to post a video", async () => {
   const videoRepository = new MemoryVideoRepository();
   const usecase = new PostVideo(videoRepository);
-  await usecase.execute({
-    userId: "userId",
-    title: "title",
-    description: "description",
-    url: "url",
-  });
+  await usecase.execute({ userId: "userId", title: "title", description: "description", url: "url" });
   expect(videoRepository.videos).toHaveLength(1);
 });
 
 test("It should not be able to post a duplicated video", async () => {
   const videoRepository = new MemoryVideoRepository();
   const usecase = new PostVideo(videoRepository);
-  const info = { userId: "userId", title: "title", description: "description", url: "url" };
-  await usecase.execute(info);
-  await expect(usecase.execute(info)).rejects.toThrow("Video url already in use");
+  const input = { userId: "userId", title: "title", description: "description", url: "url" };
+  await usecase.execute(input);
+  await expect(usecase.execute(input)).rejects.toThrow("Video url already in use");
+});
+
+test("It should be able to get videos of a user", async () => {
+  const usecase = new GetVideos(videoRepository);
+  const videos = await usecase.execute("userId");
+  expect(videos).toHaveLength(1);
 });
 
 test("It has to be able to like a video", async () => {
@@ -91,7 +93,7 @@ test("It has to be able to delete a comment on a video", async () => {
   expect(video.comments).toHaveLength(0);
 });
 
-test("It should not to be able to delete a comment on a video if you are not the owner of it", async () => {
+test("It should not to be able to delete a comment on a video if you are not the owner of the comment", async () => {
   const commentVideoUseCase = new CommentVideo(profileRepository, videoRepository);
   const commentId = await commentVideoUseCase.execute("userId", videoId, "This is a really nice video");
   const usecase = new DeleteComment(videoRepository);

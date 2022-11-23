@@ -10,9 +10,7 @@ export default class MemoryVideoRepository implements VideoRepositoryInterface {
   }
 
   async getVideosByUserId(userId: string): Promise<Video[]> {
-    const videos = this.videos.filter((video) => video.userId === userId);
-    if (!videos) throw new Error("Profile not found");
-    return videos;
+    return this.videos.filter((video) => video.userId === userId);
   }
 
   async getVideoById(id: string): Promise<Video> {
