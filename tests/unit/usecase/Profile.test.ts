@@ -4,6 +4,7 @@ import UnfollowProfile from "../../../src/usecase/Profile/UnfollowProfile";
 import MemoryProfileRepository from "../../../src/infra/repository/memory/MemoryProfileRepository";
 import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
 import GetProfile from "../../../src/usecase/Profile/GetProfile";
+import MemoryVideoRepository from "../../../src/infra/repository/memory/MemoryVideoRepository";
 
 let profileRepository: ProfileRepositoryInterface;
 beforeEach(async () => {
@@ -26,7 +27,7 @@ test("It should not be able to create a profile if it already exists", async () 
 });
 
 test("It should be able to get a profile", async () => {
-  const usecase = new GetProfile(profileRepository);
+  const usecase = new GetProfile(profileRepository, new MemoryVideoRepository());
   const profile = await usecase.execute("id");
   expect(profile).toBeDefined();
 });

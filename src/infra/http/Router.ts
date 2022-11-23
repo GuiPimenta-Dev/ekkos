@@ -14,5 +14,8 @@ app.post("/profile/:id/follow", ExpressAdapter.route(verifyToken, verifyUser, Pr
 app.post("/profile/:id/unfollow", ExpressAdapter.route(verifyToken, verifyUser, ProfileController.unfollow));
 app.post("/video", ExpressAdapter.route(verifyToken, verifyUser, VideoController.post));
 app.post("/video/:id/like", ExpressAdapter.route(verifyToken, verifyUser, VideoController.like));
+app.post("/video/:id/unlike", ExpressAdapter.route(verifyToken, verifyUser, VideoController.unlike));
+app.post("/video/:id/comment", ExpressAdapter.route(verifyToken, verifyUser, VideoController.comment));
+app.delete("/video/:id/comment", ExpressAdapter.route(verifyToken, verifyUser, VideoController.deleteComment));
 
 export default app;

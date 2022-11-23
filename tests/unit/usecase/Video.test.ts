@@ -88,7 +88,7 @@ test("It has to be able to delete a comment on a video", async () => {
   const commentVideoUseCase = new CommentVideo(videoRepository);
   const commentId = await commentVideoUseCase.execute("userId", videoId, "This is a really nice video");
   const usecase = new DeleteComment(videoRepository);
-  await usecase.execute("userId", videoId, commentId);
+  await usecase.execute("userId", commentId);
   const video = await videoRepository.getVideoById(videoId);
   expect(video.comments).toHaveLength(0);
 });
@@ -97,5 +97,5 @@ test("It should not to be able to delete a comment on a video if you are not the
   const commentVideoUseCase = new CommentVideo(videoRepository);
   const commentId = await commentVideoUseCase.execute("userId", videoId, "This is a really nice video");
   const usecase = new DeleteComment(videoRepository);
-  expect(usecase.execute("anotherUserId", videoId, commentId)).rejects.toThrow("You can't delete this comment");
+  expect(usecase.execute("anotherUserId", commentId)).rejects.toThrow("You can't delete this comment");
 });

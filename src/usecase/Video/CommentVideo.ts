@@ -9,7 +9,7 @@ export default class CommentVideo {
   async execute(userId: string, videoId: string, text: string): Promise<string> {
     const video = await this.videoRepository.getVideoById(videoId);
     if (!video) throw new HttpError(400, "Video not found");
-    const comment = new Comment(uuid(), userId, text);
+    const comment = new Comment(uuid(), video.id, userId, text);
     video.comments.push(comment);
     await this.videoRepository.update(video);
     return comment.id;

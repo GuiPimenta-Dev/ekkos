@@ -29,3 +29,20 @@ test("It should be able to like a video", async () => {
   const { statusCode } = await request(app).post(`/video/${id}/like`).set({ authorization });
   expect(statusCode).toBe(200);
 });
+
+test("It should be able to unlike a video", async () => {
+  await request(app).post(`/video/${id}/like`).set({ authorization });
+  const { statusCode } = await request(app).post(`/video/${id}/unlike`).set({ authorization });
+  expect(statusCode).toBe(200);
+});
+
+test("It should be able to comment a video", async () => {
+  const { statusCode } = await request(app).post(`/video/${id}/comment`).send({ text: "text" }).set({ authorization });
+  expect(statusCode).toBe(200);
+});
+
+test("It should be able to delete a comment in a video", async () => {
+  const { body } = await request(app).post(`/video/${id}/comment`).send({ text: "text" }).set({ authorization });
+  const { statusCode } = await request(app).delete(`/video/${body.id}/comment`).set({ authorization });
+  expect(statusCode).toBe(200);
+});
