@@ -5,14 +5,14 @@ import LoginUser from "../../usecase/User/LoginUser";
 import { config } from "../../Config";
 
 export default class UserController {
-  static async createUser(input: InputDTO): Promise<OutputDTO> {
+  static async create(input: InputDTO): Promise<OutputDTO> {
     const { body } = input;
     const controller = new CreateUser(config.userRepository, config.broker);
     const id = await controller.execute(body.email, body.password);
     return { statusCode: 201, data: { id } };
   }
 
-  static async loginUser(input: InputDTO): Promise<OutputDTO> {
+  static async login(input: InputDTO): Promise<OutputDTO> {
     const { body } = input;
     const controller = new LoginUser(config.userRepository);
     const token = await controller.execute(body.email, body.password);

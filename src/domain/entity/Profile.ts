@@ -4,8 +4,8 @@ export default class Profile {
   constructor(
     readonly id: string,
     readonly nickname: string,
-    readonly followers: Profile[],
-    readonly following: Profile[],
+    readonly followers: string[],
+    readonly following: string[],
     readonly videos: Video[]
   ) {}
 }

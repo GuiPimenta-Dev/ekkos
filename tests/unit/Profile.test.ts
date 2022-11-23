@@ -36,8 +36,8 @@ test("It should be able to follow a profile", async () => {
   await usecase.execute("id", "id2");
   const follower = await profileRepository.getProfileById("id");
   const followee = await profileRepository.getProfileById("id2");
-  expect(follower.following).toContain(followee);
-  expect(followee.followers).toContain(follower);
+  expect(follower.following).toContain(followee.id);
+  expect(followee.followers).toContain(follower.id);
 });
 
 test("It should be able to unfollow a profile", async () => {
