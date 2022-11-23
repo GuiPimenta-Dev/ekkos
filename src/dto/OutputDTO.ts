@@ -1,4 +1,4 @@
 export default interface OutputDTO {
   statusCode: number;
-  data: any;
+  data?: any;
 }
