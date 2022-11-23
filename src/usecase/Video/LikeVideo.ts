@@ -1,17 +1,14 @@
-import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
+import HttpError from "../../application/error/HttpError";
 import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 
 export default class LikeVideo {
-  constructor(
-    private profileRepository: ProfileRepositoryInterface,
-    private videoRepository: VideoRepositoryInterface
-  ) {}
+  constructor(private videoRepository: VideoRepositoryInterface) {}
 
   async execute(userId: string, videoId: string): Promise<void> {
-    const profile = await this.profileRepository.getProfileById(userId);
     const video = await this.videoRepository.getVideoById(videoId);
-    if (video.likes.includes(profile)) throw new Error("You already like this video");
-    video.likes.push(profile);
+    if (!video) throw new HttpError(400, "Video not found");
+    if (video.likes.includes(userId)) throw new HttpError(400, "You already like this video");
+    video.likes.push(userId);
     await this.videoRepository.update(video);
   }
 }

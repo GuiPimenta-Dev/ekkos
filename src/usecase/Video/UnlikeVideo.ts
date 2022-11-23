@@ -1,17 +1,14 @@
-import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
+import HttpError from "../../application/error/HttpError";
 import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 
 export default class UnlikeVideo {
-  constructor(
-    private profileRepository: ProfileRepositoryInterface,
-    private videoRepository: VideoRepositoryInterface
-  ) {}
+  constructor(private videoRepository: VideoRepositoryInterface) {}
 
   async execute(userId: string, videoId: string): Promise<void> {
-    const profile = await this.profileRepository.getProfileById(userId);
     const video = await this.videoRepository.getVideoById(videoId);
-    if (!video.likes.includes(profile)) throw new Error("You can't unlike a video you don't like");
-    const profileIndex = video.likes.indexOf(profile);
+    if (!video) throw new HttpError(400, "Video not found");
+    if (!video.likes.includes(userId)) throw new HttpError(400, "You can't unlike a video you don't like");
+    const profileIndex = video.likes.indexOf(userId);
     video.likes.splice(profileIndex, 1);
     await this.videoRepository.update(video);
   }

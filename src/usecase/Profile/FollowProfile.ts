@@ -9,8 +9,8 @@ export default class FollowProfile {
     const follower = await this.profileRepository.getProfileById(followerId);
     const followee = await this.profileRepository.getProfileById(followeeId);
     if (!follower || !followee) throw new HttpError(400, "Profile not found");
-    follower.following.push(followee.id);
-    followee.followers.push(follower.id);
+    follower.following.push(followee.userId);
+    followee.followers.push(follower.userId);
     await this.profileRepository.update(follower);
     await this.profileRepository.update(followee);
   }

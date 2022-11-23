@@ -1,18 +1,15 @@
-import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
 import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 import Comment from "../../domain/entity/Comment";
 import { v4 as uuid } from "uuid";
+import HttpError from "../../application/error/HttpError";
 
 export default class CommentVideo {
-  constructor(
-    private profileRepository: ProfileRepositoryInterface,
-    private videoRepository: VideoRepositoryInterface
-  ) {}
+  constructor(private videoRepository: VideoRepositoryInterface) {}
 
-  async execute(id: string, videoId: string, text: string): Promise<string> {
-    const profile = await this.profileRepository.getProfileById(id);
+  async execute(userId: string, videoId: string, text: string): Promise<string> {
     const video = await this.videoRepository.getVideoById(videoId);
-    const comment = new Comment(uuid(), profile, text);
+    if (!video) throw new HttpError(400, "Video not found");
+    const comment = new Comment(uuid(), userId, text);
     video.comments.push(comment);
     await this.videoRepository.update(video);
     return comment.id;

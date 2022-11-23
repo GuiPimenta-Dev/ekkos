@@ -6,7 +6,6 @@ test("It should be able to create a user", async () => {
     .post("/user/create")
     .send({ email: "random_email@gmail.com", password: "123456" });
   expect(response.statusCode).toBe(201);
-  expect(response.body).toHaveProperty("id");
 });
 
 test("It should be able to login a user", async () => {

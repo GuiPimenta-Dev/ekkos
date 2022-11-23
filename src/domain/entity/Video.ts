@@ -8,7 +8,7 @@ export default class Video {
     readonly title: string,
     readonly description: string,
     readonly url: string,
-    readonly likes: Profile[] = [],
+    readonly likes: string[] = [],
     readonly comments: Comment[] = []
   ) {}
 }

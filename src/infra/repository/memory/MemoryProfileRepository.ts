@@ -9,7 +9,7 @@ export default class MemoryProfileRepository implements ProfileRepositoryInterfa
   }
 
   async getProfileById(id: string): Promise<Profile> {
-    return this.profiles.find((profile) => profile.id === id);
+    return this.profiles.find((profile) => profile.userId === id);
   }
 
   async update(profile: Profile): Promise<void> {

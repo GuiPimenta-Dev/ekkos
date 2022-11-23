@@ -36,8 +36,8 @@ test("It should be able to follow a profile", async () => {
   await usecase.execute("id", "id2");
   const follower = await profileRepository.getProfileById("id");
   const followee = await profileRepository.getProfileById("id2");
-  expect(follower.following).toContain(followee.id);
-  expect(followee.followers).toContain(follower.id);
+  expect(follower.following).toContain(followee.userId);
+  expect(followee.followers).toContain(follower.userId);
 });
 
 test("It should not be able to follow yourself", async () => {
