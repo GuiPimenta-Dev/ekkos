@@ -43,7 +43,7 @@ test("It should not be able to create an user if email is already taken", async 
 test("It should be able to login", async () => {
   const usecase = new LoginUser(userRepository);
   const token = await usecase.execute("email", "password");
-  const decoded = jwt.verify(token, "KEY_THAT_WILL_BE_CHANGED_IN_PRODUCTION");
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
   expect(decoded.id).toBe(userId);
 });
 

@@ -7,7 +7,7 @@ export default class LoginUser {
   async execute(email: string, password: string): Promise<string> {
     const user = await this.userRepository.getUserByEmail(email);
     if (!user || user.password !== password) throw new Error("Invalid username or password");
-    return jwt.sign({ id: user.id }, "KEY_THAT_WILL_BE_CHANGED_IN_PRODUCTION", {
+    return jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "40min",
     });
   }
