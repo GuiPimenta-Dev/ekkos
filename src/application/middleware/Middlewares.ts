@@ -7,7 +7,7 @@ export async function verifyToken(input: InputDTO): Promise<void> {
   const { authorization } = input.headers;
   if (!authorization) throw new HttpError(400, "Authorization header is required");
   const token = authorization.split(" ")[1];
-  if (!token) throw new HttpError(401, "jwt token is required");
+  if (!token) throw new HttpError(401, "JWT token is required");
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     input.headers.id = decoded.id;

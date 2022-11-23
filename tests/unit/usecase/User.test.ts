@@ -1,11 +1,11 @@
-import MemoryUserRepository from "../../src/infra/repository/memory/MemoryUserRepository";
-import CreateUser from "../../src/usecase/User/CreateUser";
-import MemoryBroker from "../../src/infra/broker/MemoryBroker";
-import UserRepositoryInterface from "../../src/domain/infra/repository/UserRepository";
-import LoginUser from "../../src/usecase/User/LoginUser";
+import MemoryUserRepository from "../../../src/infra/repository/memory/MemoryUserRepository";
+import CreateUser from "../../../src/usecase/User/CreateUser";
+import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
+import UserRepositoryInterface from "../../../src/domain/infra/repository/UserRepository";
+import LoginUser from "../../../src/usecase/User/LoginUser";
 import jwt from "jsonwebtoken";
-import CreateUserHandler from "../../src/application/handler/CreateUserHandler";
-import EmailGatewayFake from "../mocks/EmailGatewayFake";
+import CreateUserHandler from "../../../src/application/handler/CreateUserHandler";
+import EmailGatewayFake from "../../mocks/EmailGatewayFake";
 
 let userRepository: UserRepositoryInterface;
 let createUserUseCase: CreateUser;
