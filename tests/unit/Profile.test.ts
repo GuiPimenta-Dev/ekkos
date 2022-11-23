@@ -2,6 +2,7 @@ import CreateProfile from "../../src/usecase/Profile/CreateProfile";
 import FollowProfile from "../../src/usecase/Profile/FollowProfile";
 import UnfollowProfile from "../../src/usecase/Profile/UnfollowProfile";
 import MemoryProfileRepository from "../../src/infra/repository/memory/MemoryProfileRepository";
+import GetProfile from "../../src/usecase/Profile/GetProfile";
 
 test("It should be able to create a profile", async () => {
   const profileRepository = new MemoryProfileRepository();
@@ -15,6 +16,15 @@ test("It should not be able to create a profile if it already exists", async () 
   const usecase = new CreateProfile(profileRepository);
   await usecase.execute("id", "userId");
   await expect(usecase.execute("id", "userId")).rejects.toThrow("Nickname is already taken");
+});
+
+test("It should be able to get a profile", async () => {
+  const profileRepository = new MemoryProfileRepository();
+  const getProfileUseCase = new CreateProfile(profileRepository);
+  await getProfileUseCase.execute("id", "userId");
+  const usecase = new GetProfile(profileRepository);
+  const profile = await usecase.execute("id");
+  expect(profile).toBeDefined();
 });
 
 test("It should be able to follow a profile", async () => {
