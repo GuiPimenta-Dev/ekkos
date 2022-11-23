@@ -47,8 +47,11 @@ test("It should be able to get a profile", async () => {
 
 test("It should be able to follow a profile", async () => {
   const response = await request(app).post(`/profile/${id}/follow`).set({ authorization });
-  const { body } = await request(app).get(`/profile/${id}`).set({ authorization });
   expect(response.statusCode).toBe(200);
-  expect(response.body).toBe("");
-  expect(body.followers).toHaveLength(1);
+});
+
+test("It should be able to unfollow a profile", async () => {
+  await request(app).post(`/profile/${id}/follow`).set({ authorization });
+  const { statusCode } = await request(app).post(`/profile/${id}/unfollow`).set({ authorization });
+  expect(statusCode).toBe(200);
 });
