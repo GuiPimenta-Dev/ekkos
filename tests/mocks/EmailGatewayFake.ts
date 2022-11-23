@@ -1,4 +1,4 @@
-import EmailGatewayInterface from "../../../src/domain/infra/gateway/EmailGateway";
+import EmailGatewayInterface from "../../src/domain/infra/gateway/EmailGateway";
 
 export default class EmailGatewayFake implements EmailGatewayInterface {
   emailSent: { to: string; subject: string; body: string };

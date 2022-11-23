@@ -1,4 +1,4 @@
-import PostVideoDTO from "../../dto/PostVideo";
+import PostVideoDTO from "../../dto/PostVideoDTO";
 import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 import { v4 as uuid } from "uuid";
 import Video from "../../domain/entity/Video";

@@ -5,7 +5,7 @@ import UserRepositoryInterface from "../../src/domain/infra/repository/UserRepos
 import LoginUser from "../../src/usecase/User/LoginUser";
 import jwt from "jsonwebtoken";
 import CreateUserHandler from "../../src/application/handler/CreateUserHandler";
-import EmailGatewayFake from "../mocks/fake/EmailGatewayFake";
+import EmailGatewayFake from "../mocks/EmailGatewayFake";
 
 let userRepository: UserRepositoryInterface;
 let createUserUseCase: CreateUser;
