@@ -1,7 +1,7 @@
 import Profile from "../../domain/entity/Profile";
 
 export default class ProfilePresenter {
-  static get(profile: Profile) {
+  static get(profile: Profile): any {
     return {
       nickname: profile.nickname,
       followers: profile.followers.length,
