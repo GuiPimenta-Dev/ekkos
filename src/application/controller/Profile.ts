@@ -1,11 +1,12 @@
-import { config } from "../../Config";
-import InputDTO from "../../dto/InputDTO";
 import CreateProfile from "../../usecase/profile/CreateProfile";
+import Created from "../http/Created";
 import FollowProfile from "../../usecase/profile/FollowProfile";
 import GetProfile from "../../usecase/profile/GetProfile";
-import UnfollowProfile from "../../usecase/profile/UnfollowProfile";
-import Created from "../http/Created";
+import InputDTO from "../../dto/InputDTO";
+import ProfilePresenter from "../presenter/Profile";
 import Success from "../http/Success";
+import UnfollowProfile from "../../usecase/profile/UnfollowProfile";
+import { config } from "../../Config";
 
 export default class ProfileController {
   static async create(input: InputDTO): Promise<Created> {
@@ -19,7 +20,7 @@ export default class ProfileController {
     const { path } = input;
     const controller = new GetProfile(config.profileRepository, config.videoRepository);
     const data = await controller.execute(path.id);
-    return new Success(data);
+    return new Success(ProfilePresenter.get(data));
   }
 
   static async follow(input: InputDTO): Promise<Success> {
