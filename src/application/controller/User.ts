@@ -1,16 +1,16 @@
-import { config } from "../../Config";
-import InputDTO from "../../dto/InputDTO";
 import CreateUser from "../../usecase/user/CreateUser";
-import LoginUser from "../../usecase/user/LoginUser";
 import Created from "../http/Created";
+import InputDTO from "../../dto/InputDTO";
+import LoginUser from "../../usecase/user/LoginUser";
 import Success from "../http/Success";
+import { config } from "../../Config";
 
 export default class UserController {
   static async create(input: InputDTO): Promise<Created> {
     const { body } = input;
     const controller = new CreateUser(config.userRepository, config.broker);
-    const id = await controller.execute(body.email, body.password);
-    return new Created({ id });
+    const userId = await controller.execute(body.email, body.password);
+    return new Created({ userId });
   }
 
   static async login(input: InputDTO): Promise<Success> {

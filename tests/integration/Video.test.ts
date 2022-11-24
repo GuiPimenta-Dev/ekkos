@@ -1,5 +1,5 @@
-import request from "supertest";
 import app from "../../src/infra/http/Router";
+import request from "supertest";
 
 let authorization: string;
 let id: string;
@@ -22,6 +22,11 @@ test("It should be able to post a video", async () => {
     .post("/video")
     .send({ title: "title", description: "description", url: "second_url" })
     .set({ authorization });
+  expect(statusCode).toBe(200);
+});
+
+test("It should be able to get a video", async () => {
+  const { statusCode } = await request(app).get(`/video/${id}`).set({ authorization });
   expect(statusCode).toBe(200);
 });
 

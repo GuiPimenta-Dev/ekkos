@@ -39,13 +39,13 @@ test("It should not be able to post a duplicated video", async () => {
 });
 
 test("It should be able to get a video by the id", async () => {
-  const usecase = new GetVideo(videoRepository);
+  const usecase = new GetVideo(videoRepository, profileRepository);
   const video = await usecase.execute(videoId);
   expect(video).toBeDefined();
 });
 
 test("It should throw an error if video id does not exists", async () => {
-  const usecase = new GetVideo(videoRepository);
+  const usecase = new GetVideo(videoRepository, profileRepository);
   expect(usecase.execute("videoId")).rejects.toThrow("Video not found");
 });
 

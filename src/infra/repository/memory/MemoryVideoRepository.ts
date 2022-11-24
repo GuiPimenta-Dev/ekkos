@@ -1,5 +1,5 @@
-import Video from "../../../domain/entity/Video";
 import Comment from "../../../domain/entity/Comment";
+import Video from "../../../domain/entity/Video";
 import VideoRepositoryInterface from "../../../domain/infra/repository/VideoRepository";
 
 export default class MemoryVideoRepository implements VideoRepositoryInterface {
@@ -14,7 +14,7 @@ export default class MemoryVideoRepository implements VideoRepositoryInterface {
   }
 
   async getVideoById(id: string): Promise<Video> {
-    const video = this.videos.find((video) => video.id === id);
+    const video = this.videos.find((video) => video.videoId === id);
     if (!video) throw new Error("Video not found");
     return video;
   }
@@ -27,7 +27,7 @@ export default class MemoryVideoRepository implements VideoRepositoryInterface {
   async getCommentById(id: string): Promise<Comment> {
     for (let index = 0; index < this.videos.length; index++) {
       const video = this.videos[index];
-      const comment = video.comments.find((comment) => comment.id === id);
+      const comment = video.comments.find((comment) => comment.commentId === id);
       if (comment) return comment;
     }
   }

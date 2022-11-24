@@ -1,11 +1,12 @@
-import { config } from "../../Config";
-import InputDTO from "../../dto/InputDTO";
 import CommentVideo from "../../usecase/video/CommentVideo";
 import DeleteComment from "../../usecase/video/DeleteComment";
+import GetVideo from "../../usecase/video/GetVideo";
+import InputDTO from "../../dto/InputDTO";
 import LikeVideo from "../../usecase/video/LikeVideo";
 import PostVideo from "../../usecase/video/PostVideo";
-import UnlikeVideo from "../../usecase/video/UnlikeVideo";
 import Success from "../http/Success";
+import UnlikeVideo from "../../usecase/video/UnlikeVideo";
+import { config } from "../../Config";
 
 export default class VideoController {
   static async post(input: InputDTO): Promise<Success> {
@@ -14,6 +15,13 @@ export default class VideoController {
     const controller = new PostVideo(config.videoRepository);
     const id = await controller.execute(body);
     return new Success({ id });
+  }
+
+  static async get(input: InputDTO): Promise<Success> {
+    const { path } = input;
+    const controller = new GetVideo(config.videoRepository, config.profileRepository);
+    const data = await controller.execute(path.id);
+    return new Success(data);
   }
 
   static async like(input: InputDTO): Promise<Success> {
