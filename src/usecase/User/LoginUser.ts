@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import BadRequest from "../../application/http_status/BadRequest";
+import BadRequest from "../../application/http/BadRequest";
 import UserRepositoryInterface from "../../domain/infra/repository/UserRepository";
 
 export default class LoginUser {

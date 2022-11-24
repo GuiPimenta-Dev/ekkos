@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import BadRequest from "../../application/http_status/BadRequest";
+import BadRequest from "../../application/http/BadRequest";
 import User from "../../domain/entity/User";
 import UserCreatedEvent from "../../domain/event/UserCreatedEvent";
 import BrokerInterface from "../../domain/infra/broker/Broker";

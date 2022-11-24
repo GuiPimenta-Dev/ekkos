@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import NotFound from "../../application/http_status/NotFound";
+import NotFound from "../../application/http/NotFound";
 import Comment from "../../domain/entity/Comment";
 import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 

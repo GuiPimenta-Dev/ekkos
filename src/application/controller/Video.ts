@@ -5,7 +5,7 @@ import DeleteComment from "../../usecase/Video/DeleteComment";
 import LikeVideo from "../../usecase/Video/LikeVideo";
 import PostVideo from "../../usecase/Video/PostVideo";
 import UnlikeVideo from "../../usecase/Video/UnlikeVideo";
-import Success from "../http_status/Success";
+import Success from "../http/Success";
 
 export default class VideoController {
   static async post(input: InputDTO): Promise<Success> {

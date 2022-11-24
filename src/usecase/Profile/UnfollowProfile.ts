@@ -1,5 +1,5 @@
-import BadRequest from "../../application/http_status/BadRequest";
-import NotFound from "../../application/http_status/NotFound";
+import BadRequest from "../../application/http/BadRequest";
+import NotFound from "../../application/http/NotFound";
 import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
 
 export default class UnfollowProfile {

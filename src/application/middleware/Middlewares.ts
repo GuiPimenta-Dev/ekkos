@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
 import { config } from "../../Config";
 import InputDTO from "../../dto/InputDTO";
-import BadRequest from "../http_status/BadRequest";
-import Forbidden from "../http_status/Forbidden";
-import NotFound from "../http_status/NotFound";
-import Unauthorized from "../http_status/Unauthorized";
+import BadRequest from "../http/BadRequest";
+import Forbidden from "../http/Forbidden";
+import NotFound from "../http/NotFound";
+import Unauthorized from "../http/Unauthorized";
 
 export async function verifyToken(input: InputDTO): Promise<void> {
   const { authorization } = input.headers;

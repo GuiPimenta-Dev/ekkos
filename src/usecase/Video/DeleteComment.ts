@@ -1,4 +1,4 @@
-import Forbidden from "../../application/http_status/Forbidden";
+import Forbidden from "../../application/http/Forbidden";
 import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 
 export default class DeleteComment {

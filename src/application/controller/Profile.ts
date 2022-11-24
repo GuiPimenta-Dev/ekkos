@@ -4,8 +4,8 @@ import CreateProfile from "../../usecase/Profile/CreateProfile";
 import FollowProfile from "../../usecase/Profile/FollowProfile";
 import GetProfile from "../../usecase/Profile/GetProfile";
 import UnfollowProfile from "../../usecase/Profile/UnfollowProfile";
-import Created from "../http_status/Created";
-import Success from "../http_status/Success";
+import Created from "../http/Created";
+import Success from "../http/Success";
 
 export default class ProfileController {
   static async create(input: InputDTO): Promise<Created> {
