@@ -1,9 +1,9 @@
 import { config } from "../../Config";
 import InputDTO from "../../dto/InputDTO";
-import CreateProfile from "../../usecase/Profile/CreateProfile";
-import FollowProfile from "../../usecase/Profile/FollowProfile";
-import GetProfile from "../../usecase/Profile/GetProfile";
-import UnfollowProfile from "../../usecase/Profile/UnfollowProfile";
+import CreateProfile from "../../usecase/profile/CreateProfile";
+import FollowProfile from "../../usecase/profile/FollowProfile";
+import GetProfile from "../../usecase/profile/GetProfile";
+import UnfollowProfile from "../../usecase/profile/UnfollowProfile";
 import Created from "../http/Created";
 import Success from "../http/Success";
 

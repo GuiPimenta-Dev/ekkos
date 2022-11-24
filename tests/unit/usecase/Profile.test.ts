@@ -1,10 +1,10 @@
-import CreateProfile from "../../../src/usecase/Profile/CreateProfile";
-import FollowProfile from "../../../src/usecase/Profile/FollowProfile";
-import UnfollowProfile from "../../../src/usecase/Profile/UnfollowProfile";
-import MemoryProfileRepository from "../../../src/infra/repository/memory/MemoryProfileRepository";
 import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
-import GetProfile from "../../../src/usecase/Profile/GetProfile";
+import MemoryProfileRepository from "../../../src/infra/repository/memory/MemoryProfileRepository";
 import MemoryVideoRepository from "../../../src/infra/repository/memory/MemoryVideoRepository";
+import CreateProfile from "../../../src/usecase/profile/CreateProfile";
+import FollowProfile from "../../../src/usecase/profile/FollowProfile";
+import GetProfile from "../../../src/usecase/profile/GetProfile";
+import UnfollowProfile from "../../../src/usecase/profile/UnfollowProfile";
 
 let profileRepository: ProfileRepositoryInterface;
 beforeEach(async () => {

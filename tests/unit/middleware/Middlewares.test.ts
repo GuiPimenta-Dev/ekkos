@@ -1,8 +1,8 @@
 import { verifyToken, verifyUser } from "../../../src/application/middleware/Middlewares";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryUserRepository from "../../../src/infra/repository/memory/MemoryUserRepository";
-import CreateUser from "../../../src/usecase/User/CreateUser";
-import LoginUser from "../../../src/usecase/User/LoginUser";
+import CreateUser from "../../../src/usecase/user/CreateUser";
+import LoginUser from "../../../src/usecase/user/LoginUser";
 
 let token: string;
 beforeAll(async () => {

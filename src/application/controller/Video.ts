@@ -1,10 +1,10 @@
 import { config } from "../../Config";
 import InputDTO from "../../dto/InputDTO";
-import CommentVideo from "../../usecase/Video/CommentVideo";
-import DeleteComment from "../../usecase/Video/DeleteComment";
-import LikeVideo from "../../usecase/Video/LikeVideo";
-import PostVideo from "../../usecase/Video/PostVideo";
-import UnlikeVideo from "../../usecase/Video/UnlikeVideo";
+import CommentVideo from "../../usecase/video/CommentVideo";
+import DeleteComment from "../../usecase/video/DeleteComment";
+import LikeVideo from "../../usecase/video/LikeVideo";
+import PostVideo from "../../usecase/video/PostVideo";
+import UnlikeVideo from "../../usecase/video/UnlikeVideo";
 import Success from "../http/Success";
 
 export default class VideoController {

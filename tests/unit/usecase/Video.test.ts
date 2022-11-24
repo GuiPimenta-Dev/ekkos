@@ -1,14 +1,14 @@
-import MemoryVideoRepository from "../../../src/infra/repository/memory/MemoryVideoRepository";
-import PostVideo from "../../../src/usecase/Video/PostVideo";
-import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepository";
-import LikeVideo from "../../../src/usecase/Video/LikeVideo";
 import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
+import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepository";
 import MemoryProfileRepository from "../../../src/infra/repository/memory/MemoryProfileRepository";
-import CreateProfile from "../../../src/usecase/Profile/CreateProfile";
-import CommentVideo from "../../../src/usecase/Video/CommentVideo";
-import DeleteComment from "../../../src/usecase/Video/DeleteComment";
-import UnlikeVideo from "../../../src/usecase/Video/UnlikeVideo";
-import GetVideos from "../../../src/usecase/Video/GetVideos";
+import MemoryVideoRepository from "../../../src/infra/repository/memory/MemoryVideoRepository";
+import CreateProfile from "../../../src/usecase/profile/CreateProfile";
+import CommentVideo from "../../../src/usecase/video/CommentVideo";
+import DeleteComment from "../../../src/usecase/video/DeleteComment";
+import GetVideos from "../../../src/usecase/video/GetVideos";
+import LikeVideo from "../../../src/usecase/video/LikeVideo";
+import PostVideo from "../../../src/usecase/video/PostVideo";
+import UnlikeVideo from "../../../src/usecase/video/UnlikeVideo";
 
 let videoRepository: VideoRepositoryInterface;
 let profileRepository: ProfileRepositoryInterface;
