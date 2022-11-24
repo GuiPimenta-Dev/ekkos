@@ -39,6 +39,8 @@ test("It should not be able to post a duplicated video", async () => {
 });
 
 test("It should be able to get a video by the id", async () => {
+  await new LikeVideo(videoRepository).execute("userId", videoId);
+  await new CommentVideo(videoRepository).execute("userId", videoId, "This is a really nice video");
   const usecase = new GetVideo(videoRepository, profileRepository);
   const video = await usecase.execute(videoId);
   expect(video).toBeDefined();
@@ -69,8 +71,7 @@ test("It should not to be able to like a non existent video", async () => {
 });
 
 test("It has to be able to unlike a video", async () => {
-  const likeVideoUseCase = new LikeVideo(videoRepository);
-  await likeVideoUseCase.execute("userId", videoId);
+  await new LikeVideo(videoRepository).execute("userId", videoId);
   const usecase = new UnlikeVideo(videoRepository);
   await usecase.execute("userId", videoId);
   const video = await videoRepository.getVideoById(videoId);
@@ -82,11 +83,21 @@ test("It should not be able to unlike a video you don't like", async () => {
   expect(usecase.execute("userId", videoId)).rejects.toThrow("You can't unlike a video you don't like");
 });
 
+test("It should not be able to unlike a video that doesnt exists", async () => {
+  const usecase = new UnlikeVideo(videoRepository);
+  expect(usecase.execute("userId", "videoId")).rejects.toThrow("Video not found");
+});
+
 test("It has to be able to comment a video", async () => {
   const usecase = new CommentVideo(videoRepository);
   await usecase.execute("userId", videoId, "This is a really nice video");
   const video = await videoRepository.getVideoById(videoId);
   expect(video.comments).toHaveLength(1);
+});
+
+test("It should not be able to comment a not found video", async () => {
+  const usecase = new CommentVideo(videoRepository);
+  expect(usecase.execute("userId", "videoId", "text")).rejects.toThrow("Video not found");
 });
 
 test("It has to be able to delete a comment on a video", async () => {
@@ -99,8 +110,7 @@ test("It has to be able to delete a comment on a video", async () => {
 });
 
 test("It should not to be able to delete a comment on a video if you are not the owner of the comment", async () => {
-  const commentVideoUseCase = new CommentVideo(videoRepository);
-  const commentId = await commentVideoUseCase.execute("userId", videoId, "This is a really nice video");
+  const commentId = await new CommentVideo(videoRepository).execute("userId", videoId, "This is a really nice video");
   const usecase = new DeleteComment(videoRepository);
   expect(usecase.execute("anotherUserId", commentId)).rejects.toThrow("You can't delete this comment");
 });

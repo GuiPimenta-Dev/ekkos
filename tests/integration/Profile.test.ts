@@ -1,7 +1,7 @@
-import request from "supertest";
 import app from "../../src/infra/http/Router";
 import { faker } from "@faker-js/faker";
 import jwt from "jsonwebtoken";
+import request from "supertest";
 
 let authorization: string;
 let id: string;
@@ -36,9 +36,7 @@ test("It should be able to create a profile", async () => {
     .post("/profile")
     .send({ email, password, nickname })
     .set({ authorization: `Bearer ${body.token}` });
-
   expect(response.statusCode).toBe(201);
-  expect(response.body).toBe("");
 });
 
 test("It should be able to get a profile", async () => {

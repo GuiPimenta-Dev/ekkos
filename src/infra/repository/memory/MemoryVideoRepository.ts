@@ -15,7 +15,6 @@ export default class MemoryVideoRepository implements VideoRepositoryInterface {
 
   async getVideoById(id: string): Promise<Video> {
     const video = this.videos.find((video) => video.videoId === id);
-    if (!video) throw new Error("Video not found");
     return video;
   }
 

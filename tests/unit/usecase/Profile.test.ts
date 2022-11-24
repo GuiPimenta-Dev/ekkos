@@ -1,9 +1,10 @@
-import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
-import MemoryProfileRepository from "../../../src/infra/repository/memory/MemoryProfileRepository";
-import MemoryVideoRepository from "../../../src/infra/repository/memory/MemoryVideoRepository";
 import CreateProfile from "../../../src/usecase/profile/CreateProfile";
 import FollowProfile from "../../../src/usecase/profile/FollowProfile";
 import GetProfile from "../../../src/usecase/profile/GetProfile";
+import MemoryProfileRepository from "../../../src/infra/repository/memory/MemoryProfileRepository";
+import MemoryVideoRepository from "../../../src/infra/repository/memory/MemoryVideoRepository";
+import PostVideo from "../../../src/usecase/video/PostVideo";
+import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
 import UnfollowProfile from "../../../src/usecase/profile/UnfollowProfile";
 
 let profileRepository: ProfileRepositoryInterface;
@@ -27,7 +28,14 @@ test("It should not be able to create a profile if it already exists", async () 
 });
 
 test("It should be able to get a profile", async () => {
-  const usecase = new GetProfile(profileRepository, new MemoryVideoRepository());
+  const memoryRepository = new MemoryVideoRepository();
+  await new PostVideo(memoryRepository).execute({
+    userId: "id",
+    title: "title",
+    description: "description",
+    url: "url",
+  });
+  const usecase = new GetProfile(profileRepository, memoryRepository);
   const profile = await usecase.execute("id");
   expect(profile).toBeDefined();
 });
