@@ -1,3 +1,4 @@
+import Forbidden from "../../application/http_status/Forbidden";
 import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 
 export default class DeleteComment {
@@ -5,7 +6,7 @@ export default class DeleteComment {
 
   async execute(userId: string, commentId: string): Promise<void> {
     const comment = await this.videoRepository.getCommentById(commentId);
-    if (comment.userId !== userId) throw new Error("You can't delete this comment");
+    if (comment.userId !== userId) throw new Forbidden("You can't delete this comment");
     const video = await this.videoRepository.getVideoById(comment.videoId);
     const commentIndex = video.comments.indexOf(comment);
     video.comments.splice(commentIndex, 1);

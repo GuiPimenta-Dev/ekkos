@@ -1,5 +1,5 @@
 import express from "express";
-import HttpError from "../../application/error/HttpError";
+import HttpError from "../../application/http_status/extends/HttpError";
 
 export default class ExpressAdapter {
   static create() {

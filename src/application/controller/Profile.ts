@@ -1,37 +1,38 @@
-import InputDTO from "../../dto/InputDTO";
-import OutputDTO from "../../dto/OutputDTO";
-import CreateProfile from "../../usecase/Profile/CreateProfile";
 import { config } from "../../Config";
-import GetProfile from "../../usecase/Profile/GetProfile";
+import InputDTO from "../../dto/InputDTO";
+import CreateProfile from "../../usecase/Profile/CreateProfile";
 import FollowProfile from "../../usecase/Profile/FollowProfile";
+import GetProfile from "../../usecase/Profile/GetProfile";
 import UnfollowProfile from "../../usecase/Profile/UnfollowProfile";
+import Created from "../http_status/Created";
+import Success from "../http_status/Success";
 
 export default class ProfileController {
-  static async create(input: InputDTO): Promise<OutputDTO> {
+  static async create(input: InputDTO): Promise<Created> {
     const { body, headers } = input;
     const controller = new CreateProfile(config.profileRepository);
     await controller.execute(headers.id, body.nickname);
-    return { statusCode: 201 };
+    return new Created();
   }
 
-  static async get(input: InputDTO): Promise<OutputDTO> {
+  static async get(input: InputDTO): Promise<Success> {
     const { path } = input;
     const controller = new GetProfile(config.profileRepository, config.videoRepository);
     const data = await controller.execute(path.id);
-    return { statusCode: 200, data };
+    return new Success(data);
   }
 
-  static async follow(input: InputDTO): Promise<OutputDTO> {
+  static async follow(input: InputDTO): Promise<Success> {
     const { path, headers } = input;
     const controller = new FollowProfile(config.profileRepository);
     await controller.execute(headers.id, path.id);
-    return { statusCode: 200 };
+    return new Success();
   }
 
-  static async unfollow(input: InputDTO): Promise<OutputDTO> {
+  static async unfollow(input: InputDTO): Promise<Success> {
     const { path, headers } = input;
     const controller = new UnfollowProfile(config.profileRepository);
     await controller.execute(headers.id, path.id);
-    return { statusCode: 200 };
+    return new Success();
   }
 }

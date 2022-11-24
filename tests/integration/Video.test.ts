@@ -22,7 +22,7 @@ test("It should be able to post a video", async () => {
     .post("/video")
     .send({ title: "title", description: "description", url: "second_url" })
     .set({ authorization });
-  expect(statusCode).toBe(201);
+  expect(statusCode).toBe(200);
 });
 
 test("It should be able to like a video", async () => {
