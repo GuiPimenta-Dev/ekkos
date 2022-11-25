@@ -11,11 +11,11 @@ export default class GetProfile {
     const profile = await this.profileRepository.findProfileById(id);
     const videos = await this.videoRepository.getVideosByUserId(id);
     return {
-      nickname: profile.nickname,
+      nick: profile.nick,
       followers: profile.followers.length,
       following: profile.following.length,
       videos: videos.map((video) => ({
-        id: video.videoId,
+        videoId: video.videoId,
         title: video.title,
         description: video.description,
         url: video.url,

@@ -14,13 +14,13 @@ export default class GetVideo {
     const likes = await Promise.all(
       video.likes.map(async (id) => {
         const profile = await this.profileRepository.findProfileById(id);
-        return { userId: id, nickname: profile.nickname };
+        return { userId: id, nick: profile.nick };
       })
     );
     const comments = await Promise.all(
       video.comments.map(async (comment) => {
         const profile = await this.profileRepository.findProfileById(comment.userId);
-        return { commentId: comment.commentId, userId: comment.userId, text: comment.text, nickname: profile.nickname };
+        return { commentId: comment.commentId, userId: comment.userId, text: comment.text, nick: profile.nick };
       })
     );
     return { ...video, likes, comments };

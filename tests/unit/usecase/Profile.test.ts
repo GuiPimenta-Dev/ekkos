@@ -24,7 +24,7 @@ test("It should be able to create a profile", async () => {
 
 test("It should not be able to create a profile if it already exists", async () => {
   const usecase = new CreateProfile(profileRepository);
-  await expect(usecase.execute("id", "userId")).rejects.toThrow("Nickname is already taken");
+  await expect(usecase.execute("id", "userId")).rejects.toThrow("nick is already taken");
 });
 
 test("It should be able to get a profile", async () => {

@@ -17,8 +17,8 @@ export default class MemoryProfileRepository implements ProfileRepositoryInterfa
     this.profiles[index] = profile;
   }
 
-  async isNicknameTaken(nickname: string): Promise<Boolean> {
-    const profile = this.profiles.find((profile) => profile.nickname === nickname);
+  async isNickTaken(nick: string): Promise<Boolean> {
+    const profile = this.profiles.find((profile) => profile.nick === nick);
     return profile !== undefined;
   }
 }

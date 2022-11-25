@@ -12,10 +12,7 @@ beforeAll(async () => {
   await request(app).post("/user/create").send({ email, password });
   const response = await request(app).post("/user/login").send({ email, password });
   authorization = `Bearer ${response.body.token}`;
-  await request(app)
-    .post("/profile")
-    .send({ email, password, nickname: faker.name.firstName() })
-    .set({ authorization });
+  await request(app).post("/profile").send({ email, password, nick: faker.name.firstName() }).set({ authorization });
   email = faker.internet.email();
   await request(app).post("/user/create").send({ email, password });
   const { body } = await request(app).post("/user/login").send({ email, password });
@@ -23,18 +20,18 @@ beforeAll(async () => {
   id = decoded.id;
   await request(app)
     .post("/profile")
-    .send({ email, password, nickname: faker.name.firstName() })
+    .send({ email, password, nick: faker.name.firstName() })
     .set({ authorization: `Bearer ${body.token}` });
 });
 
 test("It should be able to create a profile", async () => {
   const email = faker.internet.email();
-  const nickname = faker.name.firstName();
+  const nick = faker.name.firstName();
   await request(app).post("/user/create").send({ email, password });
   const { body } = await request(app).post("/user/login").send({ email, password });
   const response = await request(app)
     .post("/profile")
-    .send({ email, password, nickname })
+    .send({ email, password, nick })
     .set({ authorization: `Bearer ${body.token}` });
   expect(response.statusCode).toBe(201);
 });

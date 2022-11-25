@@ -54,7 +54,6 @@ test("Must throw an error if user is not found", async () => {
   const req = { headers: { id: "id" } };
   await verifyUser(req, res, next);
   expect(res.statusCode).toBe(404);
-  const x = config;
   expect(res.message).toBe("User not found");
 });
 

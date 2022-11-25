@@ -11,7 +11,7 @@ export default class ProfileController {
   static async create(input: InputDTO): Promise<Created> {
     const { body, headers } = input;
     const controller = new CreateProfile(config.profileRepository);
-    await controller.execute(headers.id, body.nickname);
+    await controller.execute(headers.id, body.nick);
     return new Created();
   }
 

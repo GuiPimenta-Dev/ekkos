@@ -13,8 +13,8 @@ export default class VideoController {
     const { body, headers, file } = input;
     const data = { userId: headers.id, title: body.title, description: body.description, url: file.location };
     const controller = new PostVideo(config.videoRepository);
-    const id = await controller.execute(data);
-    return new Success({ id });
+    const videoId = await controller.execute(data);
+    return new Success({ videoId });
   }
 
   static async get(input: InputDTO): Promise<Success> {
@@ -41,8 +41,8 @@ export default class VideoController {
   static async comment(input: InputDTO): Promise<Success> {
     const { path, headers, body } = input;
     const controller = new CommentVideo(config.videoRepository);
-    const id = await controller.execute(headers.id, path.id, body.text);
-    return new Success({ id });
+    const videoId = await controller.execute(headers.id, path.id, body.text);
+    return new Success({ videoId });
   }
 
   static async deleteComment(input: InputDTO): Promise<Success> {
