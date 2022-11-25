@@ -5,7 +5,7 @@ import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryUserRepository from "../../../src/infra/repository/memory/MemoryUserRepository";
 import CreateUser from "../../../src/usecase/user/CreateUser";
 import LoginUser from "../../../src/usecase/user/LoginUser";
-import EmailGatewayFake from "../../mocks/EmailGatewayFake";
+import EmailGatewayFake from "../../utils/mocks/EmailGatewayFake";
 
 let userRepository: UserRepositoryInterface;
 let createUserUseCase: CreateUser;

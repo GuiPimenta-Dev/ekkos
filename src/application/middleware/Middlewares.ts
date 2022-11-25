@@ -4,7 +4,7 @@ import NotFound from "../http/NotFound";
 import Unauthorized from "../http/Unauthorized";
 import { config } from "../../Config";
 import jwt from "jsonwebtoken";
-const multer = require("multer");
+import multer from "multer";
 
 export async function verifyToken(input: InputDTO): Promise<void> {
   const { authorization } = input.headers;
