@@ -20,7 +20,8 @@ jest.mock("../../src/Config", () => ({
 let authorization: string;
 let videoId: string;
 
-const testFile = "tests/utils/files/video.mp4";
+const video = "tests/utils/files/video.mp4";
+const avatar = "tests/utils/files/avatar.jpeg";
 
 beforeAll(async () => {
   const email = "email@gmail.com";
@@ -28,12 +29,18 @@ beforeAll(async () => {
   await request(app).post("/user/create").send({ email, password });
   const response = await request(app).post("/user/login").send({ email, password });
   authorization = `Bearer ${response.body.token}`;
-  await request(app).post("/profile").send({ email, password, nick: "nick" }).set({ authorization });
+  await request(app)
+    .post("/profile")
+    .field("email", email)
+    .field("password", password)
+    .field("nick", "nick")
+    .attach("avatar", avatar)
+    .set({ authorization });
   const { body } = await request(app)
     .post("/video")
     .field("title", "title")
     .field("description", "description")
-    .attach("file", testFile)
+    .attach("video", video)
     .set({ authorization });
   videoId = body.videoId;
 });
@@ -43,7 +50,7 @@ test("It should be able to post a video", async () => {
     .post("/video")
     .field("title", "title")
     .field("description", "description")
-    .attach("file", testFile)
+    .attach("video", video)
     .set({ authorization });
   expect(statusCode).toBe(200);
 });
@@ -74,6 +81,6 @@ test("It should be able to comment a video", async () => {
 
 test("It should be able to delete a comment in a video", async () => {
   const { body } = await request(app).post(`/video/${videoId}/comment`).send({ text: "text" }).set({ authorization });
-  const { statusCode } = await request(app).delete(`/video/${body.videoId}/comment`).set({ authorization });
+  const { statusCode } = await request(app).delete(`/video/${body.commentId}/comment`).set({ authorization });
   expect(statusCode).toBe(200);
 });

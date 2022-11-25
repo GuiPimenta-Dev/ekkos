@@ -9,11 +9,11 @@ const app = ExpressAdapter.create();
 
 app.post("/user/create", ExpressAdapter.route(UserController.create));
 app.post("/user/login", ExpressAdapter.route(UserController.login));
-app.post("/profile", verifyToken, ExpressAdapter.route(ProfileController.create));
+app.post("/profile", verifyToken, uploadFile.single("avatar"), ExpressAdapter.route(ProfileController.create));
 app.get("/profile/:id", verifyToken, verifyUser, ExpressAdapter.route(ProfileController.get));
 app.post("/profile/:id/follow", verifyToken, verifyUser, ExpressAdapter.route(ProfileController.follow));
 app.post("/profile/:id/unfollow", verifyToken, verifyUser, ExpressAdapter.route(ProfileController.unfollow));
-app.post("/video", verifyToken, verifyUser, uploadFile.single("file"), ExpressAdapter.route(VideoController.post));
+app.post("/video", verifyToken, verifyUser, uploadFile.single("video"), ExpressAdapter.route(VideoController.post));
 app.get("/video/:id", verifyToken, verifyUser, ExpressAdapter.route(VideoController.get));
 app.post("/video/:id/like", verifyToken, verifyUser, ExpressAdapter.route(VideoController.like));
 app.post("/video/:id/unlike", verifyToken, verifyUser, ExpressAdapter.route(VideoController.unlike));

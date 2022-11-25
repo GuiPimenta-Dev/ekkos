@@ -12,6 +12,7 @@ export default class GetProfile {
     const videos = await this.videoRepository.getVideosByUserId(id);
     return {
       nick: profile.nick,
+      avatar: profile.avatar,
       followers: profile.followers.length,
       following: profile.following.length,
       videos: videos.map((video) => ({

@@ -9,9 +9,9 @@ import { config } from "../../Config";
 
 export default class ProfileController {
   static async create(input: InputDTO): Promise<Created> {
-    const { body, headers } = input;
+    const { body, headers, file } = input;
     const controller = new CreateProfile(config.profileRepository);
-    await controller.execute(headers.id, body.nick);
+    await controller.execute(headers.id, body.nick, file.location);
     return new Created();
   }
 

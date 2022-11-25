@@ -41,8 +41,8 @@ export default class VideoController {
   static async comment(input: InputDTO): Promise<Success> {
     const { path, headers, body } = input;
     const controller = new CommentVideo(config.videoRepository);
-    const videoId = await controller.execute(headers.id, path.id, body.text);
-    return new Success({ videoId });
+    const commentId = await controller.execute(headers.id, path.id, body.text);
+    return new Success({ commentId });
   }
 
   static async deleteComment(input: InputDTO): Promise<Success> {

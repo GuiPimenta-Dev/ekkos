@@ -5,7 +5,7 @@ import multerS3 from "multer-s3";
 
 const s3 = new S3Client({ region: process.env.AWS_REGION });
 
-export default class S3StorageGatewayAdapter implements StorageGatewayInterface {
+export default class S3StorageGateway implements StorageGatewayInterface {
   upload() {
     return multerS3({
       s3: s3,

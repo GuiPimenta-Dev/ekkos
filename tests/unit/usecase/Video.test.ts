@@ -17,7 +17,7 @@ let videoId: string;
 beforeEach(async () => {
   profileRepository = new MemoryProfileRepository();
   const createProfileUseCase = new CreateProfile(profileRepository);
-  await createProfileUseCase.execute("userId", "nick");
+  await createProfileUseCase.execute("userId", "nick", "avatar_url");
   videoRepository = new MemoryVideoRepository();
   const usecase = new PostVideo(videoRepository);
   videoId = await usecase.execute({ userId: "userId", title: "title", description: "description", url: "url" });

@@ -11,20 +11,20 @@ let profileRepository: ProfileRepositoryInterface;
 beforeEach(async () => {
   profileRepository = new MemoryProfileRepository();
   const usecase = new CreateProfile(profileRepository);
-  await usecase.execute("id", "userId");
-  await usecase.execute("id2", "userId2");
+  await usecase.execute("id", "userId", "avatar1");
+  await usecase.execute("id2", "userId2", "avatar2");
 });
 
 test("It should be able to create a profile", async () => {
   const profileRepository = new MemoryProfileRepository();
   const usecase = new CreateProfile(profileRepository);
-  await usecase.execute("id", "userId");
+  await usecase.execute("id", "userId", "avatar");
   expect(profileRepository.profiles).toHaveLength(1);
 });
 
 test("It should not be able to create a profile if it already exists", async () => {
   const usecase = new CreateProfile(profileRepository);
-  await expect(usecase.execute("id", "userId")).rejects.toThrow("nick is already taken");
+  await expect(usecase.execute("id", "userId", "avatar")).rejects.toThrow("Nick is already taken");
 });
 
 test("It should be able to get a profile", async () => {
