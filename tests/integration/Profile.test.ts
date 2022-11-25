@@ -4,7 +4,6 @@ import MemoryUserRepository from "../../src/infra/repository/memory/MemoryUserRe
 import MemoryVideoRepository from "../../src/infra/repository/memory/MemoryVideoRepository";
 import StorageGatewayFake from "../utils/mocks/StorageGatewayFake";
 import app from "../../src/infra/http/Router";
-import { faker } from "@faker-js/faker";
 import jwt from "jsonwebtoken";
 import request from "supertest";
 
@@ -21,11 +20,11 @@ jest.mock("../../src/Config", () => ({
 
 let authorization: string;
 let id: string;
-const password = faker.random.word();
+const password = "password";
 const avatar = "tests/utils/files/avatar.jpeg";
 
 beforeAll(async () => {
-  let email = faker.internet.email();
+  let email = "email@test.com";
   await request(app).post("/user/create").send({ email, password });
   const response = await request(app).post("/user/login").send({ email, password });
   authorization = `Bearer ${response.body.token}`;
@@ -33,10 +32,10 @@ beforeAll(async () => {
     .post("/profile")
     .field("email", email)
     .field("password", password)
-    .field("nick", faker.name.firstName())
+    .field("nick", "nick")
     .attach("avatar", avatar)
     .set({ authorization });
-  email = faker.internet.email();
+  email = "email2@test.com";
   await request(app).post("/user/create").send({ email, password });
   const { body } = await request(app).post("/user/login").send({ email, password });
   const decoded = jwt.verify(body.token, process.env.JWT_SECRET);
@@ -45,20 +44,20 @@ beforeAll(async () => {
     .post("/profile")
     .field("email", email)
     .field("password", password)
-    .field("nick", faker.name.firstName())
+    .field("nick", "nick2")
     .attach("avatar", avatar)
     .set({ authorization: `Bearer ${body.token}` });
 });
 
 test("It should be able to create a profile", async () => {
-  const email = faker.internet.email();
+  const email = "email@test.com";
   await request(app).post("/user/create").send({ email, password });
   const { body } = await request(app).post("/user/login").send({ email, password });
   const response = await request(app)
     .post("/profile")
     .field("email", email)
     .field("password", password)
-    .field("nick", faker.name.firstName())
+    .field("nick", "random-nick")
     .attach("avatar", avatar)
     .set({ authorization: `Bearer ${body.token}` });
   expect(response.statusCode).toBe(201);
