@@ -13,13 +13,13 @@ export default class GetVideo {
     if (!video) throw new NotFound("Video not found");
     const likes = await Promise.all(
       video.likes.map(async (id) => {
-        const profile = await this.profileRepository.getProfileById(id);
+        const profile = await this.profileRepository.findProfileById(id);
         return { userId: id, nickname: profile.nickname };
       })
     );
     const comments = await Promise.all(
       video.comments.map(async (comment) => {
-        const profile = await this.profileRepository.getProfileById(comment.userId);
+        const profile = await this.profileRepository.findProfileById(comment.userId);
         return { commentId: comment.commentId, userId: comment.userId, text: comment.text, nickname: profile.nickname };
       })
     );

@@ -1,28 +1,39 @@
 import BadRequest from "../http/BadRequest";
-import InputDTO from "../../dto/InputDTO";
 import NotFound from "../http/NotFound";
 import Unauthorized from "../http/Unauthorized";
 import { config } from "../../Config";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 
-export async function verifyToken(input: InputDTO): Promise<void> {
-  const { authorization } = input.headers;
-  if (!authorization) throw new BadRequest("Authorization header is required");
-  const token = authorization.split(" ")[1];
-  if (!token) throw new Unauthorized("JWT token is required");
+export async function verifyToken(req, res, next): Promise<void> {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    input.headers.id = decoded.id;
+    const { authorization } = req.headers;
+    if (!authorization) throw new BadRequest("Authorization header is required");
+    const token = authorization.split(" ")[1];
+    if (!token) throw new Unauthorized("JWT token is required");
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.headers.id = decoded.id;
+      next();
+    } catch (e: any) {
+      throw new Unauthorized("Invalid token");
+    }
   } catch (e: any) {
-    throw new Unauthorized("Invalid token");
+    res.status(e.statusCode).json({ message: e.message });
   }
 }
 
-export async function verifyUser(input: InputDTO): Promise<void> {
-  const { headers } = input;
-  const user = await config.userRepository.findUserById(headers.id);
-  if (!user) throw new NotFound("User not found");
+export async function verifyUser(req, res, next): Promise<void> {
+  try {
+    const { headers } = req;
+    const user = await config.userRepository.findUserById(headers.id);
+    if (!user) throw new NotFound("User not found");
+    const profile = await config.profileRepository.findProfileById(headers.id);
+    if (!profile) throw new NotFound("Profile not found");
+    next();
+  } catch (e: any) {
+    res.status(e.statusCode).json({ message: e.message });
+  }
 }
 
 export const uploadFile = multer({

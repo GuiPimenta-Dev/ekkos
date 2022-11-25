@@ -1,10 +1,15 @@
 import { verifyToken, verifyUser } from "../../../src/application/middleware/Middlewares";
+
+import CreateUser from "../../../src/usecase/user/CreateUser";
+import ExpressResponseFake from "../../utils/mocks/ExpressResponseFake";
+import LoginUser from "../../../src/usecase/user/LoginUser";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryUserRepository from "../../../src/infra/repository/memory/MemoryUserRepository";
-import CreateUser from "../../../src/usecase/user/CreateUser";
-import LoginUser from "../../../src/usecase/user/LoginUser";
+import { config } from "../../../src/Config";
 
 let token: string;
+let res: ExpressResponseFake;
+const next = jest.fn();
 beforeAll(async () => {
   const userRepository = new MemoryUserRepository();
   const broker = new MemoryBroker();
@@ -14,67 +19,50 @@ beforeAll(async () => {
   token = await usecase.execute("email", "password");
 });
 
+beforeEach(() => {
+  res = new ExpressResponseFake();
+});
+
 test("Must be able to verify token", async () => {
-  const input = {
-    query: {},
-    body: {},
-    headers: {
-      authorization: `Bearer ${token}`,
-      auth: {},
-    },
-    path: {},
-    file: {},
-  };
-  verifyToken(input);
-  expect(input.headers).toHaveProperty("id");
+  const req = { headers: { authorization: `Bearer ${token}` } };
+  verifyToken(req, res, next);
+  expect(req.headers).toHaveProperty("id");
 });
 
 test("Must throw an error if there is no authorization header", async () => {
-  const input = {
-    query: {},
-    body: {},
-    headers: {},
-    path: {},
-    file: {},
-  };
-  expect(verifyToken(input)).rejects.toThrow("Authorization header is required");
+  const req = { headers: {} };
+  verifyToken(req, res, next);
+  expect(res.statusCode).toBe(400);
+  expect(res.message).toBe("Authorization header is required");
 });
 
 test("Must throw an error if there is no token in authorization header", async () => {
-  const input = {
-    query: {},
-    body: {},
-    headers: {
-      authorization: "Bearer",
-    },
-    path: {},
-    file: {},
-  };
-  expect(verifyToken(input)).rejects.toThrow("JWT token is required");
+  const req = { headers: { authorization: "Bearer" } };
+  verifyToken(req, res, next);
+  expect(res.statusCode).toBe(401);
+  expect(res.message).toBe("JWT token is required");
 });
 
 test("Must throw an error if token is invalid", async () => {
-  const input = {
-    query: {},
-    body: {},
-    headers: {
-      authorization: "Bearer 12345",
-    },
-    path: {},
-    file: {},
-  };
-  expect(verifyToken(input)).rejects.toThrow("Invalid token");
+  const req = { headers: { authorization: "Bearer 12345" } };
+  verifyToken(req, res, next);
+  expect(res.statusCode).toBe(401);
+  expect(res.message).toBe("Invalid token");
 });
 
 test("Must throw an error if user is not found", async () => {
-  const input = {
-    query: {},
-    body: {},
-    headers: {
-      id: "id",
-    },
-    path: {},
-    file: {},
-  };
-  expect(verifyUser(input)).rejects.toThrow("User not found");
+  const req = { headers: { id: "id" } };
+  await verifyUser(req, res, next);
+  expect(res.statusCode).toBe(404);
+  const x = config;
+  expect(res.message).toBe("User not found");
+});
+
+test("Must throw an error if profile is not found", async () => {
+  await config.userRepository.save({ id: "id", email: "email", password: "password" });
+  const req = { headers: { id: "id" } };
+  await verifyUser(req, res, next);
+  config.userRepository = new MemoryUserRepository();
+  expect(res.statusCode).toBe(404);
+  expect(res.message).toBe("Profile not found");
 });

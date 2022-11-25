@@ -7,8 +7,8 @@ export default class UnfollowProfile {
 
   async execute(unfollowerId: string, unfolloweeId: string) {
     if (unfollowerId === unfolloweeId) throw new BadRequest("You can't unfollow yourself");
-    const unfollower = await this.profileRepository.getProfileById(unfollowerId);
-    const unfollowee = await this.profileRepository.getProfileById(unfolloweeId);
+    const unfollower = await this.profileRepository.findProfileById(unfollowerId);
+    const unfollowee = await this.profileRepository.findProfileById(unfolloweeId);
     if (!unfollower || !unfollowee) throw new NotFound("Profile not found");
     const unfollowerIndex = unfollower.following.indexOf(unfollowee.userId);
     const unfolloweeIndex = unfollowee.followers.indexOf(unfollower.userId);

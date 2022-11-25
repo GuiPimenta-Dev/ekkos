@@ -7,8 +7,8 @@ export default class FollowProfile {
 
   async execute(followerId: string, followeeId: string) {
     if (followerId === followeeId) throw new BadRequest("You can't follow yourself");
-    const follower = await this.profileRepository.getProfileById(followerId);
-    const followee = await this.profileRepository.getProfileById(followeeId);
+    const follower = await this.profileRepository.findProfileById(followerId);
+    const followee = await this.profileRepository.findProfileById(followeeId);
     if (!follower || !followee) throw new NotFound("Profile not found");
     follower.following.push(followee.userId);
     followee.followers.push(follower.userId);
