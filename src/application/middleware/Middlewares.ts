@@ -1,9 +1,10 @@
-import jwt from "jsonwebtoken";
-import { config } from "../../Config";
-import InputDTO from "../../dto/InputDTO";
 import BadRequest from "../http/BadRequest";
+import InputDTO from "../../dto/InputDTO";
 import NotFound from "../http/NotFound";
 import Unauthorized from "../http/Unauthorized";
+import { config } from "../../Config";
+import jwt from "jsonwebtoken";
+const multer = require("multer");
 
 export async function verifyToken(input: InputDTO): Promise<void> {
   const { authorization } = input.headers;
@@ -23,3 +24,7 @@ export async function verifyUser(input: InputDTO): Promise<void> {
   const user = await config.userRepository.findUserById(headers.id);
   if (!user) throw new NotFound("User not found");
 }
+
+export const uploadFile = multer({
+  storage: config.storage.upload(),
+});

@@ -1,5 +1,5 @@
-import express from "express";
 import HttpError from "../../application/http/extends/HttpError";
+import express from "express";
 
 export default class ExpressAdapter {
   static create() {
@@ -11,10 +11,10 @@ export default class ExpressAdapter {
   static route(...fns: any[]) {
     return async function (req: any, res: any) {
       try {
-        const { query, body, headers, params } = req;
+        const { query, body, headers, params, file } = req;
         let output: any;
         for (let fn of fns) {
-          output = await fn({ query, body, headers, path: params });
+          output = await fn({ query, body, headers, path: params, file });
         }
         res.status(output.statusCode).json(output.data);
       } catch (e: any) {

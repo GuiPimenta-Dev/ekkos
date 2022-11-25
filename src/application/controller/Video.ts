@@ -10,10 +10,10 @@ import { config } from "../../Config";
 
 export default class VideoController {
   static async post(input: InputDTO): Promise<Success> {
-    const { body, headers } = input;
-    body.userId = headers.id;
+    const { body, headers, file } = input;
+    const data = { userId: headers.id, title: body.title, description: body.description, url: file.location };
     const controller = new PostVideo(config.videoRepository);
-    const id = await controller.execute(body);
+    const id = await controller.execute(data);
     return new Success({ id });
   }
 
