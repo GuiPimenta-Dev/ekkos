@@ -9,7 +9,7 @@ export default class GetVideo {
   ) {}
 
   async execute(id: string): Promise<any> {
-    const video = await this.videoRepository.getVideoById(id);
+    const video = await this.videoRepository.findVideoById(id);
     if (!video) throw new NotFound("Video not found");
     const likes = await Promise.all(
       video.likes.map(async (id) => {

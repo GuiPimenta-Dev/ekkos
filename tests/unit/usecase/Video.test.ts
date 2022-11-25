@@ -54,7 +54,7 @@ test("It should throw an error if video id does not exists", async () => {
 test("It has to be able to like a video", async () => {
   const usecase = new LikeVideo(videoRepository);
   await usecase.execute("userId", videoId);
-  const video = await videoRepository.getVideoById(videoId);
+  const video = await videoRepository.findVideoById(videoId);
   expect(video.likes).toHaveLength(1);
 });
 
@@ -74,7 +74,7 @@ test("It has to be able to unlike a video", async () => {
   await new LikeVideo(videoRepository).execute("userId", videoId);
   const usecase = new UnlikeVideo(videoRepository);
   await usecase.execute("userId", videoId);
-  const video = await videoRepository.getVideoById(videoId);
+  const video = await videoRepository.findVideoById(videoId);
   expect(video.likes).toHaveLength(0);
 });
 
@@ -91,7 +91,7 @@ test("It should not be able to unlike a video that doesnt exists", async () => {
 test("It has to be able to comment a video", async () => {
   const usecase = new CommentVideo(videoRepository);
   await usecase.execute("userId", videoId, "This is a really nice video");
-  const video = await videoRepository.getVideoById(videoId);
+  const video = await videoRepository.findVideoById(videoId);
   expect(video.comments).toHaveLength(1);
 });
 
@@ -105,7 +105,7 @@ test("It has to be able to delete a comment on a video", async () => {
   const commentId = await commentVideoUseCase.execute("userId", videoId, "This is a really nice video");
   const usecase = new DeleteComment(videoRepository);
   await usecase.execute("userId", commentId);
-  const video = await videoRepository.getVideoById(videoId);
+  const video = await videoRepository.findVideoById(videoId);
   expect(video.comments).toHaveLength(0);
 });
 

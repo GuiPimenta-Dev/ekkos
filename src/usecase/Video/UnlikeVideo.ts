@@ -6,7 +6,7 @@ export default class UnlikeVideo {
   constructor(private videoRepository: VideoRepositoryInterface) {}
 
   async execute(userId: string, videoId: string): Promise<void> {
-    const video = await this.videoRepository.getVideoById(videoId);
+    const video = await this.videoRepository.findVideoById(videoId);
     if (!video) throw new NotFound("Video not found");
     if (!video.likes.includes(userId)) throw new BadRequest("You can't unlike a video you don't like");
     const profileIndex = video.likes.indexOf(userId);

@@ -19,4 +19,5 @@ app.post("/video/:id/like", verifyToken, verifyUser, ExpressAdapter.route(VideoC
 app.post("/video/:id/unlike", verifyToken, verifyUser, ExpressAdapter.route(VideoController.unlike));
 app.post("/video/:id/comment", verifyToken, verifyUser, ExpressAdapter.route(VideoController.comment));
 app.delete("/video/:id/comment", verifyToken, verifyUser, ExpressAdapter.route(VideoController.deleteComment));
+
 export default app;

@@ -7,7 +7,7 @@ export default class CommentVideo {
   constructor(private videoRepository: VideoRepositoryInterface) {}
 
   async execute(userId: string, videoId: string, text: string): Promise<string> {
-    const video = await this.videoRepository.getVideoById(videoId);
+    const video = await this.videoRepository.findVideoById(videoId);
     if (!video) throw new NotFound("Video not found");
     const comment = new Comment(uuid(), video.videoId, userId, text);
     video.comments.push(comment);

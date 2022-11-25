@@ -9,7 +9,7 @@ export default class GetProfile {
 
   async execute(id: string): Promise<any> {
     const profile = await this.profileRepository.findProfileById(id);
-    const videos = await this.videoRepository.getVideosByUserId(id);
+    const videos = await this.videoRepository.findVideosByUserId(id);
     return {
       nick: profile.nick,
       avatar: profile.avatar,

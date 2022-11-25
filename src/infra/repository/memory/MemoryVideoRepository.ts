@@ -9,11 +9,11 @@ export default class MemoryVideoRepository implements VideoRepositoryInterface {
     this.videos.push(input);
   }
 
-  async getVideosByUserId(userId: string): Promise<Video[]> {
+  async findVideosByUserId(userId: string): Promise<Video[]> {
     return this.videos.filter((video) => video.userId === userId);
   }
 
-  async getVideoById(id: string): Promise<Video> {
+  async findVideoById(id: string): Promise<Video> {
     const video = this.videos.find((video) => video.videoId === id);
     return video;
   }
