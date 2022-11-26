@@ -1,5 +1,8 @@
-import { Role } from "./Role";
+import Role from "./Role";
 
 export default class Member {
-  constructor(userId: string, bandId: string, role: Role) {}
+  role: string;
+  constructor(readonly userId: string, readonly bandId: string, role: Role) {
+    this.role = role.value;
+  }
 }
