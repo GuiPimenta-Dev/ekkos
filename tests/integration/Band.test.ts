@@ -57,6 +57,7 @@ test("It should be able to add a member to a band", async () => {
 });
 
 test("It should be able to get a band", async () => {
+  await request(app).post(`/band/${bandId}/addMember`).send({ profileId, role: "guitarist" }).set({ authorization });
   const response = await request(app).get(`/band/${bandId}`).set({ authorization });
   expect(response.statusCode).toBe(200);
 });
