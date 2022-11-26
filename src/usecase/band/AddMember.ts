@@ -13,7 +13,7 @@ export default class AddMember {
     const role = roles.find((r) => r.role === _role);
     if (!role) throw new NotFound("Role not found");
     const member = new Member(userId, bandId, new Role(role.role, role.picture));
-    band.addMember(member);
+    band.addMember(userId, member);
     await this.bandRepository.update(band);
   }
 }
