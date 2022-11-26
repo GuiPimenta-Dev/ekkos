@@ -72,7 +72,7 @@ test("It should be able to get a band", async () => {
   const band = await usecase.execute(bandId);
   expect(band).toHaveProperty("bandId");
   expect(band.name).toBe("Some cool name for a band");
-  expect(band.picture).toBe("Some cool picture for a band");
+  expect(band.logo).toBe("Some cool picture for a band");
   expect(band.admin).toBe("admin");
   expect(band.members).toEqual([{ userId: "profileId", nick: "nick", avatar: "avatar", role: "guitarist" }]);
 });

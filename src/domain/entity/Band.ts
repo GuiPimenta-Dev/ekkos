@@ -6,7 +6,7 @@ export default class Band {
   constructor(
     readonly bandId: string,
     readonly name: string,
-    readonly picture: string,
+    readonly logo: string,
     readonly admin: string,
     private members: Member[]
   ) {}

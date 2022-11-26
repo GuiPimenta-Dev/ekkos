@@ -29,7 +29,7 @@ export default class GetProfile {
       bands: bands.map((band) => ({
         bandId: band.bandId,
         name: band.name,
-        picture: band.picture,
+        logo: band.logo,
       })),
     };
   }
