@@ -10,7 +10,12 @@ export default class BandController {
   static async create(input: InputDTO): Promise<Created> {
     const { body, headers, file } = input;
     const controller = new CreateBand(config.bandRepository);
-    const bandId = await controller.execute(headers.id, body.name, file.location);
+    const bandId = await controller.execute({
+      name: body.name,
+      description: body.description,
+      logo: file,
+      admin: headers.id,
+    });
     return new Created({ bandId });
   }
 

@@ -15,14 +15,15 @@ beforeEach(async () => {
   bandRepository = new MemoryBandRepository();
   profileRepository = new MemoryProfileRepository();
   const usecase = new CreateBand(bandRepository);
-  bandId = await usecase.execute("admin", "Some cool name for a band", "Some cool picture for a band");
+
+  bandId = await usecase.execute({ name: "name", description: "description", logo: "logo", admin: "admin" });
   await new CreateProfile(profileRepository).execute(profileId, "nick", "avatar");
 });
 
 test("It should be able to create a band", async () => {
   const bandRepository = new MemoryBandRepository();
   const usecase = new CreateBand(bandRepository);
-  await usecase.execute("id", "Some cool name for a band", "Some cool logo for a band");
+  await usecase.execute({ name: "name", description: "description", logo: "logo", admin: "admin" });
   expect(bandRepository.bands).toHaveLength(1);
 });
 
@@ -71,8 +72,9 @@ test("It should be able to get a band", async () => {
   const usecase = new GetBand(bandRepository, profileRepository);
   const band = await usecase.execute(bandId);
   expect(band).toHaveProperty("bandId");
-  expect(band.name).toBe("Some cool name for a band");
-  expect(band.logo).toBe("Some cool picture for a band");
+  expect(band.name).toBe("name");
+  expect(band.logo).toBe("logo");
+  expect(band.description).toBe("description");
   expect(band.admin).toBe("admin");
   expect(band.members).toEqual([{ userId: "profileId", nick: "nick", avatar: "avatar", role: "guitarist" }]);
 });

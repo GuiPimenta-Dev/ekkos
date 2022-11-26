@@ -43,7 +43,12 @@ beforeAll(async () => {
 });
 
 test("It should be able to create a band", async () => {
-  const response = await request(app).post("/band").field("name", "name").attach("logo", avatar).set({ authorization });
+  const response = await request(app)
+    .post("/band")
+    .field("name", "name")
+    .field("description", "description")
+    .attach("logo", avatar)
+    .set({ authorization });
   expect(response.statusCode).toBe(201);
   expect(response.body).toHaveProperty("bandId");
 });

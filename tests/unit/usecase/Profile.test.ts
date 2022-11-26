@@ -39,7 +39,12 @@ test("It should be able to get a profile", async () => {
     description: "description",
     url: "url",
   });
-  const bandId = await new CreateBand(bandRepository).execute("id", "name", "avatar");
+  const bandId = await new CreateBand(bandRepository).execute({
+    admin: "id",
+    name: "name",
+    description: "description",
+    logo: "logo",
+  });
   await new AddMember(bandRepository, profileRepository).execute({
     bandId,
     admin: "id",
