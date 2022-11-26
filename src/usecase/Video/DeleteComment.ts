@@ -6,8 +6,8 @@ export default class DeleteComment {
 
   async execute(userId: string, commentId: string): Promise<void> {
     const comment = await this.videoRepository.getCommentById(commentId);
+    if (!comment) throw new NotFound("Comment not found");
     const video = await this.videoRepository.findVideoById(comment.videoId);
-    if (!video) throw new NotFound("Video not found");
     video.deleteComment(userId, commentId);
     await this.videoRepository.update(video);
   }

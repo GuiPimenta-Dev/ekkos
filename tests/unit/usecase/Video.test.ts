@@ -114,3 +114,8 @@ test("It should not to be able to delete a comment on a video if you are not the
   const usecase = new DeleteComment(videoRepository);
   expect(usecase.execute("anotherUserId", commentId)).rejects.toThrow("You can't delete this comment");
 });
+
+test("It should not to be able to delete a comment that does not exists", async () => {
+  const usecase = new DeleteComment(videoRepository);
+  expect(usecase.execute("anotherUserId", "commentID")).rejects.toThrow("Comment not found");
+});

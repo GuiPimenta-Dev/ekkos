@@ -1,7 +1,6 @@
 import BadRequest from "../../application/http/BadRequest";
 import Comment from "./Comment";
 import Forbidden from "../../application/http/Forbidden";
-import NotFound from "../../application/http/NotFound";
 
 export default class Video {
   constructor(
@@ -30,7 +29,6 @@ export default class Video {
 
   deleteComment(userId: string, commentId: string): void {
     const comment = this.comments.find((comment) => comment.commentId === commentId);
-    if (!comment) throw new NotFound("Comment not found");
     if (comment.userId !== userId) throw new Forbidden("You can't delete this comment");
     this.comments = this.comments.filter((comment) => comment.commentId !== commentId);
   }
