@@ -1,10 +1,11 @@
-import AddMember from "../../../src/usecase/band/AddMember";
 import BandRepositoryInterface from "../../../src/domain/infra/repository/BandRepository";
-import CreateBand from "../../../src/usecase/band/CreateBand";
-import CreateProfile from "../../../src/usecase/profile/CreateProfile";
+import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
 import MemoryBandRepository from "../../../src/infra/repository/memory/MemoryBandRepository";
 import MemoryProfileRepository from "../../../src/infra/repository/memory/MemoryProfileRepository";
-import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
+import AddMember from "../../../src/usecase/band/AddMember";
+import CreateBand from "../../../src/usecase/band/CreateBand";
+import GetBand from "../../../src/usecase/band/GetBand";
+import CreateProfile from "../../../src/usecase/profile/CreateProfile";
 
 let bandRepository: BandRepositoryInterface;
 let profileRepository: ProfileRepositoryInterface;
@@ -62,4 +63,21 @@ test("It should not be able to add a member if role does not exists", async () =
   const usecase = new AddMember(bandRepository, profileRepository);
   const input = { bandId, admin: "admin", profileId, role: "guitaarist" };
   expect(usecase.execute(input)).rejects.toThrow("Role not found");
+});
+
+test("It should be able to get a band", async () => {
+  const input = { bandId, admin: "admin", profileId, role: "guitarist" };
+  await new AddMember(bandRepository, profileRepository).execute(input);
+  const usecase = new GetBand(bandRepository, profileRepository);
+  const band = await usecase.execute(bandId);
+  expect(band).toHaveProperty("bandId");
+  expect(band.name).toBe("Some cool name for a band");
+  expect(band.picture).toBe("Some cool picture for a band");
+  expect(band.admin).toBe("admin");
+  expect(band.members).toEqual([{ userId: "profileId", nick: "nick", avatar: "avatar", role: "guitarist" }]);
+});
+
+test("It should not be able to get a non-existent band", async () => {
+  const usecase = new GetBand(bandRepository, profileRepository);
+  expect(usecase.execute("bandId")).rejects.toThrow("Band not found");
 });
