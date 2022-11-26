@@ -20,8 +20,8 @@ export default class GetProfile {
         title: video.title,
         description: video.description,
         url: video.url,
-        likes: video.likes.length,
-        comments: video.comments.length,
+        likes: video.getLikes().length,
+        comments: video.getComments().length,
       })),
     };
   }

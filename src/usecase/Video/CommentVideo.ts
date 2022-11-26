@@ -10,7 +10,7 @@ export default class CommentVideo {
     const video = await this.videoRepository.findVideoById(videoId);
     if (!video) throw new NotFound("Video not found");
     const comment = new Comment(uuid(), video.videoId, userId, text);
-    video.comments.push(comment);
+    video.comment(comment);
     await this.videoRepository.update(video);
     return comment.commentId;
   }

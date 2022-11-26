@@ -26,7 +26,7 @@ export default class MemoryVideoRepository implements VideoRepositoryInterface {
   async getCommentById(id: string): Promise<Comment> {
     for (let index = 0; index < this.videos.length; index++) {
       const video = this.videos[index];
-      const comment = video.comments.find((comment) => comment.commentId === id);
+      const comment = video.getComments().find((comment) => comment.commentId === id);
       if (comment) return comment;
     }
   }
