@@ -4,6 +4,7 @@ import Role from "../../entity/Role";
 export default interface BandRepositoryInterface {
   save(band: Band): Promise<void>;
   findBandById(id: string): Promise<Band>;
+  findBandsByUserId(userId: string): Promise<Band[]>;
   findRoles(): Promise<Role[]>;
   update(band: Band): Promise<void>;
 }

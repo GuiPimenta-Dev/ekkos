@@ -1,6 +1,9 @@
+import AddMember from "../../../src/usecase/band/AddMember";
+import CreateBand from "../../../src/usecase/band/CreateBand";
 import CreateProfile from "../../../src/usecase/profile/CreateProfile";
 import FollowProfile from "../../../src/usecase/profile/FollowProfile";
 import GetProfile from "../../../src/usecase/profile/GetProfile";
+import MemoryBandRepository from "../../../src/infra/repository/memory/MemoryBandRepository";
 import MemoryProfileRepository from "../../../src/infra/repository/memory/MemoryProfileRepository";
 import MemoryVideoRepository from "../../../src/infra/repository/memory/MemoryVideoRepository";
 import PostVideo from "../../../src/usecase/video/PostVideo";
@@ -28,16 +31,28 @@ test("It should not be able to create a profile if it already exists", async () 
 });
 
 test("It should be able to get a profile", async () => {
-  const memoryRepository = new MemoryVideoRepository();
-  await new PostVideo(memoryRepository).execute({
+  const videoRepository = new MemoryVideoRepository();
+  const bandRepository = new MemoryBandRepository();
+  await new PostVideo(videoRepository).execute({
     userId: "id",
     title: "title",
     description: "description",
     url: "url",
   });
-  const usecase = new GetProfile(profileRepository, memoryRepository);
+  const bandId = await new CreateBand(bandRepository).execute("id", "name", "avatar");
+  await new AddMember(bandRepository, profileRepository).execute({
+    bandId,
+    admin: "id",
+    profileId: "id",
+    role: "guitarist",
+  });
+  const usecase = new GetProfile(profileRepository, videoRepository, bandRepository);
   const profile = await usecase.execute("id");
-  expect(profile).toBeDefined();
+  expect(profile.avatar).toBe("avatar1");
+  expect(profile.videos).toHaveLength(1);
+  expect(profile.bands).toHaveLength(1);
+  expect(profile.followers).toBe(0);
+  expect(profile.following).toBe(0);
 });
 
 test("It should be able to follow a profile", async () => {

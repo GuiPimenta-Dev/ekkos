@@ -1,3 +1,4 @@
+import MemoryBandRepository from "../../src/infra/repository/memory/MemoryBandRepository";
 import MemoryBroker from "../../src/infra/broker/MemoryBroker";
 import MemoryProfileRepository from "../../src/infra/repository/memory/MemoryProfileRepository";
 import MemoryUserRepository from "../../src/infra/repository/memory/MemoryUserRepository";
@@ -13,6 +14,7 @@ jest.mock("../../src/Config", () => ({
     profileRepository: new MemoryProfileRepository(),
     userRepository: new MemoryUserRepository(),
     videoRepository: new MemoryVideoRepository(),
+    bandRepository: new MemoryBandRepository(),
     broker: new MemoryBroker(),
     storage: new StorageGatewayFake(),
   },

@@ -29,4 +29,8 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
   async findRoles(): Promise<Role[]> {
     return this.roles;
   }
+
+  async findBandsByUserId(userId: string): Promise<Band[]> {
+    return this.bands.filter((band) => band.getMembers().find((member) => member.userId === userId));
+  }
 }

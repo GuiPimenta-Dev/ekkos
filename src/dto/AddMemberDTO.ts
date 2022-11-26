@@ -1,6 +1,6 @@
 export default interface AddMemberDTO {
   bandId: string;
   admin: string;
-  userId: string;
+  profileId: string;
   role: string;
 }

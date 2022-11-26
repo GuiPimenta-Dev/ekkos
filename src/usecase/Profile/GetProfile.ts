@@ -1,15 +1,18 @@
+import BandRepositoryInterface from "../../domain/infra/repository/BandRepository";
 import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
 import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 
 export default class GetProfile {
   constructor(
     private profileRepository: ProfileRepositoryInterface,
-    private videoRepository: VideoRepositoryInterface
+    private videoRepository: VideoRepositoryInterface,
+    private bandRepository: BandRepositoryInterface
   ) {}
 
-  async execute(id: string): Promise<any> {
-    const profile = await this.profileRepository.findProfileById(id);
-    const videos = await this.videoRepository.findVideosByUserId(id);
+  async execute(userId: string): Promise<any> {
+    const profile = await this.profileRepository.findProfileById(userId);
+    const videos = await this.videoRepository.findVideosByUserId(userId);
+    const bands = await this.bandRepository.findBandsByUserId(userId);
     return {
       nick: profile.nick,
       avatar: profile.avatar,
@@ -22,6 +25,11 @@ export default class GetProfile {
         url: video.url,
         likes: video.getLikes().length,
         comments: video.getComments().length,
+      })),
+      bands: bands.map((band) => ({
+        bandId: band.bandId,
+        name: band.name,
+        picture: band.picture,
       })),
     };
   }
