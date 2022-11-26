@@ -4,8 +4,8 @@ import ProfileRepositoryInterface from "../../../domain/infra/repository/Profile
 export default class MemoryProfileRepository implements ProfileRepositoryInterface {
   readonly profiles: Profile[] = [];
 
-  async save(input: Profile): Promise<void> {
-    this.profiles.push(input);
+  async save(profile: Profile): Promise<void> {
+    this.profiles.push(profile);
   }
 
   async findProfileById(id: string): Promise<Profile> {

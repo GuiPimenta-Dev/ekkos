@@ -5,8 +5,8 @@ import VideoRepositoryInterface from "../../../domain/infra/repository/VideoRepo
 export default class MemoryVideoRepository implements VideoRepositoryInterface {
   readonly videos: Video[] = [];
 
-  async save(input: Video): Promise<void> {
-    this.videos.push(input);
+  async save(video: Video): Promise<void> {
+    this.videos.push(video);
   }
 
   async findVideosByUserId(userId: string): Promise<Video[]> {

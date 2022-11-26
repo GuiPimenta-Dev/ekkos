@@ -4,7 +4,7 @@ import MemoryUserRepository from "./infra/repository/memory/MemoryUserRepository
 import MemoryVideoRepository from "./infra/repository/memory/MemoryVideoRepository";
 import S3StorageGateway from "./infra/gateway/S3StorageGateway";
 
-export let config = {
+export const config = {
   profileRepository: new MemoryProfileRepository(),
   userRepository: new MemoryUserRepository(),
   videoRepository: new MemoryVideoRepository(),
