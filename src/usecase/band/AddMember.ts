@@ -6,10 +6,13 @@ import Role from "../../domain/entity/Role";
 export default class AddMember {
   constructor(private readonly bandRepository: BandRepositoryInterface) {}
 
-  async execute(bandId: string, userId: string, role: string): Promise<void> {
+  async execute(bandId: string, userId: string, _role: string): Promise<void> {
     const band = await this.bandRepository.findBandById(bandId);
     if (!band) throw new NotFound("Band not found");
-    const member = new Member(userId, bandId, new Role(role));
+    const roles = await this.bandRepository.findRoles();
+    const role = roles.find((r) => r.role === _role);
+    if (!role) throw new NotFound("Role not found");
+    const member = new Member(userId, bandId, new Role(role.role, role.picture));
     band.addMember(member);
     await this.bandRepository.update(band);
   }
