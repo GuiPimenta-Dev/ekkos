@@ -8,21 +8,26 @@ export default class Band {
     readonly name: string,
     readonly description: string,
     readonly logo: string,
-    readonly admin: string,
+    readonly adminId: string,
     private members: Member[]
   ) {}
 
-  addMember(userId: string, member: Member): void {
-    this.verifyAdmin(userId);
+  addMember(adminId: string, member: Member): void {
+    this.verifyAdmin(adminId);
     if (this.members.find((m) => m.userId === member.userId)) throw new BadRequest("User already in band");
     this.members.push(member);
+  }
+
+  removeMember(adminId: string, profileId: string): void {
+    this.verifyAdmin(adminId);
+    this.members = this.members.filter((m) => m.userId !== profileId);
   }
 
   getMembers(): Member[] {
     return this.members;
   }
 
-  private verifyAdmin(userId: string) {
-    if (this.admin !== userId) throw new Forbidden("Only the admin can perform this action");
+  private verifyAdmin(adminId: string) {
+    if (this.adminId !== adminId) throw new Forbidden("Only the adminId can perform this action");
   }
 }

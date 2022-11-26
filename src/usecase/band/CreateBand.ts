@@ -8,7 +8,7 @@ export default class CreateBand {
 
   async execute(input: CreateBandDTO): Promise<string> {
     const bandId = uuid();
-    const band = new Band(bandId, input.name, input.description, input.logo, input.admin, []);
+    const band = new Band(bandId, input.name, input.description, input.logo, input.adminId, []);
     await this.bandRepository.save(band);
     return bandId;
   }

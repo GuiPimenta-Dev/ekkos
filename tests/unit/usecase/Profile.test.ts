@@ -1,14 +1,14 @@
+import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
+import MemoryBandRepository from "../../../src/infra/repository/memory/MemoryBandRepository";
+import MemoryProfileRepository from "../../../src/infra/repository/memory/MemoryProfileRepository";
+import MemoryVideoRepository from "../../../src/infra/repository/memory/MemoryVideoRepository";
 import AddMember from "../../../src/usecase/band/AddMember";
 import CreateBand from "../../../src/usecase/band/CreateBand";
 import CreateProfile from "../../../src/usecase/profile/CreateProfile";
 import FollowProfile from "../../../src/usecase/profile/FollowProfile";
 import GetProfile from "../../../src/usecase/profile/GetProfile";
-import MemoryBandRepository from "../../../src/infra/repository/memory/MemoryBandRepository";
-import MemoryProfileRepository from "../../../src/infra/repository/memory/MemoryProfileRepository";
-import MemoryVideoRepository from "../../../src/infra/repository/memory/MemoryVideoRepository";
-import PostVideo from "../../../src/usecase/video/PostVideo";
-import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
 import UnfollowProfile from "../../../src/usecase/profile/UnfollowProfile";
+import PostVideo from "../../../src/usecase/video/PostVideo";
 
 let profileRepository: ProfileRepositoryInterface;
 beforeEach(async () => {
@@ -40,14 +40,14 @@ test("It should be able to get a profile", async () => {
     url: "url",
   });
   const bandId = await new CreateBand(bandRepository).execute({
-    admin: "id",
+    adminId: "id",
     name: "name",
     description: "description",
     logo: "logo",
   });
   await new AddMember(bandRepository, profileRepository).execute({
     bandId,
-    admin: "id",
+    adminId: "id",
     profileId: "id",
     role: "guitarist",
   });
