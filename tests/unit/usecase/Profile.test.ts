@@ -2,7 +2,6 @@ import ProfileRepositoryInterface from "../../../src/domain/infra/repository/Pro
 import MemoryBandRepository from "../../utils/mocks/repository/MemoryBandRepository";
 import MemoryProfileRepository from "../../utils/mocks/repository/MemoryProfileRepository";
 import MemoryVideoRepository from "../../utils/mocks/repository/MemoryVideoRepository";
-import AddMember from "../../../src/usecase/band/AddMember";
 import CreateBand from "../../../src/usecase/band/CreateBand";
 import CreateProfile from "../../../src/usecase/profile/CreateProfile";
 import FollowProfile from "../../../src/usecase/profile/FollowProfile";

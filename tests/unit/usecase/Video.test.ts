@@ -51,36 +51,10 @@ test("It should throw an error if video id does not exists", async () => {
   expect(usecase.execute("videoId")).rejects.toThrow("Video not found");
 });
 
-test("It has to be able to like a video", async () => {
-  const usecase = new LikeVideo(videoRepository);
-  await usecase.execute("userId", videoId);
-  const video = await videoRepository.findVideoById(videoId);
-  expect(video.getLikes()).toHaveLength(1);
-});
-
-test("It should not to be able to like a video twice", async () => {
-  const usecase = new LikeVideo(videoRepository);
-  await usecase.execute("userId", videoId);
-  expect(usecase.execute("userId", videoId)).rejects.toThrow("User already liked this video");
-});
-
 test("It should not to be able to like a non existent video", async () => {
   const usecase = new LikeVideo(videoRepository);
   await usecase.execute("userId", videoId);
   expect(usecase.execute("userId", "videoId")).rejects.toThrow("Video not found");
-});
-
-test("It has to be able to unlike a video", async () => {
-  await new LikeVideo(videoRepository).execute("userId", videoId);
-  const usecase = new UnlikeVideo(videoRepository);
-  await usecase.execute("userId", videoId);
-  const video = await videoRepository.findVideoById(videoId);
-  expect(video.getLikes()).toHaveLength(0);
-});
-
-test("It should not be able to unlike a video you don't like", async () => {
-  const usecase = new UnlikeVideo(videoRepository);
-  expect(usecase.execute("userId", videoId)).rejects.toThrow("User did not like this video");
 });
 
 test("It should not be able to unlike a video that doesnt exists", async () => {
@@ -88,31 +62,9 @@ test("It should not be able to unlike a video that doesnt exists", async () => {
   expect(usecase.execute("userId", "videoId")).rejects.toThrow("Video not found");
 });
 
-test("It has to be able to comment a video", async () => {
-  const usecase = new CommentVideo(videoRepository);
-  await usecase.execute("userId", videoId, "This is a really nice video");
-  const video = await videoRepository.findVideoById(videoId);
-  expect(video.getComments()).toHaveLength(1);
-});
-
 test("It should not be able to comment a not found video", async () => {
   const usecase = new CommentVideo(videoRepository);
   expect(usecase.execute("userId", "videoId", "text")).rejects.toThrow("Video not found");
-});
-
-test("It has to be able to delete a comment on a video", async () => {
-  const commentVideoUseCase = new CommentVideo(videoRepository);
-  const commentId = await commentVideoUseCase.execute("userId", videoId, "This is a really nice video");
-  const usecase = new DeleteComment(videoRepository);
-  await usecase.execute("userId", commentId);
-  const video = await videoRepository.findVideoById(videoId);
-  expect(video.getComments()).toHaveLength(0);
-});
-
-test("It should not to be able to delete a comment on a video if you are not the owner of the comment", async () => {
-  const commentId = await new CommentVideo(videoRepository).execute("userId", videoId, "This is a really nice video");
-  const usecase = new DeleteComment(videoRepository);
-  expect(usecase.execute("anotherUserId", commentId)).rejects.toThrow("You can't delete this comment");
 });
 
 test("It should not to be able to delete a comment that does not exists", async () => {
