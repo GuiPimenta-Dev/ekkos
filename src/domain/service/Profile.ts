@@ -3,14 +3,14 @@ import Profile from "../entity/Profile";
 
 export default class ProfileService {
   static follow(follower: Profile, followee: Profile) {
-    if (follower.userId === followee.userId) throw new BadRequest("You can't follow yourself");
-    follower.addFollowing(followee.userId);
-    followee.addFollower(follower.userId);
+    if (follower.profileId === followee.profileId) throw new BadRequest("You can't follow yourself");
+    follower.addFollowing(followee.profileId);
+    followee.addFollower(follower.profileId);
   }
 
   static unfollow(unfollower: Profile, unfollowee: Profile) {
-    if (unfollower.userId === unfollowee.userId) throw new BadRequest("You can't unfollow yourself");
-    unfollower.removeFollowing(unfollowee.userId);
-    unfollowee.removeFollower(unfollower.userId);
+    if (unfollower.profileId === unfollowee.profileId) throw new BadRequest("You can't unfollow yourself");
+    unfollower.removeFollowing(unfollowee.profileId);
+    unfollowee.removeFollower(unfollower.profileId);
   }
 }

@@ -9,7 +9,7 @@ export default class MemoryProfileRepository implements ProfileRepositoryInterfa
   }
 
   async findProfileById(id: string): Promise<Profile> {
-    return this.profiles.find((profile) => profile.userId === id);
+    return this.profiles.find((profile) => profile.profileId === id);
   }
 
   async update(profile: Profile): Promise<void> {
@@ -20,5 +20,9 @@ export default class MemoryProfileRepository implements ProfileRepositoryInterfa
   async isNickTaken(nick: string): Promise<Boolean> {
     const profile = this.profiles.find((profile) => profile.nick === nick);
     return profile !== undefined;
+  }
+
+  async getAllProfiles(): Promise<Profile[]> {
+    return this.profiles;
   }
 }

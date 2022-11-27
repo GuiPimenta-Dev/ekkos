@@ -11,7 +11,13 @@ export default class ProfileController {
   static async create(input: InputDTO): Promise<Created> {
     const { body, headers, file } = input;
     const controller = new CreateProfile(config.profileRepository);
-    await controller.execute(headers.id, body.nick, file.location);
+    await controller.execute({
+      profileId: headers.id,
+      nick: body.nick,
+      avatar: file.location,
+      latitude: headers.latitude,
+      longitude: headers.longitude,
+    });
     return new Created();
   }
 

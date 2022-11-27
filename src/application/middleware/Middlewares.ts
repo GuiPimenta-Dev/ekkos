@@ -36,6 +36,15 @@ export async function verifyUser(req, res, next): Promise<void> {
   }
 }
 
+export async function updateCoords(req, _, next): Promise<void> {
+  const { headers } = req;
+  const profile = await config.profileRepository.findProfileById(headers.id);
+  profile.latitude = headers.latitude || profile.latitude;
+  profile.longitude = headers.longitude || profile.longitude;
+  await config.profileRepository.update(profile);
+  next();
+}
+
 export const uploadFile = multer({
   storage: config.storage.upload(),
 });

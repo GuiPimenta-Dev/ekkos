@@ -23,7 +23,8 @@ beforeEach(async () => {
     adminId: profileId,
     role: "guitarist",
   });
-  await new CreateProfile(profileRepository).execute(profileId, "nick", "avatar");
+  const input = { profileId, nick: "nick", avatar: "avatar", latitude: -22.90463, longitude: -43.1053 };
+  await new CreateProfile(profileRepository).execute(input);
 });
 
 test("It should be able to create a band", async () => {

@@ -3,9 +3,11 @@ import Video from "./Video";
 
 export default class Profile {
   constructor(
-    readonly userId: string,
+    readonly profileId: string,
     readonly nick: string,
     readonly avatar: string,
+    public latitude: number,
+    public longitude: number,
     private followers: string[],
     private following: string[],
     readonly videos: Video[]

@@ -5,4 +5,5 @@ export default interface ProfileRepositoryInterface {
   findProfileById(id: string): Promise<Profile>;
   update(profile: Profile): Promise<void>;
   isNickTaken(nick: string): Promise<Boolean>;
+  getAllProfiles(): Promise<Profile[]>;
 }
