@@ -55,13 +55,11 @@ test("It should be able to get a profile", async () => {
     logo: "logo",
     role: "guitarist",
   });
-  const usecase = new GetProfile(profileRepository, videoRepository, bandRepository);
+  const usecase = new GetProfile(profileRepository);
   const profile = await usecase.execute("id");
   expect(profile.avatar).toBe("avatar");
-  expect(profile.videos).toHaveLength(1);
-  expect(profile.bands).toHaveLength(1);
-  expect(profile.followers).toBe(0);
-  expect(profile.following).toBe(0);
+  expect(profile.followers).toEqual([]);
+  expect(profile.following).toEqual([]);
 });
 
 test("It should not be able to follow an inexistent id", async () => {

@@ -17,6 +17,7 @@ export default class MatchProfiles {
           profile.latitude,
           profile.longitude
         );
+
         return distanceBetween <= distance ? { profile: match, distance: distanceBetween } : null;
       })
       .filter((match) => match !== null);

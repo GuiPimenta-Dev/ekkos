@@ -72,18 +72,18 @@ test("It should not be able to add a member if role does not exists", async () =
 });
 
 test("It should be able to get a band", async () => {
-  const usecase = new GetBand(bandRepository, profileRepository);
+  const usecase = new GetBand(bandRepository);
   const band = await usecase.execute(bandId);
   expect(band).toHaveProperty("bandId");
   expect(band.name).toBe("name");
   expect(band.logo).toBe("logo");
   expect(band.description).toBe("description");
   expect(band.adminId).toBe(profileId);
-  expect(band.members).toEqual([{ userId: profileId, nick: "nick", avatar: "avatar", role: "guitarist" }]);
+  expect(band.members).toHaveLength(1);
 });
 
 test("It should not be able to get a non-existent band", async () => {
-  const usecase = new GetBand(bandRepository, profileRepository);
+  const usecase = new GetBand(bandRepository);
   expect(usecase.execute("bandId")).rejects.toThrow("Band not found");
 });
 

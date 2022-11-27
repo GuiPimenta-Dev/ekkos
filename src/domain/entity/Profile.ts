@@ -1,6 +1,3 @@
-import BadRequest from "../../application/http/BadRequest";
-import Video from "./Video";
-
 export default class Profile {
   constructor(
     readonly profileId: string,
@@ -9,8 +6,7 @@ export default class Profile {
     public latitude: number,
     public longitude: number,
     private followers: string[],
-    private following: string[],
-    readonly videos: Video[]
+    private following: string[]
   ) {}
 
   addFollower(profileId: string) {
@@ -30,10 +26,10 @@ export default class Profile {
   }
 
   getFollowers() {
-    return this.followers.length;
+    return this.followers;
   }
 
   getFollowing() {
-    return this.following.length;
+    return this.following;
   }
 }

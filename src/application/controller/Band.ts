@@ -6,6 +6,7 @@ import GetBand from "../../usecase/band/GetBand";
 import Created from "../http/Created";
 import Success from "../http/Success";
 import RemoveMember from "../../usecase/band/RemoveMember";
+import BandPresenter from "../presenter/Band";
 
 export default class BandController {
   static async create(input: InputDTO): Promise<Created> {
@@ -30,9 +31,11 @@ export default class BandController {
 
   static async get(input: InputDTO): Promise<Success> {
     const { path } = input;
-    const controller = new GetBand(config.bandRepository, config.profileRepository);
+    const controller = new GetBand(config.bandRepository);
     const band = await controller.execute(path.id);
-    return new Success(band);
+    const presenter = new BandPresenter(config.profileRepository);
+    const presentedBand = await presenter.present(band);
+    return new Success(presentedBand);
   }
 
   static async removeMember(input: InputDTO): Promise<Success> {
