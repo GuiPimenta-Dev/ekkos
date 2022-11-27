@@ -84,3 +84,11 @@ test("It should be able to get a band", async () => {
   const response = await request(app).get(`/band/${bandId}`).set({ authorization });
   expect(response.statusCode).toBe(200);
 });
+
+test("It should be able to remove a member from a band", async () => {
+  const response = await request(app)
+    .post(`/band/${bandId}/removeMember`)
+    .send({ profileId: secondProfileId })
+    .set({ authorization });
+  expect(response.statusCode).toBe(200);
+});

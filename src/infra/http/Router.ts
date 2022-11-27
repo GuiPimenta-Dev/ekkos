@@ -23,5 +23,6 @@ app.delete("/video/:id/comment", verifyToken, verifyUser, ExpressAdapter.route(V
 app.post("/band", verifyToken, verifyUser, uploadFile.single("logo"), ExpressAdapter.route(BandController.create));
 app.post("/band/:id/addMember", verifyToken, verifyUser, ExpressAdapter.route(BandController.addMember));
 app.get("/band/:id", verifyToken, verifyUser, ExpressAdapter.route(BandController.get));
+app.post("/band/:id/removeMember", verifyToken, verifyUser, ExpressAdapter.route(BandController.removeMember));
 
 export default app;
