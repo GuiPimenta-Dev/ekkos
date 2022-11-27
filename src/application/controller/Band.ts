@@ -14,7 +14,7 @@ export default class BandController {
     const bandId = await controller.execute({
       name: body.name,
       description: body.description,
-      logo: file,
+      logo: file.location,
       adminId: headers.id,
       role: body.role,
     });
