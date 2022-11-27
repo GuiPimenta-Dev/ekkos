@@ -4,7 +4,7 @@ import CreateUser from "../../../src/usecase/user/CreateUser";
 import ExpressResponseFake from "../../utils/mocks/http/ExpressResponseFake";
 import LoginUser from "../../../src/usecase/user/LoginUser";
 import MemoryBroker from "../../utils/mocks/broker/MemoryBroker";
-import MemoryUserRepository from "../../utils/mocks/repository/MemoryUserRepository";
+import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
 import { config } from "../../../src/Config";
 
 let token: string;

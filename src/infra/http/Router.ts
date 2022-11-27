@@ -20,6 +20,7 @@ app.post(
   updateCoords,
   ExpressAdapter.route(ProfileController.unfollow)
 );
+app.post("/profile/match", verifyToken, verifyUser, updateCoords, ExpressAdapter.route(ProfileController.match));
 app.post(
   "/video",
   verifyToken,

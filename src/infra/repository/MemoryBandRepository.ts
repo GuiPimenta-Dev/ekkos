@@ -1,6 +1,6 @@
-import Band from "../../../../src/domain/entity/Band";
-import BandRepositoryInterface from "../../../../src/domain/infra/repository/BandRepository";
-import RoleDTO from "../../../../src/dto/RoleDTO";
+import Band from "../../domain/entity/Band";
+import BandRepositoryInterface from "../../domain/infra/repository/BandRepository";
+import RoleDTO from "../../dto/RoleDTO";
 
 export default class MemoryBandRepository implements BandRepositoryInterface {
   readonly bands: Band[] = [];

@@ -1,8 +1,8 @@
-import MemoryBandRepository from "../utils/mocks/repository/MemoryBandRepository";
+import MemoryBandRepository from "../../src/infra/repository/MemoryBandRepository";
 import MemoryBroker from "../utils/mocks/broker/MemoryBroker";
-import MemoryProfileRepository from "../utils/mocks/repository/MemoryProfileRepository";
-import MemoryUserRepository from "../utils/mocks/repository/MemoryUserRepository";
-import MemoryVideoRepository from "../utils/mocks/repository/MemoryVideoRepository";
+import MemoryProfileRepository from "../../src/infra/repository/MemoryProfileRepository";
+import MemoryUserRepository from "../../src/infra/repository/MemoryUserRepository";
+import MemoryVideoRepository from "../../src/infra/repository/MemoryVideoRepository";
 import StorageGatewayFake from "../utils/mocks/gateway/StorageGatewayFake";
 import app from "../../src/infra/http/Router";
 import jwt from "jsonwebtoken";
@@ -48,7 +48,7 @@ beforeAll(async () => {
     .field("password", password)
     .field("nick", "nick2")
     .attach("avatar", avatar)
-    .set({ authorization: `Bearer ${body.token}` });
+    .set({ authorization: `Bearer ${body.token}`, latitude: -22.90045, longitude: -43.11867 });
 });
 
 test("It should be able to create a profile", async () => {
@@ -79,4 +79,13 @@ test("It should be able to unfollow a profile", async () => {
   await request(app).post(`/profile/${id}/follow`).set({ authorization });
   const { statusCode } = await request(app).post(`/profile/${id}/unfollow`).set({ authorization });
   expect(statusCode).toBe(200);
+});
+
+test("It should be able to match a profile near 10 km from you", async () => {
+  const response = await request(app)
+    .post(`/profile/match`)
+    .send({ distance: 2 })
+    .set({ authorization, latitude: -22.90463, longitude: -43.1053 });
+  expect(response.statusCode).toBe(200);
+  expect(response.body.matches).toHaveLength(2);
 });

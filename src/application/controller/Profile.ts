@@ -6,6 +6,7 @@ import InputDTO from "../../dto/InputDTO";
 import Success from "../http/Success";
 import UnfollowProfile from "../../usecase/profile/UnfollowProfile";
 import { config } from "../../Config";
+import MatchProfiles from "../../usecase/profile/MatchProfiles";
 
 export default class ProfileController {
   static async create(input: InputDTO): Promise<Created> {
@@ -22,9 +23,9 @@ export default class ProfileController {
   }
 
   static async get(input: InputDTO): Promise<Success> {
-    const { path } = input;
+    const { headers } = input;
     const controller = new GetProfile(config.profileRepository, config.videoRepository, config.bandRepository);
-    const data = await controller.execute(path.id);
+    const data = await controller.execute(headers.id);
     return new Success(data);
   }
 
@@ -40,5 +41,12 @@ export default class ProfileController {
     const controller = new UnfollowProfile(config.profileRepository);
     await controller.execute(headers.id, path.id);
     return new Success();
+  }
+
+  static async match(input: InputDTO): Promise<Success> {
+    const { body, headers } = input;
+    const controller = new MatchProfiles(config.profileRepository);
+    const matches = await controller.execute(headers.id, body.distance);
+    return new Success({ matches });
   }
 }

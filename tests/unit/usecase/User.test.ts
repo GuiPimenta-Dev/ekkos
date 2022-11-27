@@ -3,7 +3,7 @@ import CreateUserHandler from "../../../src/application/handler/CreateUserHandle
 import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
 import LoginUser from "../../../src/usecase/user/LoginUser";
 import MemoryBroker from "../../utils/mocks/broker/MemoryBroker";
-import MemoryUserRepository from "../../utils/mocks/repository/MemoryUserRepository";
+import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
 import UserRepositoryInterface from "../../../src/domain/infra/repository/UserRepository";
 import jwt from "jsonwebtoken";
 

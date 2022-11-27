@@ -1,8 +1,13 @@
-import Profile from "../../../../src/domain/entity/Profile";
-import ProfileRepositoryInterface from "../../../../src/domain/infra/repository/ProfileRepository";
+import Profile from "../../domain/entity/Profile";
+import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
 
 export default class MemoryProfileRepository implements ProfileRepositoryInterface {
-  readonly profiles: Profile[] = [];
+  readonly profiles: Profile[] = [
+    new Profile("1", "user_1", "avatar", -22.90045, -43.11867, [], [], []),
+    new Profile("2", "user_2", "avatar", -22.93749, -43.17597, [], [], []),
+    new Profile("3", "user_3", "avatar", -22.8219, -43.03092, [], [], []),
+    new Profile("4", "user_4", "avatar", 40.71272, -74.00601, [], [], []),
+  ];
 
   async save(profile: Profile): Promise<void> {
     this.profiles.push(profile);

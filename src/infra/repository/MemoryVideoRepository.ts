@@ -1,6 +1,6 @@
-import Comment from "../../../../src/domain/entity/Comment";
-import Video from "../../../../src/domain/entity/Video";
-import VideoRepositoryInterface from "../../../../src/domain/infra/repository/VideoRepository";
+import Comment from "../../domain/entity/Comment";
+import Video from "../../domain/entity/Video";
+import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 
 export default class MemoryVideoRepository implements VideoRepositoryInterface {
   readonly videos: Video[] = [];

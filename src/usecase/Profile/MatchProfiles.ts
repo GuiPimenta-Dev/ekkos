@@ -1,28 +1,29 @@
 import Profile from "../../domain/entity/Profile";
 import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
 
-export default class MatchProfile {
+export default class MatchProfiles {
   constructor(private profileRepository: ProfileRepositoryInterface) {}
 
-  async execute(profileId: string, distance: number): Promise<Profile[]> {
-    const kmDistance = distance * 1000;
+  async execute(profileId: string, distance: number): Promise<{ profile: Profile; distance: number }[]> {
     const profile = await this.profileRepository.findProfileById(profileId);
     if (!profile) throw new Error("Profile not found");
     let profiles = await this.profileRepository.getAllProfiles();
     profiles = profiles.filter((profile) => profile.profileId !== profileId);
-    const matches = profiles.filter((match) => {
-      const distanceBetween = this.getDistanceFromLatLonInKm(
-        profile.latitude,
-        profile.longitude,
-        match.latitude,
-        match.longitude
-      );
-      return distanceBetween <= kmDistance;
-    });
+    const matches = profiles
+      .map((match) => {
+        const distanceBetween = this.getDistanceFromLatLonInKm(
+          match.latitude,
+          match.longitude,
+          profile.latitude,
+          profile.longitude
+        );
+        return distanceBetween <= distance ? { profile: match, distance: distanceBetween } : null;
+      })
+      .filter((match) => match !== null);
     return matches;
   }
 
-  private getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number) {
+  private getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
     if (lat1 == lat2 && lon1 == lon2) {
       return 0;
     } else {
@@ -38,7 +39,7 @@ export default class MatchProfile {
       dist = (dist * 180) / Math.PI;
       const degreesDistance = dist * 60 * 1.1515;
       const kmDistance = degreesDistance * 1.609344;
-      return kmDistance;
+      return parseFloat(kmDistance.toFixed(1));
     }
   }
 }

@@ -1,9 +1,9 @@
 import MemoryBroker from "../tests/utils/mocks/broker/MemoryBroker";
 import S3StorageGateway from "./infra/gateway/S3StorageGateway";
-import MemoryBandRepository from "../tests/utils/mocks/repository/MemoryBandRepository";
-import MemoryProfileRepository from "../tests/utils/mocks/repository/MemoryProfileRepository";
-import MemoryUserRepository from "../tests/utils/mocks/repository/MemoryUserRepository";
-import MemoryVideoRepository from "../tests/utils/mocks/repository/MemoryVideoRepository";
+import MemoryBandRepository from "./infra/repository/MemoryBandRepository";
+import MemoryProfileRepository from "./infra/repository/MemoryProfileRepository";
+import MemoryUserRepository from "./infra/repository/MemoryUserRepository";
+import MemoryVideoRepository from "./infra/repository/MemoryVideoRepository";
 
 export const config = {
   profileRepository: new MemoryProfileRepository(),
