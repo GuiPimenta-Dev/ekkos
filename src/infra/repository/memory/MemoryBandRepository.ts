@@ -1,10 +1,10 @@
 import Band from "../../../domain/entity/Band";
 import BandRepositoryInterface from "../../../domain/infra/repository/BandRepository";
-import Role from "../../../domain/entity/Role";
+import RoleDTO from "../../../dto/RoleDTO";
 
 export default class MemoryBandRepository implements BandRepositoryInterface {
   readonly bands: Band[] = [];
-  private roles: Role[] = [
+  private roles: RoleDTO[] = [
     { role: "vocalist", picture: "some mic picture" },
     { role: "guitarist", picture: "some guitar picture" },
     { role: "bassist", picture: "some bass picture" },
@@ -26,11 +26,15 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
     this.bands[index] = band;
   }
 
-  async findRoles(): Promise<Role[]> {
+  async findRoles(): Promise<RoleDTO[]> {
     return this.roles;
   }
 
   async findBandsByUserId(userId: string): Promise<Band[]> {
     return this.bands.filter((band) => band.getMembers().find((member) => member.userId === userId));
+  }
+
+  async isRoleValid(role: string): Promise<boolean> {
+    return this.roles.find((r) => r.role === role) !== undefined;
   }
 }

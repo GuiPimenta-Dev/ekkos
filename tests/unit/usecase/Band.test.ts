@@ -16,29 +16,46 @@ beforeEach(async () => {
   bandRepository = new MemoryBandRepository();
   profileRepository = new MemoryProfileRepository();
   const usecase = new CreateBand(bandRepository);
-  bandId = await usecase.execute({ name: "name", description: "description", logo: "logo", adminId: "adminId" });
+  bandId = await usecase.execute({
+    name: "name",
+    description: "description",
+    logo: "logo",
+    adminId: profileId,
+    role: "guitarist",
+  });
   await new CreateProfile(profileRepository).execute(profileId, "nick", "avatar");
+  await new CreateProfile(profileRepository).execute("secondProfile", "nick2", "avatar");
 });
 
 test("It should be able to create a band", async () => {
   const bandRepository = new MemoryBandRepository();
   const usecase = new CreateBand(bandRepository);
-  await usecase.execute({ name: "name", description: "description", logo: "logo", adminId: "adminId" });
+  await usecase.execute({
+    name: "name",
+    description: "description",
+    logo: "logo",
+    adminId: "adminId",
+    role: "guitarist",
+  });
   expect(bandRepository.bands).toHaveLength(1);
 });
 
+test("It should not be able to create a band with an invalid role", async () => {
+  const bandRepository = new MemoryBandRepository();
+  const usecase = new CreateBand(bandRepository);
+  expect(
+    usecase.execute({ name: "name", description: "description", logo: "logo", adminId: "adminId", role: "wrong_role" })
+  ).rejects.toThrow("Role is invalid");
+});
+
 test("It should be able to add a member", async () => {
-  const usecase = new AddMember(bandRepository, profileRepository);
-  const input = { bandId, adminId: "adminId", profileId, role: "guitarist" };
-  await usecase.execute(input);
   const band = await bandRepository.findBandById(bandId);
   expect(band.getMembers()).toHaveLength(1);
 });
 
 test("It should not be able to add the same member twice", async () => {
   const usecase = new AddMember(bandRepository, profileRepository);
-  const input = { bandId, adminId: "adminId", profileId: profileId, role: "guitarist" };
-  await usecase.execute(input);
+  const input = { bandId, adminId: profileId, profileId, role: "guitarist" };
   expect(usecase.execute(input)).rejects.toThrow("User already in band");
 });
 
@@ -63,20 +80,18 @@ test("It should not be able to add a member if member does not exists", async ()
 test("It should not be able to add a member if role does not exists", async () => {
   const usecase = new AddMember(bandRepository, profileRepository);
   const input = { bandId, adminId: "adminId", profileId, role: "guitaarist" };
-  expect(usecase.execute(input)).rejects.toThrow("Role not found");
+  expect(usecase.execute(input)).rejects.toThrow("Role is invalid");
 });
 
 test("It should be able to get a band", async () => {
-  const input = { bandId, adminId: "adminId", profileId, role: "guitarist" };
-  await new AddMember(bandRepository, profileRepository).execute(input);
   const usecase = new GetBand(bandRepository, profileRepository);
   const band = await usecase.execute(bandId);
   expect(band).toHaveProperty("bandId");
   expect(band.name).toBe("name");
   expect(band.logo).toBe("logo");
   expect(band.description).toBe("description");
-  expect(band.adminId).toBe("adminId");
-  expect(band.members).toEqual([{ userId: "profileId", nick: "nick", avatar: "avatar", role: "guitarist" }]);
+  expect(band.adminId).toBe(profileId);
+  expect(band.members).toEqual([{ userId: profileId, nick: "nick", avatar: "avatar", role: "guitarist" }]);
 });
 
 test("It should not be able to get a non-existent band", async () => {
@@ -85,17 +100,20 @@ test("It should not be able to get a non-existent band", async () => {
 });
 
 test("It should be able to remove a member", async () => {
-  const input = { bandId, adminId: "adminId", profileId, role: "guitarist" };
+  const input = { bandId, adminId: profileId, profileId: "secondProfile", role: "guitarist" };
   await new AddMember(bandRepository, profileRepository).execute(input);
   const usecase = new RemoveMember(bandRepository);
-  await usecase.execute(bandId, "adminId", profileId);
+  await usecase.execute(bandId, profileId, "secondProfile");
   const band = await bandRepository.findBandById(bandId);
-  expect(band.getMembers()).toHaveLength(0);
+  expect(band.getMembers()).toHaveLength(1);
+});
+
+test("The admin should not be able to leave", async () => {
+  const usecase = new RemoveMember(bandRepository);
+  expect(usecase.execute(bandId, profileId, profileId)).rejects.toThrow("Admin cannot leave the band");
 });
 
 test("It should not be able to remove a member if band does not exists", async () => {
-  const input = { bandId, adminId: "adminId", profileId, role: "guitarist" };
-  await new AddMember(bandRepository, profileRepository).execute(input);
   const usecase = new RemoveMember(bandRepository);
   expect(usecase.execute("bandId", "adminId", profileId)).rejects.toThrow("Band not found");
 });

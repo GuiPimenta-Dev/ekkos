@@ -1,10 +1,11 @@
 import Band from "../../entity/Band";
-import Role from "../../entity/Role";
+import RoleDTO from "../../../dto/RoleDTO";
 
 export default interface BandRepositoryInterface {
   save(band: Band): Promise<void>;
   findBandById(id: string): Promise<Band>;
   findBandsByUserId(userId: string): Promise<Band[]>;
-  findRoles(): Promise<Role[]>;
+  findRoles(): Promise<RoleDTO[]>;
   update(band: Band): Promise<void>;
+  isRoleValid(role: string): Promise<boolean>;
 }

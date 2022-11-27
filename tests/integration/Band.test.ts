@@ -5,7 +5,6 @@ import MemoryUserRepository from "../../src/infra/repository/memory/MemoryUserRe
 import MemoryVideoRepository from "../../src/infra/repository/memory/MemoryVideoRepository";
 import StorageGatewayFake from "../utils/mocks/StorageGatewayFake";
 import app from "../../src/infra/http/Router";
-import jwt from "jsonwebtoken";
 import request from "supertest";
 
 jest.mock("../../src/Config", () => ({
@@ -25,6 +24,7 @@ const password = "password";
 const avatar = "tests/utils/files/avatar.jpeg";
 let bandId: string;
 let profileId: string;
+let secondProfileId: string;
 beforeAll(async () => {
   let email = "email@test.com";
   const { body: userResponse } = await request(app).post("/user/create").send({ email, password });
@@ -38,8 +38,25 @@ beforeAll(async () => {
     .field("nick", "nick")
     .attach("avatar", avatar)
     .set({ authorization });
-  const { body } = await request(app).post("/band").field("name", "name").attach("logo", avatar).set({ authorization });
+  const { body } = await request(app)
+    .post("/band")
+    .field("name", "name")
+    .field("role", "guitarist")
+    .attach("logo", avatar)
+    .set({ authorization });
   bandId = body.bandId;
+  email = "random_email@gmail.com";
+  const { body: secondBody } = await request(app).post("/user/create").send({ email, password });
+  secondProfileId = secondBody.userId;
+  const secondUserLogin = await request(app).post("/user/login").send({ email, password });
+  const secondUser = `Bearer ${secondUserLogin.body.token}`;
+  await request(app)
+    .post("/profile")
+    .field("email", email)
+    .field("password", password)
+    .field("nick", "nick2")
+    .attach("avatar", avatar)
+    .set({ authorization: secondUser });
 });
 
 test("It should be able to create a band", async () => {
@@ -47,6 +64,7 @@ test("It should be able to create a band", async () => {
     .post("/band")
     .field("name", "name")
     .field("description", "description")
+    .field("role", "guitarist")
     .attach("logo", avatar)
     .set({ authorization });
   expect(response.statusCode).toBe(201);
@@ -56,7 +74,7 @@ test("It should be able to create a band", async () => {
 test("It should be able to add a member to a band", async () => {
   const response = await request(app)
     .post(`/band/${bandId}/addMember`)
-    .send({ profileId, role: "guitarist" })
+    .send({ profileId: secondProfileId, role: "guitarist" })
     .set({ authorization });
   expect(response.statusCode).toBe(200);
 });

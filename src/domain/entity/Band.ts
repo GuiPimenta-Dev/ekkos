@@ -20,6 +20,7 @@ export default class Band {
 
   removeMember(adminId: string, profileId: string): void {
     this.verifyAdmin(adminId);
+    if (adminId === profileId) throw new BadRequest("Admin cannot leave the band");
     this.members = this.members.filter((m) => m.userId !== profileId);
   }
 

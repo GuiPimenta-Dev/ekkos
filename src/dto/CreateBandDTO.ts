@@ -3,4 +3,5 @@ export default interface CreateBandDTO {
   name: string;
   description: string;
   logo: string;
+  role: string;
 }

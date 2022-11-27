@@ -15,6 +15,7 @@ export default class BandController {
       description: body.description,
       logo: file,
       adminId: headers.id,
+      role: body.role,
     });
     return new Created({ bandId });
   }
