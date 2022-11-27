@@ -54,39 +54,9 @@ test("It should be able to get a profile", async () => {
   expect(profile.following).toBe(0);
 });
 
-test("It should be able to follow a profile", async () => {
-  const usecase = new FollowProfile(profileRepository);
-  await usecase.execute("id", "id2");
-  const follower = await profileRepository.findProfileById("id");
-  const followee = await profileRepository.findProfileById("id2");
-  expect(follower.following).toContain(followee.userId);
-  expect(followee.followers).toContain(follower.userId);
-});
-
-test("It should not be able to follow yourself", async () => {
-  const usecase = new FollowProfile(profileRepository);
-  await expect(usecase.execute("id", "id")).rejects.toThrow("You can't follow yourself");
-});
-
 test("It should not be able to follow an inexistent id", async () => {
   const usecase = new FollowProfile(profileRepository);
   await expect(usecase.execute("id", "randomId")).rejects.toThrow("Profile not found");
-});
-
-test("It should be able to unfollow a profile", async () => {
-  const usecase = new FollowProfile(profileRepository);
-  await usecase.execute("id", "id2");
-  const unfollowProfileUseCase = new UnfollowProfile(profileRepository);
-  await unfollowProfileUseCase.execute("id", "id2");
-  const follower = await profileRepository.findProfileById("id");
-  const followee = await profileRepository.findProfileById("id2");
-  expect(follower.following).toHaveLength(0);
-  expect(followee.followers).toHaveLength(0);
-});
-
-test("It should not be able to follow yourself", async () => {
-  const usecase = new UnfollowProfile(profileRepository);
-  await expect(usecase.execute("id", "id")).rejects.toThrow("You can't unfollow yourself");
 });
 
 test("It should not be able to follow an inexistent id", async () => {

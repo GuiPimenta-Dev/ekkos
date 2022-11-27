@@ -1,19 +1,16 @@
 import BadRequest from "../../application/http/BadRequest";
 import NotFound from "../../application/http/NotFound";
 import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
+import ProfileService from "../../domain/service/Profile";
 
 export default class UnfollowProfile {
   constructor(private profileRepository: ProfileRepositoryInterface) {}
 
   async execute(unfollowerId: string, unfolloweeId: string) {
-    if (unfollowerId === unfolloweeId) throw new BadRequest("You can't unfollow yourself");
     const unfollower = await this.profileRepository.findProfileById(unfollowerId);
     const unfollowee = await this.profileRepository.findProfileById(unfolloweeId);
-    if (!unfollower || !unfollowee) throw new NotFound("Profile not found");
-    const unfollowerIndex = unfollower.following.indexOf(unfollowee.userId);
-    const unfolloweeIndex = unfollowee.followers.indexOf(unfollower.userId);
-    unfollower.following.splice(unfollowerIndex, 1);
-    unfollowee.followers.splice(unfolloweeIndex, 1);
+    if (!unfollowee) throw new NotFound("Profile not found");
+    ProfileService.unfollow(unfollower, unfollowee);
     await this.profileRepository.update(unfollower);
     await this.profileRepository.update(unfollowee);
   }

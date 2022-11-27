@@ -16,8 +16,8 @@ export default class GetProfile {
     return {
       nick: profile.nick,
       avatar: profile.avatar,
-      followers: profile.followers.length,
-      following: profile.following.length,
+      followers: profile.getFollowers(),
+      following: profile.getFollowing(),
       videos: videos.map((video) => ({
         videoId: video.videoId,
         title: video.title,
