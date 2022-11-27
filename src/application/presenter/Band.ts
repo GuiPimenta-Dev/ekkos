@@ -11,9 +11,9 @@ export default class BandPresenter {
       description: band.description,
       members: await Promise.all(
         band.getMembers().map(async (member) => {
-          const profile = await this.profileRepository.findProfileById(member.userId);
+          const profile = await this.profileRepository.findProfileById(member.profileId);
           return {
-            userId: member.userId,
+            profileId: member.profileId,
             nick: profile.nick,
             avatar: profile.avatar,
             role: member.role,

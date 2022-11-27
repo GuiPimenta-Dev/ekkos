@@ -6,10 +6,10 @@ import { v4 as uuid } from "uuid";
 export default class CommentVideo {
   constructor(private videoRepository: VideoRepositoryInterface) {}
 
-  async execute(userId: string, videoId: string, text: string): Promise<string> {
+  async execute(profileId: string, videoId: string, text: string): Promise<string> {
     const video = await this.videoRepository.findVideoById(videoId);
     if (!video) throw new NotFound("Video not found");
-    const comment = new Comment(uuid(), video.videoId, userId, text);
+    const comment = new Comment(uuid(), video.videoId, profileId, text);
     video.comment(comment);
     await this.videoRepository.update(video);
     return comment.commentId;

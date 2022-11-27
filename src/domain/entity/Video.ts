@@ -5,7 +5,7 @@ import Forbidden from "../../application/http/Forbidden";
 export default class Video {
   constructor(
     readonly videoId: string,
-    readonly userId: string,
+    readonly profileId: string,
     readonly title: string,
     readonly description: string,
     readonly url: string,
@@ -13,23 +13,23 @@ export default class Video {
     private comments: Comment[] = []
   ) {}
 
-  like(userId: string): void {
-    if (this.likes.includes(userId)) throw new BadRequest("User already liked this video");
-    this.likes.push(userId);
+  like(profileId: string): void {
+    if (this.likes.includes(profileId)) throw new BadRequest("User already liked this video");
+    this.likes.push(profileId);
   }
 
-  unlike(userId: string): void {
-    if (!this.likes.includes(userId)) throw new BadRequest("User did not like this video");
-    this.likes = this.likes.filter((id) => id !== userId);
+  unlike(profileId: string): void {
+    if (!this.likes.includes(profileId)) throw new BadRequest("User did not like this video");
+    this.likes = this.likes.filter((id) => id !== profileId);
   }
 
   comment(comment: Comment): void {
     this.comments.push(comment);
   }
 
-  deleteComment(userId: string, commentId: string): void {
+  deleteComment(profileId: string, commentId: string): void {
     const comment = this.comments.find((comment) => comment.commentId === commentId);
-    if (comment.userId !== userId) throw new Forbidden("You can't delete this comment");
+    if (comment.profileId !== profileId) throw new Forbidden("You can't delete this comment");
     this.comments = this.comments.filter((comment) => comment.commentId !== commentId);
   }
 

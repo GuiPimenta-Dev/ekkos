@@ -3,14 +3,16 @@ import Video from "../../domain/entity/Video";
 import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 
 export default class MemoryVideoRepository implements VideoRepositoryInterface {
-  readonly videos: Video[] = [];
+  readonly videos: Video[] = [
+    new Video("videoId", "1", "title", "description", "url", ["2"], [new Comment("commentId", "videoId", "1", "text")]),
+  ];
 
   async save(video: Video): Promise<void> {
     this.videos.push(video);
   }
 
-  async findVideosByUserId(userId: string): Promise<Video[]> {
-    return this.videos.filter((video) => video.userId === userId);
+  async findVideosByProfileId(profileId: string): Promise<Video[]> {
+    return this.videos.filter((video) => video.profileId === profileId);
   }
 
   async findVideoById(id: string): Promise<Video> {

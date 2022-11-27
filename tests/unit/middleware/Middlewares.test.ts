@@ -58,7 +58,7 @@ test("Must throw an error if user is not found", async () => {
 });
 
 test("Must throw an error if profile is not found", async () => {
-  await config.userRepository.save({ id: "id", email: "email", password: "password" });
+  await config.userRepository.save({ userId: "id", email: "email", password: "password" });
   const req = { headers: { id: "id" } };
   await verifyUser(req, res, next);
   config.userRepository = new MemoryUserRepository();

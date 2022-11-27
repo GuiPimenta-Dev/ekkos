@@ -18,46 +18,48 @@ jest.mock("../../src/Config", () => ({
 }));
 
 let authorization: string;
-let videoId: string;
+const videoId = "videoId";
 
 const video = "tests/utils/files/video.mp4";
-const avatar = "tests/utils/files/avatar.jpeg";
 
 beforeAll(async () => {
-  const email = "email@gmail.com";
+  const email = "email@test.com";
   const password = "123456";
-  await request(app).post("/user/create").send({ email, password });
-  const response = await request(app).post("/user/login").send({ email, password });
-  authorization = `Bearer ${response.body.token}`;
-  await request(app)
-    .post("/profile")
-    .field("email", email)
-    .field("password", password)
-    .field("nick", "nick")
-    .attach("avatar", avatar)
-    .set({ authorization });
-  const { body } = await request(app)
-    .post("/video")
-    .field("title", "title")
-    .field("description", "description")
-    .attach("video", video)
-    .set({ authorization });
-  videoId = body.videoId;
+  const { body } = await request(app).post("/user/login").send({ email, password });
+  authorization = `Bearer ${body.token}`;
 });
 
 test("It should be able to post a video", async () => {
-  const { statusCode } = await request(app)
+  const response = await request(app)
     .post("/video")
     .field("title", "title")
     .field("description", "description")
     .attach("video", video)
     .set({ authorization });
-  expect(statusCode).toBe(200);
+  expect(response.statusCode).toBe(200);
+  expect(response.body).toHaveProperty("videoId");
 });
 
 test("It should be able to get a video", async () => {
-  const { statusCode } = await request(app).get(`/video/${videoId}`).set({ authorization });
-  expect(statusCode).toBe(200);
+  const response = await request(app).get(`/video/${videoId}`).set({ authorization });
+  expect(response.statusCode).toBe(200);
+  expect(response.body).toEqual({
+    videoId: "videoId",
+    profileId: "1",
+    title: "title",
+    description: "description",
+    url: "url",
+    likes: 1,
+    comments: [
+      {
+        commentId: "commentId",
+        profileId: "1",
+        nick: "user_1",
+        avatar: "avatar",
+        text: "text",
+      },
+    ],
+  });
 });
 
 test("It should be able to like a video", async () => {

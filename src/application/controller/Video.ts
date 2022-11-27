@@ -11,7 +11,7 @@ import { config } from "../../Config";
 export default class VideoController {
   static async post(input: InputDTO): Promise<Success> {
     const { body, headers, file } = input;
-    const data = { userId: headers.id, title: body.title, description: body.description, url: file.location };
+    const data = { profileId: headers.id, title: body.title, description: body.description, url: file.location };
     const controller = new PostVideo(config.videoRepository);
     const videoId = await controller.execute(data);
     return new Success({ videoId });

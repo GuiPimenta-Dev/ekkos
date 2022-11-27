@@ -20,43 +20,15 @@ jest.mock("../../src/Config", () => ({
 }));
 
 let authorization: string;
-const password = "password";
+
 const avatar = "tests/utils/files/avatar.jpeg";
-let bandId: string;
-let profileId: string;
-let secondProfileId: string;
+const bandId = "bandId";
+
 beforeAll(async () => {
-  let email = "email@test.com";
-  const { body: userResponse } = await request(app).post("/user/create").send({ email, password });
-  profileId = userResponse.userId;
-  const response = await request(app).post("/user/login").send({ email, password });
-  authorization = `Bearer ${response.body.token}`;
-  await request(app)
-    .post("/profile")
-    .field("email", email)
-    .field("password", password)
-    .field("nick", "nick")
-    .attach("avatar", avatar)
-    .set({ authorization });
-  const { body } = await request(app)
-    .post("/band")
-    .field("name", "name")
-    .field("role", "guitarist")
-    .attach("logo", avatar)
-    .set({ authorization });
-  bandId = body.bandId;
-  email = "random_email@gmail.com";
-  const { body: secondBody } = await request(app).post("/user/create").send({ email, password });
-  secondProfileId = secondBody.userId;
-  const secondUserLogin = await request(app).post("/user/login").send({ email, password });
-  const secondUser = `Bearer ${secondUserLogin.body.token}`;
-  await request(app)
-    .post("/profile")
-    .field("email", email)
-    .field("password", password)
-    .field("nick", "nick2")
-    .attach("avatar", avatar)
-    .set({ authorization: secondUser });
+  const email = "email@test.com";
+  const password = "123456";
+  const { body } = await request(app).post("/user/login").send({ email, password });
+  authorization = `Bearer ${body.token}`;
 });
 
 test("It should be able to create a band", async () => {
@@ -71,24 +43,36 @@ test("It should be able to create a band", async () => {
   expect(response.body).toHaveProperty("bandId");
 });
 
+test("It should be able to get a band", async () => {
+  const response = await request(app).get(`/band/${bandId}`).set({ authorization });
+  expect(response.statusCode).toBe(200);
+  expect(response.body).toEqual({
+    bandId: "bandId",
+    name: "name",
+    description: "description",
+    members: [
+      {
+        profileId: "1",
+        nick: "user_1",
+        avatar: "avatar",
+        role: "guitarist",
+      },
+    ],
+  });
+});
+
 test("It should be able to add a member to a band", async () => {
   const response = await request(app)
     .post(`/band/${bandId}/addMember`)
-    .send({ profileId: secondProfileId, role: "guitarist" })
+    .send({ profileId: "2", role: "guitarist" })
     .set({ authorization });
-  expect(response.statusCode).toBe(200);
-});
-
-test("It should be able to get a band", async () => {
-  await request(app).post(`/band/${bandId}/addMember`).send({ profileId, role: "guitarist" }).set({ authorization });
-  const response = await request(app).get(`/band/${bandId}`).set({ authorization });
   expect(response.statusCode).toBe(200);
 });
 
 test("It should be able to remove a member from a band", async () => {
   const response = await request(app)
     .post(`/band/${bandId}/removeMember`)
-    .send({ profileId: secondProfileId })
+    .send({ profileId: 2 })
     .set({ authorization });
   expect(response.statusCode).toBe(200);
 });

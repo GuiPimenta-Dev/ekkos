@@ -1,5 +1,5 @@
 export default interface PostVideoDTO {
-  userId: string;
+  profileId: string;
   title: string;
   description: string;
   url: string;

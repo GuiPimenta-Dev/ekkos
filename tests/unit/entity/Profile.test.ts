@@ -14,9 +14,22 @@ test("It should not be able to follow yourself", async () => {
   expect(() => ProfileService.follow(profile, profile)).toThrow("You can't follow yourself");
 });
 
+test("It should not be able to follow someone you are already following", async () => {
+  const follower = new Profile("follower", "nick", "avatar", 1, 1, [], []);
+  const followee = new Profile("following", "nick", "avatar", 1, 1, [], []);
+  ProfileService.follow(follower, followee);
+  expect(() => ProfileService.follow(follower, followee)).toThrow("You are already following this profile");
+});
+
 test("It should not be able to unfollow yourself", async () => {
   const profile = new Profile("id", "nick", "avatar", 1, 1, [], []);
   expect(() => ProfileService.unfollow(profile, profile)).toThrow("You can't unfollow yourself");
+});
+
+test("It should not be able to unfollow someone you are not following", async () => {
+  const follower = new Profile("follower", "nick", "avatar", 1, 1, [], []);
+  const followee = new Profile("following", "nick", "avatar", 1, 1, [], []);
+  expect(() => ProfileService.unfollow(follower, followee)).toThrow("You are not following this profile");
 });
 
 test("It should be able to unfollow a profile", async () => {

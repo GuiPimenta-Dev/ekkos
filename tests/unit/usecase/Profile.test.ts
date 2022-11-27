@@ -12,10 +12,8 @@ import MatchProfiles from "../../../src/usecase/profile/MatchProfiles";
 
 let profileRepository: ProfileRepositoryInterface;
 const input = { profileId: "id", nick: "nick", avatar: "avatar", latitude: -22.90463, longitude: -43.1053 };
-let initialProfiles: number;
 beforeEach(async () => {
   profileRepository = new MemoryProfileRepository();
-  initialProfiles = await profileRepository.getAllProfiles().then((profiles) => profiles.length);
   const usecase = new CreateProfile(profileRepository);
   await usecase.execute(input);
   await usecase.execute({
@@ -31,7 +29,7 @@ test("It should be able to create a profile", async () => {
   const profileRepository = new MemoryProfileRepository();
   const usecase = new CreateProfile(profileRepository);
   await usecase.execute(input);
-  expect(profileRepository.profiles).toHaveLength(initialProfiles + 1);
+  expect(profileRepository.profiles).toHaveLength(5);
 });
 
 test("It should not be able to create a profile if it already exists", async () => {
@@ -40,26 +38,14 @@ test("It should not be able to create a profile if it already exists", async () 
 });
 
 test("It should be able to get a profile", async () => {
-  const videoRepository = new MemoryVideoRepository();
-  const bandRepository = new MemoryBandRepository();
-  await new PostVideo(videoRepository).execute({
-    userId: "id",
-    title: "title",
-    description: "description",
-    url: "url",
-  });
-  await new CreateBand(bandRepository).execute({
-    adminId: "id",
-    name: "name",
-    description: "description",
-    logo: "logo",
-    role: "guitarist",
-  });
   const usecase = new GetProfile(profileRepository);
   const profile = await usecase.execute("id");
-  expect(profile.avatar).toBe("avatar");
-  expect(profile.followers).toEqual([]);
-  expect(profile.following).toEqual([]);
+  expect(profile).toBeDefined();
+});
+
+test("It should not be able to get a profile that does not exist", async () => {
+  const usecase = new GetProfile(profileRepository);
+  await expect(usecase.execute("id3")).rejects.toThrow("Profile not found");
 });
 
 test("It should not be able to follow an inexistent id", async () => {
@@ -82,4 +68,32 @@ test("It should not be able to match a profile that is far away from you 0.5km a
   const usecase = new MatchProfiles(profileRepository);
   const profiles = await usecase.execute("id", 0.5);
   expect(profiles).toHaveLength(0);
+});
+
+test("It should not be able to match profile if id dont exist", async () => {
+  const usecase = new MatchProfiles(profileRepository);
+  await expect(usecase.execute("id3", 3)).rejects.toThrow("Profile not found");
+});
+
+test("It should return distance 0 if profile is the same", async () => {
+  await new CreateProfile(profileRepository).execute({
+    profileId: "id3",
+    nick: "nick3",
+    avatar: "avatar",
+    latitude: -22.90463,
+    longitude: -43.1053,
+  });
+  const usecase = new MatchProfiles(profileRepository);
+  const profiles = await usecase.execute("id", 1);
+  expect(profiles[0].distance).toBe(0);
+});
+
+test("It should consider distance as 1 if dist is higher than 1 when calculating distance", async () => {
+  const mockMath = Object.create(global.Math);
+  mockMath.cos = () => 1;
+  mockMath.sin = () => 1;
+  global.Math = mockMath;
+  const usecase = new MatchProfiles(profileRepository);
+  const profiles = await usecase.execute("id", 1);
+  expect(profiles).toBeDefined();
 });

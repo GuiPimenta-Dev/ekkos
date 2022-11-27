@@ -4,10 +4,10 @@ import VideoRepositoryInterface from "../../domain/infra/repository/VideoReposit
 export default class UnlikeVideo {
   constructor(private videoRepository: VideoRepositoryInterface) {}
 
-  async execute(userId: string, videoId: string): Promise<void> {
+  async execute(profileId: string, videoId: string): Promise<void> {
     const video = await this.videoRepository.findVideoById(videoId);
     if (!video) throw new NotFound("Video not found");
-    video.unlike(userId);
+    video.unlike(profileId);
     await this.videoRepository.update(video);
   }
 }
