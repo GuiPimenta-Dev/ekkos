@@ -1,10 +1,10 @@
 import { verifyToken, verifyUser } from "../../../src/application/middleware/Middlewares";
 
 import CreateUser from "../../../src/usecase/user/CreateUser";
-import ExpressResponseFake from "../../utils/mocks/ExpressResponseFake";
+import ExpressResponseFake from "../../utils/mocks/http/ExpressResponseFake";
 import LoginUser from "../../../src/usecase/user/LoginUser";
-import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
-import MemoryUserRepository from "../../../src/infra/repository/memory/MemoryUserRepository";
+import MemoryBroker from "../../utils/mocks/broker/MemoryBroker";
+import MemoryUserRepository from "../../utils/mocks/repository/MemoryUserRepository";
 import { config } from "../../../src/Config";
 
 let token: string;

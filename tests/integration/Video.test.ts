@@ -1,8 +1,8 @@
-import MemoryBroker from "../../src/infra/broker/MemoryBroker";
-import MemoryProfileRepository from "../../src/infra/repository/memory/MemoryProfileRepository";
-import MemoryUserRepository from "../../src/infra/repository/memory/MemoryUserRepository";
-import MemoryVideoRepository from "../../src/infra/repository/memory/MemoryVideoRepository";
-import StorageGatewayFake from "../utils/mocks/StorageGatewayFake";
+import MemoryBroker from "../utils/mocks/broker/MemoryBroker";
+import MemoryProfileRepository from "../utils/mocks/repository/MemoryProfileRepository";
+import MemoryUserRepository from "../utils/mocks/repository/MemoryUserRepository";
+import MemoryVideoRepository from "../utils/mocks/repository/MemoryVideoRepository";
+import StorageGatewayFake from "../utils/mocks/gateway/StorageGatewayFake";
 import app from "../../src/infra/http/Router";
 import request from "supertest";
 

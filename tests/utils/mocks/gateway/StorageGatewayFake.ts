@@ -1,4 +1,4 @@
-import StorageGatewayInterface from "../../../src/domain/infra/gateway/StorageGateway";
+import StorageGatewayInterface from "../../../../src/domain/infra/gateway/StorageGateway";
 import crypto from "crypto";
 import multer from "multer";
 

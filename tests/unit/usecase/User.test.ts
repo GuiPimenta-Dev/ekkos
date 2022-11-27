@@ -1,9 +1,9 @@
 import CreateUser from "../../../src/usecase/user/CreateUser";
 import CreateUserHandler from "../../../src/application/handler/CreateUserHandler";
-import EmailGatewayFake from "../../utils/mocks/EmailGatewayFake";
+import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
 import LoginUser from "../../../src/usecase/user/LoginUser";
-import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
-import MemoryUserRepository from "../../../src/infra/repository/memory/MemoryUserRepository";
+import MemoryBroker from "../../utils/mocks/broker/MemoryBroker";
+import MemoryUserRepository from "../../utils/mocks/repository/MemoryUserRepository";
 import UserRepositoryInterface from "../../../src/domain/infra/repository/UserRepository";
 import jwt from "jsonwebtoken";
 
