@@ -51,12 +51,12 @@ export default class ProfileController {
     const controller = new MatchProfiles(config.profileRepository);
     const matches = await controller.execute(headers.id, body.distance);
     const presenter = new ProfilePresenter(config.videoRepository, config.bandRepository);
-    const presentedMatches = await Promise.all(
+    const data = await Promise.all(
       matches.map(async (match) => {
         const profile = await presenter.present(match.profile);
         return { profile, distance: match.distance };
       })
     );
-    return new Success({ matches: presentedMatches });
+    return new Success({ matches: data });
   }
 }

@@ -7,6 +7,7 @@ import PostVideo from "../../usecase/video/PostVideo";
 import Success from "../http/Success";
 import UnlikeVideo from "../../usecase/video/UnlikeVideo";
 import { config } from "../../Config";
+import VideoPresenter from "../presenter/Video";
 
 export default class VideoController {
   static async post(input: InputDTO): Promise<Success> {
@@ -19,8 +20,10 @@ export default class VideoController {
 
   static async get(input: InputDTO): Promise<Success> {
     const { path } = input;
-    const controller = new GetVideo(config.videoRepository, config.profileRepository);
-    const data = await controller.execute(path.id);
+    const controller = new GetVideo(config.videoRepository);
+    const video = await controller.execute(path.id);
+    const presenter = new VideoPresenter(config.profileRepository);
+    const data = await presenter.present(video);
     return new Success(data);
   }
 

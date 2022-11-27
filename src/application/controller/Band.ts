@@ -34,8 +34,8 @@ export default class BandController {
     const controller = new GetBand(config.bandRepository);
     const band = await controller.execute(path.id);
     const presenter = new BandPresenter(config.profileRepository);
-    const presentedBand = await presenter.present(band);
-    return new Success(presentedBand);
+    const data = await presenter.present(band);
+    return new Success(data);
   }
 
   static async removeMember(input: InputDTO): Promise<Success> {
