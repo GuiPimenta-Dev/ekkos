@@ -27,8 +27,13 @@ export default class BandController {
   static async inviteMember(input: InputDTO): Promise<Success> {
     const { body, headers, path } = input;
     const controller = new InviteMember(config.bandRepository, config.profileRepository, config.broker);
-    await controller.execute({ bandId: path.id, adminId: headers.id, profileId: body.profileId, role: body.role });
-    return new Success();
+    const invitationId = await controller.execute({
+      bandId: path.id,
+      adminId: headers.id,
+      profileId: body.profileId,
+      role: body.role,
+    });
+    return new Success({ invitationId });
   }
 
   static async acceptInvitation(input: InputDTO): Promise<Success> {

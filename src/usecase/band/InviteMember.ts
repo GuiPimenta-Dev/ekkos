@@ -22,16 +22,21 @@ export default class InviteMember {
     if (!profile) throw new NotFound("Profile not found");
     const isRoleValid = await this.bandRepository.isRoleValid(input.role);
     if (!isRoleValid) throw new Forbidden("Role is invalid");
-    const invitationId = uuid();
-    const invitation = {
-      invitationId,
-      bandId: input.bandId,
-      profileId: input.profileId,
-      role: input.role,
-      status: Status.pending,
-    };
-    await this.bandRepository.createInvitation(invitation);
-    await this.broker.publish(new MemberInvitedEvent(input.profileId, band.name, input.role));
-    return invitationId;
+    if (input.adminId === input.profileId) {
+      band.addMember({ profileId: input.profileId, bandId: input.bandId, role: input.role });
+      await this.bandRepository.update(band);
+    } else {
+      const invitationId = uuid();
+      const invitation = {
+        invitationId,
+        bandId: input.bandId,
+        profileId: input.profileId,
+        role: input.role,
+        status: Status.pending,
+      };
+      await this.bandRepository.createInvitation(invitation);
+      await this.broker.publish(new MemberInvitedEvent(input.profileId, band.name, input.role));
+      return invitationId;
+    }
   }
 }

@@ -62,6 +62,14 @@ describe("InviteMember", () => {
     expect(invitation.status).toBe("pending");
   });
 
+  test("It should directly add the member if it is the adminId choosing a second role", async () => {
+    const usecase = new InviteMember(bandRepository, profileRepository, broker);
+    const input = { bandId, profileId: "1", adminId: "1", role: "guitarist" };
+    await usecase.execute(input);
+    const band = await bandRepository.findBandById(bandId);
+    expect(band.getMembers()).toHaveLength(3);
+  });
+
   test("An email should be sent after inviting a member", async () => {
     const userRepository = new MemoryUserRepository();
     const broker = new MemoryBroker();
