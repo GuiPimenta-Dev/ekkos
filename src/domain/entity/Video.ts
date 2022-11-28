@@ -1,6 +1,6 @@
 import BadRequest from "../../application/http/BadRequest";
-import Comment from "./Comment";
 import Forbidden from "../../application/http/Forbidden";
+import CommentDTO from "../../dto/CommentDTO";
 
 export default class Video {
   constructor(
@@ -10,7 +10,7 @@ export default class Video {
     readonly description: string,
     readonly url: string,
     private likes: string[] = [],
-    private comments: Comment[] = []
+    private comments: CommentDTO[] = []
   ) {}
 
   like(profileId: string): void {
@@ -23,7 +23,7 @@ export default class Video {
     this.likes = this.likes.filter((id) => id !== profileId);
   }
 
-  comment(comment: Comment): void {
+  comment(comment: CommentDTO): void {
     this.comments.push(comment);
   }
 
@@ -37,7 +37,7 @@ export default class Video {
     return this.likes;
   }
 
-  getComments(): Comment[] {
+  getComments(): CommentDTO[] {
     return this.comments;
   }
 }

@@ -1,5 +1,5 @@
 import HandlerInterface from "../../../../src/application/handler/implements/Handler";
-import DomainEvent from "../../../../src/domain/event/implements/DomainEvent";
+import Event from "../../../../src/domain/event/implements/Event";
 import BrokerInterface from "../../../../src/domain/infra/broker/Broker";
 
 export default class MemoryBroker implements BrokerInterface {
@@ -13,7 +13,7 @@ export default class MemoryBroker implements BrokerInterface {
     this.handlers.push(handler);
   }
 
-  publish(event: DomainEvent) {
+  publish(event: Event) {
     for (const handler of this.handlers) {
       if (handler.name === event.name) {
         handler.handle(event);

@@ -3,19 +3,14 @@ import CreateProfile from "../../../src/usecase/profile/CreateProfile";
 import DeleteComment from "../../../src/usecase/video/DeleteComment";
 import GetVideo from "../../../src/usecase/video/GetVideo";
 import LikeVideo from "../../../src/usecase/video/LikeVideo";
-import MemoryProfileRepository from "../../../src/infra/repository/MemoryProfileRepository";
 import MemoryVideoRepository from "../../../src/infra/repository/MemoryVideoRepository";
 import PostVideo from "../../../src/usecase/video/PostVideo";
-import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
 import UnlikeVideo from "../../../src/usecase/video/UnlikeVideo";
 import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepository";
 
 let videoRepository: VideoRepositoryInterface;
-let profileRepository: ProfileRepositoryInterface;
-let videoId: string;
 
 beforeEach(async () => {
-  profileRepository = new MemoryProfileRepository();
   videoRepository = new MemoryVideoRepository();
 });
 

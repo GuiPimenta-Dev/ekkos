@@ -4,7 +4,7 @@ import BandRepositoryInterface from "../../domain/infra/repository/BandRepositor
 import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
 import AddMemberDTO from "../../dto/AddMemberDTO";
 
-export default class AddMember {
+export default class InviteMember {
   constructor(
     private readonly bandRepository: BandRepositoryInterface,
     private profileRepository: ProfileRepositoryInterface

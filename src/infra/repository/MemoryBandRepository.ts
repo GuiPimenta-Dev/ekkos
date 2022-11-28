@@ -1,6 +1,7 @@
 import Band from "../../domain/entity/Band";
 import Member from "../../domain/entity/Member";
 import BandRepositoryInterface from "../../domain/infra/repository/BandRepository";
+import { InvitationDTO, Status } from "../../dto/InvitationDTO";
 import RoleDTO from "../../dto/RoleDTO";
 
 export default class MemoryBandRepository implements BandRepositoryInterface {
@@ -15,6 +16,11 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
     { role: "drummer", picture: "some drum picture" },
     { role: "keyboard", picture: "some keyboard picture" },
     { role: "manager", picture: "some manager picture" },
+  ];
+
+  private invitations: InvitationDTO[] = [
+    { invitationId: "1", bandId: "bandId", profileId: "1", role: "guitarist", status: Status.pending },
+    { invitationId: "2", bandId: "bandId", profileId: "1", role: "bassist", status: Status.pending },
   ];
 
   async save(band: Band): Promise<void> {
@@ -40,5 +46,9 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
 
   async isRoleValid(role: string): Promise<boolean> {
     return this.roles.find((r) => r.role === role) !== undefined;
+  }
+
+  async createInvitation(invitation: InvitationDTO): Promise<void> {
+    this.invitations.push(invitation);
   }
 }

@@ -1,6 +1,6 @@
-import DomainEvent from "../../../domain/event/implements/DomainEvent";
+import Event from "../../../domain/event/implements/Event";
 
 export default interface HandlerInterface {
   name: string;
-  handle(event: DomainEvent): void;
+  handle(event: Event): void;
 }

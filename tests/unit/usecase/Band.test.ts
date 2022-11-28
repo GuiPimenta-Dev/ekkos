@@ -2,7 +2,7 @@ import BandRepositoryInterface from "../../../src/domain/infra/repository/BandRe
 import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
 import MemoryBandRepository from "../../../src/infra/repository/MemoryBandRepository";
 import MemoryProfileRepository from "../../../src/infra/repository/MemoryProfileRepository";
-import AddMember from "../../../src/usecase/band/AddMember";
+import InviteMember from "../../../src/usecase/band/InviteMember";
 import CreateBand from "../../../src/usecase/band/CreateBand";
 import GetBand from "../../../src/usecase/band/GetBand";
 import RemoveMember from "../../../src/usecase/band/RemoveMember";
@@ -40,7 +40,7 @@ test("It should not be able to create a band with an invalid role", async () => 
 });
 
 test("It should be able to add a member", async () => {
-  const usecase = new AddMember(bandRepository, profileRepository);
+  const usecase = new InviteMember(bandRepository, profileRepository);
   const input = { bandId, profileId: "2", adminId: "1", role: "guitarist" };
   await usecase.execute(input);
   const band = await bandRepository.findBandById(bandId);
@@ -48,19 +48,19 @@ test("It should be able to add a member", async () => {
 });
 
 test("It should not be able to add a member if band does not exists", async () => {
-  const usecase = new AddMember(bandRepository, profileRepository);
+  const usecase = new InviteMember(bandRepository, profileRepository);
   const input = { bandId: "some_band", profileId: "2", adminId: "1", role: "guitarist" };
   expect(usecase.execute(input)).rejects.toThrow("Band not found");
 });
 
 test("It should not be able to add a member if member does not exists", async () => {
-  const usecase = new AddMember(bandRepository, profileRepository);
+  const usecase = new InviteMember(bandRepository, profileRepository);
   const input = { bandId, adminId: "adminId", profileId: "profile", role: "guitarist" };
   expect(usecase.execute(input)).rejects.toThrow("Profile not found");
 });
 
 test("It should not be able to add a member if role does not exists", async () => {
-  const usecase = new AddMember(bandRepository, profileRepository);
+  const usecase = new InviteMember(bandRepository, profileRepository);
   const input = { bandId, adminId: "adminId", profileId: "2", role: "guitaarist" };
   expect(usecase.execute(input)).rejects.toThrow("Role is invalid");
 });

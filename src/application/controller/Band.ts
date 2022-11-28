@@ -1,6 +1,6 @@
 import { config } from "../../Config";
 import InputDTO from "../../dto/InputDTO";
-import AddMember from "../../usecase/band/AddMember";
+import InviteMember from "../../usecase/band/InviteMember";
 import CreateBand from "../../usecase/band/CreateBand";
 import GetBand from "../../usecase/band/GetBand";
 import Created from "../http/Created";
@@ -24,7 +24,7 @@ export default class BandController {
 
   static async addMember(input: InputDTO): Promise<Success> {
     const { body, headers, path } = input;
-    const controller = new AddMember(config.bandRepository, config.profileRepository);
+    const controller = new InviteMember(config.bandRepository, config.profileRepository);
     await controller.execute({ bandId: path.id, adminId: headers.id, profileId: body.profileId, role: body.role });
     return new Success();
   }
