@@ -12,8 +12,7 @@ export default class Band {
     private members: MemberDTO[]
   ) {}
 
-  addMember(adminId: string, member: MemberDTO): void {
-    this.verifyAdmin(adminId);
+  addMember(member: MemberDTO): void {
     if (this.members.find((m) => m.profileId === member.profileId)) throw new BadRequest("User already in band");
     this.members.push(member);
   }
@@ -28,7 +27,7 @@ export default class Band {
     return this.members;
   }
 
-  private verifyAdmin(adminId: string) {
-    if (this.adminId !== adminId) throw new Forbidden("Only the adminId can perform this action");
+  verifyAdmin(profileId: string) {
+    if (this.adminId !== profileId) throw new Forbidden("Only the admin can perform this action");
   }
 }

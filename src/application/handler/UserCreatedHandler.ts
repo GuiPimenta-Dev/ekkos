@@ -2,7 +2,7 @@ import EmailGatewayInterface from "../../domain/infra/gateway/EmailGateway";
 import UserCreatedEvent from "../../domain/event/UserCreatedEvent";
 import HandlerInterface from "./implements/Handler";
 
-export default class CreateUserHandler implements HandlerInterface {
+export default class UserCreatedHandler implements HandlerInterface {
   constructor(private emailGateway: EmailGatewayInterface) {}
   name = "UserCreated";
 

@@ -1,5 +1,5 @@
 import CreateUser from "../../../src/usecase/user/CreateUser";
-import CreateUserHandler from "../../../src/application/handler/CreateUserHandler";
+import UserCreatedHandler from "../../../src/application/handler/UserCreatedHandler";
 import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
 import LoginUser from "../../../src/usecase/user/LoginUser";
 import MemoryBroker from "../../utils/mocks/broker/MemoryBroker";
@@ -27,7 +27,7 @@ test("Welcome email should be sent after create an user", async () => {
   const userRepository = new MemoryUserRepository();
   const broker = new MemoryBroker();
   const emailGateway = new EmailGatewayFake();
-  const handler = new CreateUserHandler(emailGateway);
+  const handler = new UserCreatedHandler(emailGateway);
   broker.register(handler);
   const usecase = new CreateUser(userRepository, broker);
   await usecase.execute("email2@test.com", password);
