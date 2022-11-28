@@ -11,4 +11,5 @@ export default interface BandRepositoryInterface {
   isRoleValid(role: string): Promise<boolean>;
   createInvitation(invitation: InvitationDTO): Promise<void>;
   findInvitationById(id: string): Promise<InvitationDTO>;
+  updateInvitation(invitation: InvitationDTO): Promise<void>;
 }

@@ -9,12 +9,12 @@ export default class MemberInvitedHandler implements HandlerInterface {
     this.name = "MemberInvited";
   }
 
-  async handle(command: MemberInvitedEvent): Promise<void> {
-    const user = await this.userRepository.findUserById(command.profileId);
+  async handle(event: MemberInvitedEvent): Promise<void> {
+    const user = await this.userRepository.findUserById(event.profileId);
     await this.emailGateway.send(
       user.email,
-      `You have been invited to join the band ${command.bandName} as a ${command.role}!`,
-      `You have been invited to join the band ${command.bandName} as a ${command.role}!`
+      `You have been invited to join the band ${event.bandName} as a ${event.role}!`,
+      `You have been invited to join the band ${event.bandName} as a ${event.role}!`
     );
   }
 }

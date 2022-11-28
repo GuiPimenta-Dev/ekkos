@@ -6,15 +6,6 @@ test("It should be able to add member to band", async () => {
   expect(band.getMembers()).toHaveLength(1);
 });
 
-test("It should not be able to add a member if member already exists", async () => {
-  const band = new Band("bandId", "name", "description", "logo", "adminId", [
-    { profileId: "profileId", bandId: "bandId", role: "guitarist" },
-  ]);
-  expect(() => band.addMember({ profileId: "profileId", bandId: "bandId", role: "guitarist" })).toThrow(
-    "User already in band"
-  );
-});
-
 test("It should be able to remove member from band", async () => {
   const band = new Band("bandId", "name", "description", "logo", "adminId", [
     { profileId: "profileId", bandId: "bandId", role: "guitarist" },

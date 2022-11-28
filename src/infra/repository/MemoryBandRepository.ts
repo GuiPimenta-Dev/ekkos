@@ -3,24 +3,30 @@ import BandRepositoryInterface from "../../domain/infra/repository/BandRepositor
 import { InvitationDTO, Status } from "../../dto/InvitationDTO";
 import RoleDTO from "../../dto/RoleDTO";
 
-const member = { profileId: "1", bandId: "bandId", role: "guitarist" };
-
 export default class MemoryBandRepository implements BandRepositoryInterface {
-  readonly bands: Band[] = [new Band("bandId", "name", "description", "logo", "1", [member])];
+  bands: Band[];
+  roles: RoleDTO[];
+  invitations: InvitationDTO[];
 
-  private roles: RoleDTO[] = [
-    { role: "vocalist", picture: "some mic picture" },
-    { role: "guitarist", picture: "some guitar picture" },
-    { role: "bassist", picture: "some bass picture" },
-    { role: "drummer", picture: "some drum picture" },
-    { role: "keyboard", picture: "some keyboard picture" },
-    { role: "manager", picture: "some manager picture" },
-  ];
-
-  private invitations: InvitationDTO[] = [
-    { invitationId: "1", bandId: "bandId", profileId: "1", role: "guitarist", status: Status.pending },
-    { invitationId: "2", bandId: "bandId", profileId: "1", role: "bassist", status: Status.pending },
-  ];
+  constructor() {
+    const members = [
+      { profileId: "1", bandId: "bandId", role: "guitarist" },
+      { profileId: "2", bandId: "bandId", role: "manager" },
+    ];
+    this.bands = [new Band("bandId", "name", "description", "logo", "1", members)];
+    this.roles = [
+      { role: "vocalist", picture: "some mic picture" },
+      { role: "guitarist", picture: "some guitar picture" },
+      { role: "bassist", picture: "some bass picture" },
+      { role: "drummer", picture: "some drum picture" },
+      { role: "keyboard", picture: "some keyboard picture" },
+      { role: "manager", picture: "some manager picture" },
+    ];
+    this.invitations = [
+      { invitationId: "1", bandId: "bandId", profileId: "1", role: "guitarist", status: Status.accepted },
+      { invitationId: "2", bandId: "bandId", profileId: "3", role: "bassist", status: Status.pending },
+    ];
+  }
 
   async save(band: Band): Promise<void> {
     this.bands.push(band);
@@ -53,5 +59,11 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
 
   async findInvitationById(id: string): Promise<InvitationDTO> {
     return this.invitations.find((invitation) => invitation.invitationId === id);
+  }
+
+  async updateInvitation(invitation: InvitationDTO): Promise<void> {
+    const filteredInvitation = this.invitations.filter((i) => i.invitationId === invitation.invitationId)[0];
+    const index = this.invitations.indexOf(filteredInvitation);
+    this.invitations[index] = invitation;
   }
 }

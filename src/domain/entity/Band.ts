@@ -13,7 +13,6 @@ export default class Band {
   ) {}
 
   addMember(member: MemberDTO): void {
-    if (this.members.find((m) => m.profileId === member.profileId)) throw new BadRequest("User already in band");
     this.members.push(member);
   }
 

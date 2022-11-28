@@ -1,6 +1,6 @@
-import HandlerInterface from "../../../../src/application/handler/implements/Handler";
-import Event from "../../../../src/domain/event/implements/Event";
-import BrokerInterface from "../../../../src/domain/infra/broker/Broker";
+import HandlerInterface from "../../application/handler/implements/Handler";
+import Event from "../../domain/event/implements/Event";
+import BrokerInterface from "../../domain/infra/broker/Broker";
 
 export default class MemoryBroker implements BrokerInterface {
   handlers: HandlerInterface[];
@@ -13,10 +13,10 @@ export default class MemoryBroker implements BrokerInterface {
     this.handlers.push(handler);
   }
 
-  publish(event: Event) {
+  async publish(event: Event): Promise<void> {
     for (const handler of this.handlers) {
       if (handler.name === event.name) {
-        handler.handle(event);
+        await handler.handle(event);
       }
     }
   }

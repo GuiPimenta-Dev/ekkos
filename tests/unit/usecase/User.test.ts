@@ -2,15 +2,14 @@ import CreateUser from "../../../src/usecase/user/CreateUser";
 import UserCreatedHandler from "../../../src/application/handler/UserCreatedHandler";
 import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
 import LoginUser from "../../../src/usecase/user/LoginUser";
-import MemoryBroker from "../../utils/mocks/broker/MemoryBroker";
+import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
 import UserRepositoryInterface from "../../../src/domain/infra/repository/UserRepository";
 import jwt from "jsonwebtoken";
 
 let userRepository: UserRepositoryInterface;
-const email = "email@test.com";
+const email = "user_1@test.com";
 const password = "123456";
-
 beforeEach(async () => {
   userRepository = new MemoryUserRepository();
 });
@@ -20,7 +19,7 @@ test("It should be able to create an user", async () => {
   const broker = new MemoryBroker();
   const usecase = new CreateUser(userRepository, broker);
   await usecase.execute("email2@test.com", password);
-  expect(userRepository.users).toHaveLength(3);
+  expect(userRepository.users).toHaveLength(4);
 });
 
 test("Welcome email should be sent after create an user", async () => {

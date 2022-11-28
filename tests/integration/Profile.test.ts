@@ -1,5 +1,5 @@
 import MemoryBandRepository from "../../src/infra/repository/MemoryBandRepository";
-import MemoryBroker from "../utils/mocks/broker/MemoryBroker";
+import MemoryBroker from "../../src/infra/broker/MemoryBroker";
 import MemoryProfileRepository from "../../src/infra/repository/MemoryProfileRepository";
 import MemoryUserRepository from "../../src/infra/repository/MemoryUserRepository";
 import MemoryVideoRepository from "../../src/infra/repository/MemoryVideoRepository";
@@ -25,7 +25,7 @@ const avatar = "tests/utils/files/avatar.jpeg";
 const password = "123456";
 
 beforeAll(async () => {
-  const email = "email@test.com";
+  const email = "user_1@test.com";
   const { body } = await request(app).post("/user/login").send({ email, password });
   authorization = `Bearer ${body.token}`;
 });
@@ -91,7 +91,7 @@ test("It should be able to match a profile near 10 km from you", async () => {
         followers: 0,
         following: 0,
         videos: [],
-        bands: [],
+        bands: [{ bandId: "bandId", name: "name", logo: "logo" }],
       },
       distance: 8.1,
     },

@@ -4,5 +4,5 @@ import Event from "../../event/implements/Event";
 export default interface BrokerInterface {
   handlers: HandlerInterface[];
   register(handler: HandlerInterface): void;
-  publish(event: Event): void;
+  publish(event: Event): Promise<void>;
 }

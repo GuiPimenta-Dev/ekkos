@@ -1,4 +1,4 @@
-import MemoryBroker from "../utils/mocks/broker/MemoryBroker";
+import MemoryBroker from "../../src/infra/broker/MemoryBroker";
 import MemoryProfileRepository from "../../src/infra/repository/MemoryProfileRepository";
 import MemoryUserRepository from "../../src/infra/repository/MemoryUserRepository";
 import MemoryVideoRepository from "../../src/infra/repository/MemoryVideoRepository";
@@ -23,7 +23,7 @@ const videoId = "videoId";
 const video = "tests/utils/files/video.mp4";
 
 beforeAll(async () => {
-  const email = "email@test.com";
+  const email = "user_1@test.com";
   const password = "123456";
   const { body } = await request(app).post("/user/login").send({ email, password });
   authorization = `Bearer ${body.token}`;

@@ -1,4 +1,4 @@
-import MemoryBroker from "../tests/utils/mocks/broker/MemoryBroker";
+import MemoryBroker from "./infra/broker/MemoryBroker";
 import S3StorageGateway from "./infra/gateway/S3StorageGateway";
 import MemoryBandRepository from "./infra/repository/MemoryBandRepository";
 import MemoryProfileRepository from "./infra/repository/MemoryProfileRepository";
