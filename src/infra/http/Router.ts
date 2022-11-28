@@ -94,6 +94,15 @@ app.post(
   ExpressAdapter.route(BandController.acceptInvitation)
 );
 
+app.post(
+  "/band/:id/invite/decline",
+  verifyToken,
+  verifyUser,
+  verifyInvitation,
+  updateCoords,
+  ExpressAdapter.route(BandController.declineInvitation)
+);
+
 app.get("/band/:id", verifyToken, verifyUser, verifyBand, updateCoords, ExpressAdapter.route(BandController.get));
 app.post(
   "/band/:id/removeMember",

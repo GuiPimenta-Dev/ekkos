@@ -8,6 +8,7 @@ import Success from "../http/Success";
 import RemoveMember from "../../usecase/band/RemoveMember";
 import BandPresenter from "../presenter/Band";
 import AcceptInvitation from "../../usecase/band/AcceptInvitation";
+import DeclineInvitation from "../../usecase/band/DeclineInvitation";
 
 export default class BandController {
   static async create(input: InputDTO): Promise<Created> {
@@ -33,6 +34,13 @@ export default class BandController {
   static async acceptInvitation(input: InputDTO): Promise<Success> {
     const { path, headers } = input;
     const controller = new AcceptInvitation(config.bandRepository, config.broker);
+    await controller.execute(headers.id, path.id);
+    return new Success();
+  }
+
+  static async declineInvitation(input: InputDTO): Promise<Success> {
+    const { path, headers } = input;
+    const controller = new DeclineInvitation(config.bandRepository, config.broker);
     await controller.execute(headers.id, path.id);
     return new Success();
   }

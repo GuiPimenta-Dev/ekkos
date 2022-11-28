@@ -26,6 +26,7 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
       { invitationId: "1", bandId: "bandId", profileId: "1", role: "guitarist", status: Status.pending },
       { invitationId: "2", bandId: "bandId", profileId: "3", role: "bassist", status: Status.pending },
       { invitationId: "3", bandId: "bandId", profileId: "3", role: "bassist", status: Status.declined },
+      { invitationId: "4", bandId: "bandId", profileId: "1", role: "guitarist", status: Status.pending },
     ];
   }
 

@@ -31,20 +31,6 @@ beforeAll(async () => {
   authorization = `Bearer ${body.token}`;
 });
 
-beforeEach(async () => {
-  jest.mock("../../src/Config", () => ({
-    ...(jest.requireActual("../../src/Config") as {}),
-    config: {
-      profileRepository: new MemoryProfileRepository(),
-      userRepository: new MemoryUserRepository(),
-      videoRepository: new MemoryVideoRepository(),
-      bandRepository: new MemoryBandRepository(),
-      broker: new MemoryBroker(),
-      storage: new StorageGatewayFake(),
-    },
-  }));
-});
-
 test("It should be able to create a band", async () => {
   const response = await request(app)
     .post("/band")
@@ -91,6 +77,11 @@ test("It should be able to invite a member to band", async () => {
 
 test("It should be able to accept an invite to band", async () => {
   const response = await request(app).post(`/band/1/invite/accept`).set({ authorization });
+  expect(response.statusCode).toBe(200);
+});
+
+test("It should be able to decline an invite to band", async () => {
+  const response = await request(app).post(`/band/4/invite/decline`).set({ authorization });
   expect(response.statusCode).toBe(200);
 });
 
