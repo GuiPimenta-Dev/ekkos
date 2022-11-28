@@ -77,13 +77,21 @@ app.post(
   ExpressAdapter.route(BandController.create)
 );
 app.post(
-  "/band/:id/addMember",
+  "/band/:id/invite",
   verifyToken,
   verifyUser,
   verifyBand,
   updateCoords,
-  ExpressAdapter.route(BandController.addMember)
+  ExpressAdapter.route(BandController.inviteMember)
 );
+app.post(
+  "/band/:id/invite/accept",
+  verifyToken,
+  verifyUser,
+  updateCoords,
+  ExpressAdapter.route(BandController.acceptInvitation)
+);
+
 app.get("/band/:id", verifyToken, verifyUser, verifyBand, updateCoords, ExpressAdapter.route(BandController.get));
 app.post(
   "/band/:id/removeMember",

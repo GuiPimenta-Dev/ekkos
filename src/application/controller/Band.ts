@@ -7,6 +7,7 @@ import Created from "../http/Created";
 import Success from "../http/Success";
 import RemoveMember from "../../usecase/band/RemoveMember";
 import BandPresenter from "../presenter/Band";
+import AcceptInvitation from "../../usecase/band/AcceptInvitation";
 
 export default class BandController {
   static async create(input: InputDTO): Promise<Created> {
@@ -22,11 +23,25 @@ export default class BandController {
     return new Created({ bandId });
   }
 
-  static async addMember(input: InputDTO): Promise<Success> {
+  static async inviteMember(input: InputDTO): Promise<Success> {
     const { body, headers, path } = input;
     const controller = new InviteMember(config.bandRepository, config.profileRepository, config.broker);
     await controller.execute({ bandId: path.id, adminId: headers.id, profileId: body.profileId, role: body.role });
     return new Success();
+  }
+
+  static async acceptInvitation(input: InputDTO): Promise<Success> {
+    const { path, headers } = input;
+    const controller = new AcceptInvitation(config.bandRepository, config.broker);
+    await controller.execute(headers.id, path.id);
+    return new Success();
+  }
+
+  static async removeMember(input: InputDTO): Promise<Success> {
+    const { path, body, headers } = input;
+    const controller = new RemoveMember(config.bandRepository);
+    const band = await controller.execute(path.id, headers.id, body.profileId);
+    return new Success(band);
   }
 
   static async get(input: InputDTO): Promise<Success> {
@@ -36,12 +51,5 @@ export default class BandController {
     const presenter = new BandPresenter(config.profileRepository);
     const data = await presenter.present(band);
     return new Success(data);
-  }
-
-  static async removeMember(input: InputDTO): Promise<Success> {
-    const { path, body, headers } = input;
-    const controller = new RemoveMember(config.bandRepository);
-    const band = await controller.execute(path.id, headers.id, body.profileId);
-    return new Success(band);
   }
 }
