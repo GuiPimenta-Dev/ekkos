@@ -11,6 +11,8 @@ import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
 import MemberInvitedHandler from "../../../src/application/handler/MemberInvitedHandler";
 import AcceptInvitation from "../../../src/usecase/band/AcceptInvitation";
 import InviteAcceptedHandler from "../../../src/application/handler/InviteAcceptedHandler";
+import DeclineInvitation from "../../../src/usecase/band/DeclineInvitation";
+import InviteDeclinedHandler from "../../../src/application/handler/InviteDeclinedHandler";
 
 let bandRepository: BandRepositoryInterface;
 let profileRepository: ProfileRepositoryInterface;
@@ -93,22 +95,31 @@ describe("InviteMember", () => {
     expect(band.getMembers()).toHaveLength(3);
   });
 
-  test("It should not be able to accept an invitation if invitation is not pending", async () => {
-    const usecase = new AcceptInvitation(bandRepository, broker);
-    expect(usecase.execute("3", "3")).rejects.toThrow("Invitation is not pending");
-  });
-
-  test("It should not be able to accept an invitation if you are not invited", async () => {
-    const usecase = new AcceptInvitation(bandRepository, broker);
-    expect(usecase.execute("1", "2")).rejects.toThrow("Invitation is not for this profile");
-  });
-
   test("An email should be sent to each member after an invite accepted", async () => {
     const broker = new MemoryBroker();
     const emailGateway = new EmailGatewayFake();
     const handler = new InviteAcceptedHandler(new MemoryUserRepository(), profileRepository, emailGateway);
     broker.register(handler);
     const usecase = new AcceptInvitation(bandRepository, broker);
+    await usecase.execute("3", "2");
+    expect(emailGateway.emails).toHaveLength(2);
+  });
+
+  test("It should be able to decline an invitation", async () => {
+    const usecase = new DeclineInvitation(bandRepository, broker);
+    await usecase.execute("3", "2");
+    const invitation = await bandRepository.findInvitationById("2");
+    const band = await bandRepository.findBandById(bandId);
+    expect(invitation.status).toBe("declined");
+    expect(band.getMembers()).toHaveLength(2);
+  });
+
+  test("An email should be sent to each member after an invite is declined", async () => {
+    const broker = new MemoryBroker();
+    const emailGateway = new EmailGatewayFake();
+    const handler = new InviteDeclinedHandler(new MemoryUserRepository(), profileRepository, emailGateway);
+    broker.register(handler);
+    const usecase = new DeclineInvitation(bandRepository, broker);
     await usecase.execute("3", "2");
     expect(emailGateway.emails).toHaveLength(2);
   });

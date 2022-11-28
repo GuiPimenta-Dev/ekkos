@@ -4,6 +4,8 @@ import Unauthorized from "../http/Unauthorized";
 import { config } from "../../Config";
 import jwt from "jsonwebtoken";
 import multer from "multer";
+import Forbidden from "../http/Forbidden";
+import { Status } from "../../dto/InvitationDTO";
 
 export async function verifyToken(req, res, next): Promise<void> {
   try {
@@ -60,9 +62,11 @@ export async function verifyBand(req, res, next): Promise<void> {
 
 export async function verifyInvitation(req, res, next): Promise<void> {
   try {
-    const { params } = req;
+    const { params, headers } = req;
     const invitation = await config.bandRepository.findInvitationById(params.id);
     if (!invitation) throw new NotFound("Invitation not found");
+    if (invitation.status !== Status.pending) throw new BadRequest("Invitation is not pending");
+    if (invitation.profileId !== headers.id) throw new Forbidden("Invitation is not for this profile");
     next();
   } catch (e: any) {
     res.status(e.statusCode).json({ message: e.message });

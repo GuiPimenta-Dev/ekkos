@@ -92,3 +92,17 @@ test("Must throw an error if invitation is not found", async () => {
   expect(res.statusCode).toBe(404);
   expect(res.message).toBe("Invitation not found");
 });
+
+test("Must throw an error if invitation is not pending", async () => {
+  const req = { params: { id: "3" } };
+  await verifyInvitation(req, res, next);
+  expect(res.statusCode).toBe(400);
+  expect(res.message).toBe("Invitation is not pending");
+});
+
+test("Must throw an error if invitation is not for this profile", async () => {
+  const req = { params: { id: "2" }, headers: { id: 1 } };
+  await verifyInvitation(req, res, next);
+  expect(res.statusCode).toBe(403);
+  expect(res.message).toBe("Invitation is not for this profile");
+});
