@@ -1,5 +1,5 @@
 export default interface CreateBandDTO {
-  adminId: string;
+  profileId: string;
   name: string;
   description: string;
   logo: string;

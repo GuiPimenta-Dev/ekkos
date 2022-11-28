@@ -1,6 +1,6 @@
 import BadRequest from "../../application/http/BadRequest";
 import Forbidden from "../../application/http/Forbidden";
-import Member from "./Member";
+import MemberDTO from "../../dto/MemberDTO";
 
 export default class Band {
   constructor(
@@ -9,10 +9,10 @@ export default class Band {
     readonly description: string,
     readonly logo: string,
     readonly adminId: string,
-    private members: Member[]
+    private members: MemberDTO[]
   ) {}
 
-  addMember(adminId: string, member: Member): void {
+  addMember(adminId: string, member: MemberDTO): void {
     this.verifyAdmin(adminId);
     if (this.members.find((m) => m.profileId === member.profileId)) throw new BadRequest("User already in band");
     this.members.push(member);
@@ -24,7 +24,7 @@ export default class Band {
     this.members = this.members.filter((m) => m.profileId !== profileId);
   }
 
-  getMembers(): Member[] {
+  getMembers(): MemberDTO[] {
     return this.members;
   }
 

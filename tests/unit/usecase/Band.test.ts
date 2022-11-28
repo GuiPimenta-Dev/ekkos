@@ -25,7 +25,7 @@ test("It should be able to create a band", async () => {
     name: "name",
     description: "description",
     logo: "logo",
-    adminId: "1",
+    profileId: "1",
     role: "guitarist",
   });
   expect(bandRepository.bands).toHaveLength(2);
@@ -35,7 +35,13 @@ test("It should not be able to create a band with an invalid role", async () => 
   const bandRepository = new MemoryBandRepository();
   const usecase = new CreateBand(bandRepository);
   expect(
-    usecase.execute({ name: "name", description: "description", logo: "logo", adminId: "adminId", role: "wrong_role" })
+    usecase.execute({
+      name: "name",
+      description: "description",
+      logo: "logo",
+      profileId: "adminId",
+      role: "wrong_role",
+    })
   ).rejects.toThrow("Role is invalid");
 });
 

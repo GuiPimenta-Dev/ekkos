@@ -1,13 +1,12 @@
 import Band from "../../domain/entity/Band";
-import Member from "../../domain/entity/Member";
 import BandRepositoryInterface from "../../domain/infra/repository/BandRepository";
 import { InvitationDTO, Status } from "../../dto/InvitationDTO";
 import RoleDTO from "../../dto/RoleDTO";
 
+const member = { profileId: "1", bandId: "bandId", role: "guitarist" };
+
 export default class MemoryBandRepository implements BandRepositoryInterface {
-  readonly bands: Band[] = [
-    new Band("bandId", "name", "description", "logo", "1", [new Member("1", "bandId", "guitarist")]),
-  ];
+  readonly bands: Band[] = [new Band("bandId", "name", "description", "logo", "1", [member])];
 
   private roles: RoleDTO[] = [
     { role: "vocalist", picture: "some mic picture" },
