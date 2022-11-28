@@ -50,6 +50,7 @@ test("It should be able to get a band", async () => {
     bandId: "bandId",
     name: "name",
     description: "description",
+    adminId: "1",
     members: [
       {
         profileId: "1",
