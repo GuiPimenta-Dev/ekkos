@@ -17,18 +17,11 @@ export default class InviteMember {
 
   async execute(input: AddMemberDTO): Promise<string> {
     const band = await this.bandRepository.findBandById(input.bandId);
-    if (!band) {
-      throw new NotFound("Band not found");
-    }
     band.verifyAdmin(input.adminId);
     const profile = await this.profileRepository.findProfileById(input.profileId);
-    if (!profile) {
-      throw new NotFound("Profile not found");
-    }
+    if (!profile) throw new NotFound("Profile not found");
     const isRoleValid = await this.bandRepository.isRoleValid(input.role);
-    if (!isRoleValid) {
-      throw new Forbidden("Role is invalid");
-    }
+    if (!isRoleValid) throw new Forbidden("Role is invalid");
     const invitationId = uuid();
     const invitation = {
       invitationId,

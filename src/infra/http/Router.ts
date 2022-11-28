@@ -1,4 +1,11 @@
-import { updateCoords, uploadFile, verifyToken, verifyUser } from "../../application/middleware/Middlewares";
+import {
+  updateCoords,
+  uploadFile,
+  verifyBand,
+  verifyToken,
+  verifyUser,
+  verifyVideo,
+} from "../../application/middleware/Middlewares";
 
 import BandController from "../../application/controller/Band";
 import ProfileController from "../../application/controller/Profile";
@@ -29,10 +36,31 @@ app.post(
   uploadFile.single("video"),
   ExpressAdapter.route(VideoController.post)
 );
-app.get("/video/:id", verifyToken, verifyUser, updateCoords, ExpressAdapter.route(VideoController.get));
-app.post("/video/:id/like", verifyToken, verifyUser, updateCoords, ExpressAdapter.route(VideoController.like));
-app.post("/video/:id/unlike", verifyToken, verifyUser, updateCoords, ExpressAdapter.route(VideoController.unlike));
-app.post("/video/:id/comment", verifyToken, verifyUser, updateCoords, ExpressAdapter.route(VideoController.comment));
+app.get("/video/:id", verifyToken, verifyUser, verifyVideo, updateCoords, ExpressAdapter.route(VideoController.get));
+app.post(
+  "/video/:id/like",
+  verifyToken,
+  verifyUser,
+  verifyVideo,
+  updateCoords,
+  ExpressAdapter.route(VideoController.like)
+);
+app.post(
+  "/video/:id/unlike",
+  verifyToken,
+  verifyUser,
+  verifyVideo,
+  updateCoords,
+  ExpressAdapter.route(VideoController.unlike)
+);
+app.post(
+  "/video/:id/comment",
+  verifyToken,
+  verifyUser,
+  verifyVideo,
+  updateCoords,
+  ExpressAdapter.route(VideoController.comment)
+);
 app.delete(
   "/video/:id/comment",
   verifyToken,
@@ -48,12 +76,20 @@ app.post(
   uploadFile.single("logo"),
   ExpressAdapter.route(BandController.create)
 );
-app.post("/band/:id/addMember", verifyToken, verifyUser, updateCoords, ExpressAdapter.route(BandController.addMember));
-app.get("/band/:id", verifyToken, verifyUser, updateCoords, ExpressAdapter.route(BandController.get));
+app.post(
+  "/band/:id/addMember",
+  verifyToken,
+  verifyUser,
+  verifyBand,
+  updateCoords,
+  ExpressAdapter.route(BandController.addMember)
+);
+app.get("/band/:id", verifyToken, verifyUser, verifyBand, updateCoords, ExpressAdapter.route(BandController.get));
 app.post(
   "/band/:id/removeMember",
   verifyToken,
   verifyUser,
+  verifyBand,
   updateCoords,
   ExpressAdapter.route(BandController.removeMember)
 );

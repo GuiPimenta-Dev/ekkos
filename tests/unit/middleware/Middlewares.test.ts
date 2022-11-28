@@ -1,4 +1,4 @@
-import { verifyToken, verifyUser } from "../../../src/application/middleware/Middlewares";
+import { verifyBand, verifyToken, verifyUser, verifyVideo } from "../../../src/application/middleware/Middlewares";
 
 import CreateUser from "../../../src/usecase/user/CreateUser";
 import ExpressResponseFake from "../../utils/mocks/http/ExpressResponseFake";
@@ -64,4 +64,18 @@ test("Must throw an error if profile is not found", async () => {
   config.userRepository = new MemoryUserRepository();
   expect(res.statusCode).toBe(404);
   expect(res.message).toBe("Profile not found");
+});
+
+test("Must throw an error if video is not found", async () => {
+  const req = { params: { id: "id" } };
+  await verifyVideo(req, res, next);
+  expect(res.statusCode).toBe(404);
+  expect(res.message).toBe("Video not found");
+});
+
+test("Must throw an error if band is not found", async () => {
+  const req = { params: { id: "id" } };
+  await verifyBand(req, res, next);
+  expect(res.statusCode).toBe(404);
+  expect(res.message).toBe("Band not found");
 });

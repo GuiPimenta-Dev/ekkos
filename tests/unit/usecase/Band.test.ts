@@ -71,12 +71,6 @@ test("An email should be sent after inviting a member", async () => {
   expect(emailGateway.emails).toHaveLength(1);
 });
 
-test("It should not be able to invite a member if band does not exists", async () => {
-  const usecase = new InviteMember(bandRepository, profileRepository, broker);
-  const input = { bandId: "some_band", profileId: "2", adminId: "1", role: "guitarist" };
-  expect(usecase.execute(input)).rejects.toThrow("Band not found");
-});
-
 test("It should not be able to invite a member if member does not exists", async () => {
   const usecase = new InviteMember(bandRepository, profileRepository, broker);
   const input = { bandId, adminId: "1", profileId: "profile", role: "guitarist" };
@@ -98,14 +92,4 @@ test("It should be able to get a band", async () => {
   expect(band.description).toBe("description");
   expect(band.adminId).toBe("1");
   expect(band.members).toHaveLength(1);
-});
-
-test("It should not be able to get a non-existent band", async () => {
-  const usecase = new GetBand(bandRepository);
-  expect(usecase.execute("some_band")).rejects.toThrow("Band not found");
-});
-
-test("It should not be able to remove a member if band does not exists", async () => {
-  const usecase = new RemoveMember(bandRepository);
-  expect(usecase.execute("some_band", "adminId", profileId)).rejects.toThrow("Band not found");
 });

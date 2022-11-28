@@ -36,6 +36,28 @@ export async function verifyUser(req, res, next): Promise<void> {
   }
 }
 
+export async function verifyVideo(req, res, next): Promise<void> {
+  try {
+    const { params } = req;
+    const video = await config.videoRepository.findVideoById(params.id);
+    if (!video) throw new NotFound("Video not found");
+    next();
+  } catch (e: any) {
+    res.status(e.statusCode).json({ message: e.message });
+  }
+}
+
+export async function verifyBand(req, res, next): Promise<void> {
+  try {
+    const { params } = req;
+    const band = await config.bandRepository.findBandById(params.id);
+    if (!band) throw new NotFound("Band not found");
+    next();
+  } catch (e: any) {
+    res.status(e.statusCode).json({ message: e.message });
+  }
+}
+
 export async function updateCoords(req, _, next): Promise<void> {
   const { headers } = req;
   const profile = await config.profileRepository.findProfileById(headers.id);
