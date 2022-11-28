@@ -7,6 +7,9 @@ import CreateBand from "../../../src/usecase/band/CreateBand";
 import GetBand from "../../../src/usecase/band/GetBand";
 import RemoveMember from "../../../src/usecase/band/RemoveMember";
 import MemoryBroker from "../../utils/mocks/broker/MemoryBroker";
+import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
+import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
+import MemberInvitedHandler from "../../../src/application/handler/MemberInvitedHandler";
 
 let bandRepository: BandRepositoryInterface;
 let profileRepository: ProfileRepositoryInterface;
@@ -46,15 +49,29 @@ test("It should not be able to create a band with an invalid role", async () => 
   ).rejects.toThrow("Role is invalid");
 });
 
-test.skip("It should be able to add a member", async () => {
+test("It should be able to invite a member", async () => {
+  const usecase = new InviteMember(bandRepository, profileRepository, broker);
+  const input = { bandId, profileId: "2", adminId: "1", role: "guitarist" };
+  const invitationId = await usecase.execute(input);
+  const invitation = await bandRepository.findInvitationById(invitationId);
+  expect(invitation).toBeDefined();
+  expect(invitation.role).toBe("guitarist");
+  expect(invitation.status).toBe("pending");
+});
+
+test("An email should be sent after inviting a member", async () => {
+  const userRepository = new MemoryUserRepository();
+  const broker = new MemoryBroker();
+  const emailGateway = new EmailGatewayFake();
+  const handler = new MemberInvitedHandler(userRepository, emailGateway);
+  broker.register(handler);
   const usecase = new InviteMember(bandRepository, profileRepository, broker);
   const input = { bandId, profileId: "2", adminId: "1", role: "guitarist" };
   await usecase.execute(input);
-  const band = await bandRepository.findBandById(bandId);
-  expect(band.getMembers()).toHaveLength(2);
+  expect(emailGateway.emails).toHaveLength(1);
 });
 
-test.skip("It should not be able to add a member if band does not exists", async () => {
+test("It should not be able to invite a member if band does not exists", async () => {
   const usecase = new InviteMember(bandRepository, profileRepository, broker);
   const input = { bandId: "some_band", profileId: "2", adminId: "1", role: "guitarist" };
   expect(usecase.execute(input)).rejects.toThrow("Band not found");

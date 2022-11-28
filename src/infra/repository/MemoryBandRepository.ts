@@ -50,4 +50,8 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
   async createInvitation(invitation: InvitationDTO): Promise<void> {
     this.invitations.push(invitation);
   }
+
+  async findInvitationById(id: string): Promise<InvitationDTO> {
+    return this.invitations.find((invitation) => invitation.invitationId === id);
+  }
 }

@@ -6,6 +6,7 @@ import { Status } from "../../dto/InvitationDTO";
 import { v4 as uuid } from "uuid";
 import BrokerInterface from "../../domain/infra/broker/Broker";
 import MemberInvitedEvent from "../../domain/event/MemberInvitedEvent";
+import Forbidden from "../../application/http/Forbidden";
 
 export default class InviteMember {
   constructor(
@@ -14,7 +15,7 @@ export default class InviteMember {
     private broker: BrokerInterface
   ) {}
 
-  async execute(input: AddMemberDTO): Promise<void> {
+  async execute(input: AddMemberDTO): Promise<string> {
     const band = await this.bandRepository.findBandById(input.bandId);
     if (!band) {
       throw new NotFound("Band not found");
@@ -26,10 +27,11 @@ export default class InviteMember {
     }
     const isRoleValid = await this.bandRepository.isRoleValid(input.role);
     if (!isRoleValid) {
-      throw new NotFound("Role is invalid");
+      throw new Forbidden("Role is invalid");
     }
+    const invitationId = uuid();
     const invitation = {
-      invitationId: uuid(),
+      invitationId,
       bandId: input.bandId,
       profileId: input.profileId,
       role: input.role,
@@ -37,5 +39,6 @@ export default class InviteMember {
     };
     await this.bandRepository.createInvitation(invitation);
     await this.broker.publish(new MemberInvitedEvent(input.profileId, band.name, input.role));
+    return invitationId;
   }
 }

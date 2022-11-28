@@ -27,7 +27,7 @@ export default class Band {
     return this.members;
   }
 
-  verifyAdmin(profileId: string) {
-    if (this.adminId !== profileId) throw new Forbidden("Only the admin can perform this action");
+  verifyAdmin(adminId: string) {
+    if (this.adminId !== adminId) throw new Forbidden("Only the admin can perform this action");
   }
 }

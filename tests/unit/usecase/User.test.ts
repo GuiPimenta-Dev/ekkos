@@ -20,7 +20,7 @@ test("It should be able to create an user", async () => {
   const broker = new MemoryBroker();
   const usecase = new CreateUser(userRepository, broker);
   await usecase.execute("email2@test.com", password);
-  expect(userRepository.users).toHaveLength(2);
+  expect(userRepository.users).toHaveLength(3);
 });
 
 test("Welcome email should be sent after create an user", async () => {
@@ -31,11 +31,7 @@ test("Welcome email should be sent after create an user", async () => {
   broker.register(handler);
   const usecase = new CreateUser(userRepository, broker);
   await usecase.execute("email2@test.com", password);
-  expect(emailGateway.emailSent).toEqual({
-    to: "email2@test.com",
-    subject: "Welcome to our app!",
-    body: "Welcome to our app!",
-  });
+  expect(emailGateway.emails).toHaveLength(1);
 });
 
 test("It should not be able to create an user if email is already taken", async () => {
