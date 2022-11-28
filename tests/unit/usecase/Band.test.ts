@@ -93,11 +93,6 @@ describe("InviteMember", () => {
     expect(band.getMembers()).toHaveLength(3);
   });
 
-  test("It should not be able to accept an invitation if invitation does not exists", async () => {
-    const usecase = new AcceptInvitation(bandRepository, broker);
-    expect(usecase.execute("2", "4")).rejects.toThrow("Invitation not found");
-  });
-
   test("It should not be able to accept an invitation if invitation is not pending", async () => {
     const usecase = new AcceptInvitation(bandRepository, broker);
     expect(usecase.execute("3", "3")).rejects.toThrow("Invitation is not pending");

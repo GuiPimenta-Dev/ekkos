@@ -3,7 +3,6 @@ import BrokerInterface from "../../domain/infra/broker/Broker";
 import { Status } from "../../dto/InvitationDTO";
 import InviteAcceptedEvent from "../../domain/event/InviteAcceptedEvent";
 import BadRequest from "../../application/http/BadRequest";
-import NotFound from "../../application/http/NotFound";
 import Forbidden from "../../application/http/Forbidden";
 
 export default class AcceptInvitation {
@@ -11,7 +10,6 @@ export default class AcceptInvitation {
 
   async execute(profileId: string, invitationId: string): Promise<void> {
     const invitation = await this.bandRepository.findInvitationById(invitationId);
-    if (!invitation) throw new NotFound("Invitation not found");
     if (invitation.status !== "pending") throw new BadRequest("Invitation is not pending");
     if (invitation.profileId !== profileId) throw new Forbidden("Invitation is not for this profile");
     const band = await this.bandRepository.findBandById(invitation.bandId);

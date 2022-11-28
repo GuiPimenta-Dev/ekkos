@@ -1,4 +1,10 @@
-import { verifyBand, verifyToken, verifyUser, verifyVideo } from "../../../src/application/middleware/Middlewares";
+import {
+  verifyBand,
+  verifyInvitation,
+  verifyToken,
+  verifyUser,
+  verifyVideo,
+} from "../../../src/application/middleware/Middlewares";
 
 import CreateUser from "../../../src/usecase/user/CreateUser";
 import ExpressResponseFake from "../../utils/mocks/http/ExpressResponseFake";
@@ -66,7 +72,7 @@ test("Must throw an error if profile is not found", async () => {
   expect(res.message).toBe("Profile not found");
 });
 
-test("Must throw an error if video is not found", async () => {
+test("Must throw an error if video git not found", async () => {
   const req = { params: { id: "id" } };
   await verifyVideo(req, res, next);
   expect(res.statusCode).toBe(404);
@@ -78,4 +84,11 @@ test("Must throw an error if band is not found", async () => {
   await verifyBand(req, res, next);
   expect(res.statusCode).toBe(404);
   expect(res.message).toBe("Band not found");
+});
+
+test("Must throw an error if invitation is not found", async () => {
+  const req = { params: { id: "id" } };
+  await verifyInvitation(req, res, next);
+  expect(res.statusCode).toBe(404);
+  expect(res.message).toBe("Invitation not found");
 });

@@ -58,6 +58,17 @@ export async function verifyBand(req, res, next): Promise<void> {
   }
 }
 
+export async function verifyInvitation(req, res, next): Promise<void> {
+  try {
+    const { params } = req;
+    const invitation = await config.bandRepository.findInvitationById(params.id);
+    if (!invitation) throw new NotFound("Invitation not found");
+    next();
+  } catch (e: any) {
+    res.status(e.statusCode).json({ message: e.message });
+  }
+}
+
 export async function updateCoords(req, _, next): Promise<void> {
   const { headers } = req;
   const profile = await config.profileRepository.findProfileById(headers.id);
