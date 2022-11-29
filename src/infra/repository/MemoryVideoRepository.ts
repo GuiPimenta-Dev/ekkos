@@ -2,10 +2,13 @@ import Video from "../../domain/entity/Video";
 import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
 import CommentDTO from "../../dto/CommentDTO";
 
-const comment = { commentId: "commentId", videoId: "videoId", profileId: "1", text: "text" };
-
 export default class MemoryVideoRepository implements VideoRepositoryInterface {
-  readonly videos: Video[] = [new Video("videoId", "1", "title", "description", "url", ["2"], [comment])];
+  videos: Video[];
+
+  constructor() {
+    const comment = { commentId: "commentId", videoId: "videoId", profileId: "1", text: "text" };
+    this.videos = [new Video("videoId", "1", "title", "description", "url", ["2"], [comment])];
+  }
 
   async save(video: Video): Promise<void> {
     this.videos.push(video);
