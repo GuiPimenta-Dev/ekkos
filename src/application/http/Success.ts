@@ -1,6 +1,7 @@
-export default class Success {
-  statusCode: number;
+import HttpSuccess from "./extends/HttpSuccess";
+
+export default class Success extends HttpSuccess {
   constructor(readonly data?: any) {
-    this.statusCode = 200;
+    super(200, data);
   }
 }

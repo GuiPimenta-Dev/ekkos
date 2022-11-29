@@ -8,9 +8,10 @@ import UnfollowProfile from "../../usecase/profile/UnfollowProfile";
 import { config } from "../../Config";
 import MatchProfiles from "../../usecase/profile/MatchProfiles";
 import ProfilePresenter from "../presenter/Profile";
+import HttpSuccess from "../http/extends/HttpSuccess";
 
 export default class ProfileController {
-  static async create(input: InputDTO): Promise<Created> {
+  static async create(input: InputDTO): Promise<HttpSuccess> {
     const { body, headers, file } = input;
     const controller = new CreateProfile(config.profileRepository);
     await controller.execute({
@@ -23,7 +24,7 @@ export default class ProfileController {
     return new Created();
   }
 
-  static async get(input: InputDTO): Promise<Success> {
+  static async get(input: InputDTO): Promise<HttpSuccess> {
     const { path } = input;
     const controller = new GetProfile(config.profileRepository);
     const profile = await controller.execute(path.id);
@@ -32,21 +33,21 @@ export default class ProfileController {
     return new Success(data);
   }
 
-  static async follow(input: InputDTO): Promise<Success> {
+  static async follow(input: InputDTO): Promise<HttpSuccess> {
     const { path, headers } = input;
     const controller = new FollowProfile(config.profileRepository);
     await controller.execute(headers.id, path.id);
     return new Success();
   }
 
-  static async unfollow(input: InputDTO): Promise<Success> {
+  static async unfollow(input: InputDTO): Promise<HttpSuccess> {
     const { path, headers } = input;
     const controller = new UnfollowProfile(config.profileRepository);
     await controller.execute(headers.id, path.id);
     return new Success();
   }
 
-  static async match(input: InputDTO): Promise<Success> {
+  static async match(input: InputDTO): Promise<HttpSuccess> {
     const { body, headers } = input;
     const controller = new MatchProfiles(config.profileRepository);
     const matches = await controller.execute(headers.id, body.distance);
