@@ -6,14 +6,22 @@ import MemoryUserRepository from "./infra/repository/MemoryUserRepository";
 import MemoryVideoRepository from "./infra/repository/MemoryVideoRepository";
 import UserCreatedHandler from "./application/handler/UserCreatedHandler";
 import EmailGateway from "./infra/gateway/EmailGateway";
+import InviteAcceptedHandler from "./application/handler/InviteAcceptedHandler";
+import InviteDeclinedHandler from "./application/handler/InviteDeclinedHandler";
+import MemberInvitedHandler from "./application/handler/MemberInvitedHandler";
 
+const userRepository = new MemoryUserRepository();
+const profileRepository = new MemoryProfileRepository();
 const broker = new MemoryBroker();
 const emailGateway = new EmailGateway();
 broker.register(new UserCreatedHandler(emailGateway));
+broker.register(new InviteAcceptedHandler(userRepository, profileRepository, emailGateway));
+broker.register(new InviteDeclinedHandler(userRepository, profileRepository, emailGateway));
+broker.register(new MemberInvitedHandler(userRepository, emailGateway));
 
 export const config = {
-  profileRepository: new MemoryProfileRepository(),
-  userRepository: new MemoryUserRepository(),
+  profileRepository,
+  userRepository,
   videoRepository: new MemoryVideoRepository(),
   bandRepository: new MemoryBandRepository(),
   broker,

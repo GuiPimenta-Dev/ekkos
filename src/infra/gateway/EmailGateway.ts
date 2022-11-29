@@ -14,12 +14,14 @@ export default class EmailGateway implements EmailGatewayInterface {
   }
   async send(to: string, subject: string, body: string): Promise<void> {
     var mailOptions = {
-      from: process.env.EMAIL_USERNAME,
+      from: {
+        name: "Dandeliun",
+        address: "guilherme@goentri.com",
+      },
       to,
       subject,
       text: body,
     };
-    console.log(mailOptions);
     this.transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
