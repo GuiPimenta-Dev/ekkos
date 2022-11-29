@@ -24,9 +24,9 @@ export default class ProfileController {
   }
 
   static async get(input: InputDTO): Promise<Success> {
-    const { headers } = input;
+    const { path } = input;
     const controller = new GetProfile(config.profileRepository);
-    const profile = await controller.execute(headers.id);
+    const profile = await controller.execute(path.id);
     const presenter = new ProfilePresenter(config.videoRepository, config.bandRepository);
     const data = await presenter.present(profile);
     return new Success(data);
