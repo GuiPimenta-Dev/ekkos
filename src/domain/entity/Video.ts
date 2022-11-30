@@ -27,10 +27,9 @@ export default class Video {
     this.comments.push(comment);
   }
 
-  deleteComment(profileId: string, commentId: string): void {
-    const comment = this.comments.find((comment) => comment.commentId === commentId);
+  deleteComment(profileId: string, comment: CommentDTO): void {
     if (comment.profileId !== profileId) throw new Forbidden("You can't delete this comment");
-    this.comments = this.comments.filter((comment) => comment.commentId !== commentId);
+    this.comments = this.comments.filter((comment) => comment !== comment);
   }
 
   getLikes(): string[] {

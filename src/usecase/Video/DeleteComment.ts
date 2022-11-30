@@ -8,7 +8,7 @@ export default class DeleteComment {
     const comment = await this.videoRepository.getCommentById(commentId);
     if (!comment) throw new NotFound("Comment not found");
     const video = await this.videoRepository.findVideoById(comment.videoId);
-    video.deleteComment(profileId, commentId);
+    video.deleteComment(profileId, comment);
     await this.videoRepository.update(video);
   }
 }

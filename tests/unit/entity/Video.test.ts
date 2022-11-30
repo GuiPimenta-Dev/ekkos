@@ -35,7 +35,7 @@ test("It should be able to delete a comment on a video", async () => {
   const video = new Video("videoId", "profileId", "title", "description", "url", [], []);
   const comment = { commentId: "commentId", videoId: "videoId", profileId: "profileId", text: "text" };
   video.comment(comment);
-  video.deleteComment("profileId", "commentId");
+  video.deleteComment("profileId", comment);
   expect(video.getComments()).toHaveLength(0);
 });
 
@@ -43,5 +43,5 @@ test("It should not be able to delete a comment on a video you don't own", async
   const video = new Video("videoId", "profileId", "title", "description", "url", [], []);
   const comment = { commentId: "commentId", videoId: "videoId", profileId: "profileId", text: "text" };
   video.comment(comment);
-  expect(() => video.deleteComment("profileId2", "commentId")).toThrow("You can't delete this comment");
+  expect(() => video.deleteComment("profileId2", comment)).toThrow("You can't delete this comment");
 });
