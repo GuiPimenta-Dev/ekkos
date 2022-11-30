@@ -63,10 +63,10 @@ export async function verifyBand(req, res, next): Promise<void> {
 export async function verifyInvitation(req, res, next): Promise<void> {
   try {
     const { params, headers } = req;
-    const invitation = await config.bandRepository.findInvitationById(params.id);
-    if (!invitation) throw new NotFound("Invitation not found");
-    if (invitation.status !== Status.pending) throw new BadRequest("Invitation is not pending");
-    if (invitation.profileId !== headers.id) throw new Forbidden("Invitation is not for this profile");
+    const invite = await config.bandRepository.findInvitationById(params.id);
+    if (!invite) throw new NotFound("Invite not found");
+    if (invite.status !== Status.pending) throw new BadRequest("Invite is not pending");
+    if (invite.profileId !== headers.id) throw new Forbidden("Invite is not for this profile");
     next();
   } catch (e: any) {
     res.status(e.statusCode).json({ message: e.message });

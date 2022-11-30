@@ -56,10 +56,10 @@ describe("InviteMember", () => {
     const usecase = new InviteMember(bandRepository, profileRepository, broker);
     const input = { bandId, profileId: "2", adminId: "1", role: "guitarist" };
     const invitationId = await usecase.execute(input);
-    const invitation = await bandRepository.findInvitationById(invitationId);
-    expect(invitation).toBeDefined();
-    expect(invitation.role).toBe("guitarist");
-    expect(invitation.status).toBe("pending");
+    const invite = await bandRepository.findInvitationById(invitationId);
+    expect(invite).toBeDefined();
+    expect(invite.role).toBe("guitarist");
+    expect(invite.status).toBe("pending");
   });
 
   test("It should directly add the member if it is the adminId choosing a second role", async () => {
@@ -94,12 +94,12 @@ describe("InviteMember", () => {
     expect(usecase.execute(input)).rejects.toThrow("Role is invalid");
   });
 
-  test("It should be able to accept an invitation", async () => {
+  test("It should be able to accept an invite", async () => {
     const usecase = new AcceptInvite(bandRepository, broker);
     await usecase.execute("3", "2");
-    const invitation = await bandRepository.findInvitationById("2");
+    const invite = await bandRepository.findInvitationById("2");
     const band = await bandRepository.findBandById(bandId);
-    expect(invitation.status).toBe("accepted");
+    expect(invite.status).toBe("accepted");
     expect(band.getMembers()).toHaveLength(3);
   });
 
@@ -113,12 +113,12 @@ describe("InviteMember", () => {
     expect(emailGateway.emails).toHaveLength(2);
   });
 
-  test("It should be able to decline an invitation", async () => {
+  test("It should be able to decline an invite", async () => {
     const usecase = new DeclineInvite(bandRepository, broker);
     await usecase.execute("3", "2");
-    const invitation = await bandRepository.findInvitationById("2");
+    const invite = await bandRepository.findInvitationById("2");
     const band = await bandRepository.findBandById(bandId);
-    expect(invitation.status).toBe("declined");
+    expect(invite.status).toBe("declined");
     expect(band.getMembers()).toHaveLength(2);
   });
 

@@ -9,7 +9,7 @@ export default interface BandRepositoryInterface {
   findRoles(): Promise<RoleDTO[]>;
   update(band: Band): Promise<void>;
   isRoleValid(role: string): Promise<boolean>;
-  createInvitation(invitation: InvitationDTO): Promise<void>;
+  createInvitation(invite: InvitationDTO): Promise<void>;
   findInvitationById(id: string): Promise<InvitationDTO>;
-  updateInvitation(invitation: InvitationDTO): Promise<void>;
+  updateInvitation(invite: InvitationDTO): Promise<void>;
 }

@@ -7,9 +7,9 @@ export default class DeclineInvite {
   constructor(private bandRepository: BandRepositoryInterface, private broker: BrokerInterface) {}
 
   async execute(profileId: string, invitationId: string): Promise<void> {
-    const invitation = await this.bandRepository.findInvitationById(invitationId);
-    const band = await this.bandRepository.findBandById(invitation.bandId);
-    await this.bandRepository.updateInvitation({ ...invitation, status: Status.declined });
-    await this.broker.publish(EventFactory.emitInviteDeclined({ profileId, band, role: invitation.role }));
+    const invite = await this.bandRepository.findInvitationById(invitationId);
+    const band = await this.bandRepository.findBandById(invite.bandId);
+    await this.bandRepository.updateInvitation({ ...invite, status: Status.declined });
+    await this.broker.publish(EventFactory.emitInviteDeclined({ profileId, band, role: invite.role }));
   }
 }

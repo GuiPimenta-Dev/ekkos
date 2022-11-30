@@ -27,14 +27,14 @@ export default class InviteMember {
       await this.bandRepository.update(band);
     } else {
       const invitationId = uuid();
-      const invitation = {
+      const invite = {
         invitationId,
         bandId: input.bandId,
         profileId: input.profileId,
         role: input.role,
         status: Status.pending,
       };
-      await this.bandRepository.createInvitation(invitation);
+      await this.bandRepository.createInvitation(invite);
       await this.broker.publish(
         EventFactory.emitMemberInvited({
           profileId: input.profileId,

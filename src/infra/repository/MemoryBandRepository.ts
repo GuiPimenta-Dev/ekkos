@@ -55,17 +55,17 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
     return this.roles.find((r) => r.role === role) !== undefined;
   }
 
-  async createInvitation(invitation: InvitationDTO): Promise<void> {
-    this.invitations.push(invitation);
+  async createInvitation(invite: InvitationDTO): Promise<void> {
+    this.invitations.push(invite);
   }
 
   async findInvitationById(id: string): Promise<InvitationDTO> {
-    return this.invitations.find((invitation) => invitation.invitationId === id);
+    return this.invitations.find((invite) => invite.invitationId === id);
   }
 
-  async updateInvitation(invitation: InvitationDTO): Promise<void> {
-    const filteredInvitation = this.invitations.filter((i) => i.invitationId === invitation.invitationId)[0];
+  async updateInvitation(invite: InvitationDTO): Promise<void> {
+    const filteredInvitation = this.invitations.filter((i) => i.invitationId === invite.invitationId)[0];
     const index = this.invitations.indexOf(filteredInvitation);
-    this.invitations[index] = invitation;
+    this.invitations[index] = invite;
   }
 }

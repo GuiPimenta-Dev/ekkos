@@ -25,8 +25,8 @@ export default class InviteDeclinedHandler implements HandlerInterface {
         async (user) =>
           await this.emailGateway.send(
             user.email,
-            `The user ${profile.nick} has declined the invitation to join the band ${payload.band.name} as a ${payload.role}!`,
-            `The user ${profile.nick} has declined the invitation to join the band ${payload.band.name} as a ${payload.role}!`
+            `The user ${profile.nick} has declined the invite to join the band ${payload.band.name} as a ${payload.role}!`,
+            `The user ${profile.nick} has declined the invite to join the band ${payload.band.name} as a ${payload.role}!`
           )
       )
     );
