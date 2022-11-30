@@ -1,4 +1,4 @@
-import Event from "../../../domain/event/implements/Event";
+import { Event } from "../../../domain/event/EventFactory";
 
 export default interface HandlerInterface {
   name: string;

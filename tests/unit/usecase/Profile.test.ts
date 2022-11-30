@@ -2,13 +2,13 @@ import ProfileRepositoryInterface from "../../../src/domain/infra/repository/Pro
 import MemoryBandRepository from "../../../src/infra/repository/MemoryBandRepository";
 import MemoryProfileRepository from "../../../src/infra/repository/MemoryProfileRepository";
 import MemoryVideoRepository from "../../../src/infra/repository/MemoryVideoRepository";
-import CreateBand from "../../../src/usecase/band/CreateBand";
-import CreateProfile from "../../../src/usecase/profile/CreateProfile";
-import FollowProfile from "../../../src/usecase/profile/FollowProfile";
-import GetProfile from "../../../src/usecase/profile/GetProfile";
-import UnfollowProfile from "../../../src/usecase/profile/UnfollowProfile";
-import PostVideo from "../../../src/usecase/video/PostVideo";
-import MatchProfiles from "../../../src/usecase/profile/MatchProfiles";
+import CreateBand from "../../../src/usecase/Band/CreateBand";
+import CreateProfile from "../../../src/usecase/Profile/CreateProfile";
+import FollowProfile from "../../../src/usecase/Profile/FollowProfile";
+import GetProfile from "../../../src/usecase/Profile/GetProfile";
+import UnfollowProfile from "../../../src/usecase/Profile/UnfollowProfile";
+import PostVideo from "../../../src/usecase/Video/PostVideo";
+import MatchProfiles from "../../../src/usecase/Profile/MatchProfiles";
 
 let profileRepository: ProfileRepositoryInterface;
 const input = { profileId: "id", nick: "nick", avatar: "avatar", latitude: -22.90463, longitude: -43.1053 };

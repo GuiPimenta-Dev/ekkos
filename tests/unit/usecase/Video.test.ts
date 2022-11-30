@@ -1,11 +1,11 @@
-import CommentVideo from "../../../src/usecase/video/CommentVideo";
-import CreateProfile from "../../../src/usecase/profile/CreateProfile";
-import DeleteComment from "../../../src/usecase/video/DeleteComment";
-import GetVideo from "../../../src/usecase/video/GetVideo";
-import LikeVideo from "../../../src/usecase/video/LikeVideo";
+import CommentVideo from "../../../src/usecase/Video/CommentVideo";
+import CreateProfile from "../../../src/usecase/Profile/CreateProfile";
+import DeleteComment from "../../../src/usecase/Video/DeleteComment";
+import GetVideo from "../../../src/usecase/Video/GetVideo";
+import LikeVideo from "../../../src/usecase/Video/LikeVideo";
 import MemoryVideoRepository from "../../../src/infra/repository/MemoryVideoRepository";
-import PostVideo from "../../../src/usecase/video/PostVideo";
-import UnlikeVideo from "../../../src/usecase/video/UnlikeVideo";
+import PostVideo from "../../../src/usecase/Video/PostVideo";
+import UnlikeVideo from "../../../src/usecase/Video/UnlikeVideo";
 import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepository";
 
 let videoRepository: VideoRepositoryInterface;

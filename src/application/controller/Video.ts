@@ -1,11 +1,11 @@
-import CommentVideo from "../../usecase/video/CommentVideo";
-import DeleteComment from "../../usecase/video/DeleteComment";
-import GetVideo from "../../usecase/video/GetVideo";
+import CommentVideo from "../../usecase/Video/CommentVideo";
+import DeleteComment from "../../usecase/Video/DeleteComment";
+import GetVideo from "../../usecase/Video/GetVideo";
 import InputDTO from "../../dto/InputDTO";
-import LikeVideo from "../../usecase/video/LikeVideo";
-import PostVideo from "../../usecase/video/PostVideo";
+import LikeVideo from "../../usecase/Video/LikeVideo";
+import PostVideo from "../../usecase/Video/PostVideo";
 import Success from "../http/Success";
-import UnlikeVideo from "../../usecase/video/UnlikeVideo";
+import UnlikeVideo from "../../usecase/Video/UnlikeVideo";
 import { config } from "../../Config";
 import VideoPresenter from "../presenter/Video";
 import HttpSuccess from "../http/extends/HttpSuccess";
