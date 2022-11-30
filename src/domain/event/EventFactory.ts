@@ -1,25 +1,9 @@
-import Band from "../entity/Band";
+import { InviteAcceptedPayload, InviteDeclinedPayload, UserCreatedPayload } from "./Types";
 
-export interface Event<T = unknown> {
+export type Event<T = unknown> = {
   name: string;
   payload: T;
-}
-
-interface InviteAcceptedPayload {
-  profileId: string;
-  band: Band;
-  role: string;
-}
-
-interface InviteDeclinedPayload {
-  profileId: string;
-  band: Band;
-  role: string;
-}
-
-interface UserCreatedPayload {
-  email: string;
-}
+};
 
 export type InviteAccepted = Event<InviteAcceptedPayload>;
 export type InviteDeclined = Event<InviteDeclinedPayload>;

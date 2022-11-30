@@ -1,13 +1,9 @@
-export interface Command<T = unknown> {
+import { InviteMemberPayload } from "./Types";
+
+export type Command<T = unknown> = {
   name: string;
   payload: T;
-}
-
-interface InviteMemberPayload {
-  profileId: string;
-  bandName: string;
-  role: string;
-}
+};
 
 export type InviteMember = Command<InviteMemberPayload>;
 
