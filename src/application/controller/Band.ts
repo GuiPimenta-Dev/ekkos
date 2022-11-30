@@ -7,8 +7,8 @@ import Created from "../http/Created";
 import Success from "../http/Success";
 import RemoveMember from "../../usecase/band/RemoveMember";
 import BandPresenter from "../presenter/Band";
-import AcceptInvitation from "../../usecase/band/AcceptInvitation";
-import DeclineInvitation from "../../usecase/band/DeclineInvitation";
+import AcceptInvite from "../../usecase/band/AcceptInvite";
+import DeclineInvite from "../../usecase/band/DeclineInvite";
 import HttpSuccess from "../http/extends/HttpSuccess";
 
 export default class BandController {
@@ -39,14 +39,14 @@ export default class BandController {
 
   static async acceptInvitation(input: InputDTO): Promise<HttpSuccess> {
     const { path, headers } = input;
-    const controller = new AcceptInvitation(config.bandRepository, config.broker);
+    const controller = new AcceptInvite(config.bandRepository, config.broker);
     await controller.execute(headers.id, path.id);
     return new Success();
   }
 
   static async declineInvitation(input: InputDTO): Promise<HttpSuccess> {
     const { path, headers } = input;
-    const controller = new DeclineInvitation(config.bandRepository, config.broker);
+    const controller = new DeclineInvite(config.bandRepository, config.broker);
     await controller.execute(headers.id, path.id);
     return new Success();
   }

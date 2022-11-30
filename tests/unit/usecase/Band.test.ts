@@ -9,9 +9,9 @@ import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
 import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
 import MemberInvitedHandler from "../../../src/application/handler/MemberInvitedHandler";
-import AcceptInvitation from "../../../src/usecase/band/AcceptInvitation";
+import AcceptInvite from "../../../src/usecase/band/AcceptInvite";
 import InviteAcceptedHandler from "../../../src/application/handler/InviteAcceptedHandler";
-import DeclineInvitation from "../../../src/usecase/band/DeclineInvitation";
+import DeclineInvite from "../../../src/usecase/band/DeclineInvite";
 import InviteDeclinedHandler from "../../../src/application/handler/InviteDeclinedHandler";
 
 let bandRepository: BandRepositoryInterface;
@@ -95,7 +95,7 @@ describe("InviteMember", () => {
   });
 
   test("It should be able to accept an invitation", async () => {
-    const usecase = new AcceptInvitation(bandRepository, broker);
+    const usecase = new AcceptInvite(bandRepository, broker);
     await usecase.execute("3", "2");
     const invitation = await bandRepository.findInvitationById("2");
     const band = await bandRepository.findBandById(bandId);
@@ -108,13 +108,13 @@ describe("InviteMember", () => {
     const emailGateway = new EmailGatewayFake();
     const handler = new InviteAcceptedHandler(new MemoryUserRepository(), profileRepository, emailGateway);
     broker.register(handler);
-    const usecase = new AcceptInvitation(bandRepository, broker);
+    const usecase = new AcceptInvite(bandRepository, broker);
     await usecase.execute("3", "2");
     expect(emailGateway.emails).toHaveLength(2);
   });
 
   test("It should be able to decline an invitation", async () => {
-    const usecase = new DeclineInvitation(bandRepository, broker);
+    const usecase = new DeclineInvite(bandRepository, broker);
     await usecase.execute("3", "2");
     const invitation = await bandRepository.findInvitationById("2");
     const band = await bandRepository.findBandById(bandId);
@@ -127,7 +127,7 @@ describe("InviteMember", () => {
     const emailGateway = new EmailGatewayFake();
     const handler = new InviteDeclinedHandler(new MemoryUserRepository(), profileRepository, emailGateway);
     broker.register(handler);
-    const usecase = new DeclineInvitation(bandRepository, broker);
+    const usecase = new DeclineInvite(bandRepository, broker);
     await usecase.execute("3", "2");
     expect(emailGateway.emails).toHaveLength(2);
   });

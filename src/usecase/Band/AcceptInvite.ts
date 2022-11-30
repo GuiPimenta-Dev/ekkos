@@ -3,7 +3,7 @@ import BrokerInterface from "../../domain/infra/broker/Broker";
 import { Status } from "../../dto/InvitationDTO";
 import EventFactory from "../../domain/event/EventFactory";
 
-export default class AcceptInvitation {
+export default class AcceptInvite {
   constructor(private bandRepository: BandRepositoryInterface, private broker: BrokerInterface) {}
 
   async execute(profileId: string, invitationId: string): Promise<void> {
@@ -12,6 +12,6 @@ export default class AcceptInvitation {
     band.addMember({ profileId, bandId: invitation.bandId, role: invitation.role });
     await this.bandRepository.update(band);
     await this.bandRepository.updateInvitation({ ...invitation, status: Status.accepted });
-    await this.broker.publish(EventFactory.emitInvitationAccepted({ profileId, band, role: invitation.role }));
+    await this.broker.publish(EventFactory.emitInviteAccepted({ profileId, band, role: invitation.role }));
   }
 }

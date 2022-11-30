@@ -28,14 +28,14 @@ export interface UserCreated {
 }
 
 export default class EventFactory {
-  static emitInvitationAccepted(payload: InviteAccepted): Event<InviteAccepted> {
+  static emitInviteAccepted(payload: InviteAccepted): Event<InviteAccepted> {
     return {
       name: "InviteAccepted",
       payload,
     };
   }
 
-  static emitInvitationDeclined(payload: InviteDeclined): Event<InviteDeclined> {
+  static emitInviteDeclined(payload: InviteDeclined): Event<InviteDeclined> {
     return {
       name: "InviteDeclined",
       payload,
