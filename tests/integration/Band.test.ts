@@ -107,3 +107,18 @@ test("It should be able to open a vacancy in a band", async () => {
     .set({ authorization });
   expect(response.statusCode).toBe(200);
 });
+
+test("It should be able to list all possible roles for a band", async () => {
+  const response = await request(app).get(`/roles`).set({ authorization });
+  expect(response.statusCode).toBe(200);
+  expect(response.body).toEqual({
+    roles: [
+      { role: "vocalist", picture: "some mic picture" },
+      { role: "guitarist", picture: "some guitar picture" },
+      { role: "bassist", picture: "some bass picture" },
+      { role: "drummer", picture: "some drum picture" },
+      { role: "keyboard", picture: "some keyboard picture" },
+      { role: "manager", picture: "some manager picture" },
+    ],
+  });
+});

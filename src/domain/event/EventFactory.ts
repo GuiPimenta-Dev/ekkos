@@ -10,11 +10,13 @@ export type InviteAccepted = Event<{
   band: Band;
   role: string;
 }>;
+
 export type InviteDeclined = Event<{
   profileId: string;
   band: Band;
   role: string;
 }>;
+
 export type UserCreated = Event<{
   email: string;
 }>;

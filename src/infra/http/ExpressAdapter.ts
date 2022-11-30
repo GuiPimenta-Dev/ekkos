@@ -7,7 +7,6 @@ export default class ExpressAdapter {
     const app = express();
     app.use(express.json());
     app.use(bodyParser.json());
-
     return app;
   }
 

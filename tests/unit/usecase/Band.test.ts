@@ -14,6 +14,7 @@ import InviteAcceptedHandler from "../../../src/application/handler/InviteAccept
 import DeclineInvite from "../../../src/usecase/band/DeclineInvite";
 import InviteDeclinedHandler from "../../../src/application/handler/InviteDeclinedHandler";
 import OpenVacancy from "../../../src/usecase/band/OpenVacancy";
+import GetRoles from "../../../src/usecase/band/GetRoles";
 
 let bandRepository: BandRepositoryInterface;
 let profileRepository: ProfileRepositoryInterface;
@@ -128,4 +129,10 @@ test("It should be able to open a vacancy", async () => {
   await usecase.execute("1", bandId, "guitarist");
   const band = await bandRepository.findBandById(bandId);
   expect(band.getVacancies()).toHaveLength(2);
+});
+
+test("It should be able to list all roles", async () => {
+  const usecase = new GetRoles(bandRepository);
+  const roles = await usecase.execute();
+  expect(roles).toBeDefined();
 });

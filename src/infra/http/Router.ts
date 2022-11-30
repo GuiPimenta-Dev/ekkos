@@ -79,4 +79,6 @@ app.post(
   ExpressAdapter.route(BandController.openVacancy)
 );
 
+app.get("/roles", verifyToken, verifyUser, ExpressAdapter.route(BandController.getRoles));
+
 export default app;
