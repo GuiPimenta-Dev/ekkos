@@ -54,12 +54,14 @@ test("It should be able to get a band", async () => {
     adminId: "1",
     members: [
       {
+        memberId: "1",
         profileId: "1",
         nick: "user_1",
         avatar: "avatar",
         role: "guitarist",
       },
       {
+        memberId: "2",
         avatar: "avatar",
         nick: "user_2",
         profileId: "2",

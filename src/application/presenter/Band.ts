@@ -18,6 +18,7 @@ export default class BandPresenter {
         band.getMembers().map(async (member) => {
           const profile = await this.profileRepository.findProfileById(member.profileId);
           return {
+            memberId: member.memberId,
             profileId: member.profileId,
             nick: profile.nick,
             avatar: profile.avatar,
