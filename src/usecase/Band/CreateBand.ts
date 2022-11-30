@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import Band from "../../domain/entity/Band";
-import BandRepositoryInterface from "../../domain/infra/repository/BandRepository";
+import BandRepositoryInterface from "../../domain/infra/repository/BandRepositoryInterface";
 import CreateBandDTO from "../../dto/CreateBandDTO";
 
 export default class CreateBand {

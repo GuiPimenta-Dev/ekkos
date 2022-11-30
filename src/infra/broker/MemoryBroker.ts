@@ -1,5 +1,5 @@
 import HandlerInterface from "../../application/handler/implements/Handler";
-import BrokerInterface from "../../domain/infra/broker/Broker";
+import BrokerInterface from "../../domain/infra/broker/BrokerInterface";
 import { Event } from "../../domain/event/EventFactory";
 import { Command } from "../../domain/command/CommandFactory";
 

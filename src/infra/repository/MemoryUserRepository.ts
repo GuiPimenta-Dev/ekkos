@@ -1,5 +1,5 @@
 import User from "../../domain/entity/User";
-import UserRepositoryInterface from "../../domain/infra/repository/UserRepository";
+import UserRepositoryInterface from "../../domain/infra/repository/UserRepositoryInterface";
 
 export default class MemoryUserRepository implements UserRepositoryInterface {
   readonly users: User[] = [

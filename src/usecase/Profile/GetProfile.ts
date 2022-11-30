@@ -1,5 +1,5 @@
-import BandRepositoryInterface from "../../domain/infra/repository/BandRepository";
-import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
+import BandRepositoryInterface from "../../domain/infra/repository/BandRepositoryInterface";
+import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepositoryInterface";
 import NotFound from "../../application/http/NotFound";
 
 export default class GetProfile {

@@ -1,6 +1,6 @@
 import Profile from "../../domain/entity/Profile";
-import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
-import BandRepositoryInterface from "../../domain/infra/repository/BandRepository";
+import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepositoryInterface";
+import BandRepositoryInterface from "../../domain/infra/repository/BandRepositoryInterface";
 
 export default class ProfilePresenter {
   constructor(private videoRepository: VideoRepositoryInterface, private bandRepository: BandRepositoryInterface) {}

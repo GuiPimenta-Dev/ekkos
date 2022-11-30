@@ -1,5 +1,5 @@
 import Band from "../../domain/entity/Band";
-import BandRepositoryInterface from "../../domain/infra/repository/BandRepository";
+import BandRepositoryInterface from "../../domain/infra/repository/BandRepositoryInterface";
 import { InviteDTO, Status } from "../../dto/InviteDTO";
 import MemberDTO from "../../dto/MemberDTO";
 import RoleDTO from "../../dto/RoleDTO";

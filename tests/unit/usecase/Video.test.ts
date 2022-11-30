@@ -2,7 +2,7 @@ import DeleteComment from "../../../src/usecase/video/DeleteComment";
 import GetVideo from "../../../src/usecase/video/GetVideo";
 import MemoryVideoRepository from "../../../src/infra/repository/MemoryVideoRepository";
 import PostVideo from "../../../src/usecase/video/PostVideo";
-import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepository";
+import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepositoryInterface";
 
 let videoRepository: VideoRepositoryInterface;
 

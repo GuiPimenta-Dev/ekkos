@@ -1,5 +1,5 @@
 import Video from "../../domain/entity/Video";
-import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepository";
+import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepositoryInterface";
 import CommentDTO from "../../dto/CommentDTO";
 
 export default class MemoryVideoRepository implements VideoRepositoryInterface {

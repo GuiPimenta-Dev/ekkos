@@ -1,4 +1,4 @@
-import BandRepositoryInterface from "../../domain/infra/repository/BandRepository";
+import BandRepositoryInterface from "../../domain/infra/repository/BandRepositoryInterface";
 
 export default class OpenVacancy {
   constructor(private bandRepository: BandRepositoryInterface) {}
