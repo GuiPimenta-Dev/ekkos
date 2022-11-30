@@ -94,10 +94,7 @@ test("It should be able to decline an invite to band", async () => {
 });
 
 test("It should be able to remove a member from a band", async () => {
-  const response = await request(app)
-    .post(`/band/${bandId}/removeMember`)
-    .send({ profileId: 2 })
-    .set({ authorization });
+  const response = await request(app).post(`/band/${bandId}/removeMember`).send({ memberId: 2 }).set({ authorization });
   expect(response.statusCode).toBe(200);
 });
 

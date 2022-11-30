@@ -15,6 +15,7 @@ import DeclineInvite from "../../../src/usecase/band/DeclineInvite";
 import InviteDeclinedHandler from "../../../src/application/handler/InviteDeclinedHandler";
 import OpenVacancy from "../../../src/usecase/band/OpenVacancy";
 import GetRoles from "../../../src/usecase/band/GetRoles";
+import RemoveMember from "../../../src/usecase/band/RemoveMember";
 
 let bandRepository: BandRepositoryInterface;
 let profileRepository: ProfileRepositoryInterface;
@@ -121,7 +122,7 @@ test("It should be able to get a band", async () => {
   expect(band.logo).toBe("logo");
   expect(band.description).toBe("description");
   expect(band.adminId).toBe("1");
-  expect(band.members).toHaveLength(2);
+  expect(band.getMembers()).toHaveLength(2);
 });
 
 test("It should be able to open a vacancy", async () => {
@@ -135,4 +136,14 @@ test("It should be able to list all roles", async () => {
   const usecase = new GetRoles(bandRepository);
   const roles = await usecase.execute();
   expect(roles).toBeDefined();
+});
+
+test("It should not be able to remove a member if its not found", async () => {
+  const usecase = new RemoveMember(bandRepository);
+  expect(usecase.execute(bandId, "1", "3")).rejects.toThrow("Member not found");
+});
+
+test("It should not be able to remove a member if its the admin", async () => {
+  const usecase = new RemoveMember(bandRepository);
+  expect(usecase.execute(bandId, "1", "1")).rejects.toThrow("Admin cannot leave the band");
 });

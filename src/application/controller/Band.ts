@@ -56,7 +56,7 @@ export default class BandController {
   static async removeMember(input: InputDTO): Promise<HttpSuccess> {
     const { path, body, headers } = input;
     const usecase = new RemoveMember(config.bandRepository);
-    const band = await usecase.execute(path.id, headers.id, body.profileId);
+    const band = await usecase.execute(path.id, headers.id, body.memberId);
     return new Success(band);
   }
 

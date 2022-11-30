@@ -19,7 +19,12 @@ export default class InviteMember {
     const profile = await this.profileRepository.findProfileById(input.profileId);
     if (!profile) throw new NotFound("Profile not found");
     if (input.adminId === input.profileId) {
-      band.addMember(input.adminId, { profileId: input.profileId, bandId: input.bandId, role: input.role });
+      band.addMember(input.adminId, {
+        memberId: uuid(),
+        profileId: input.profileId,
+        bandId: input.bandId,
+        role: input.role,
+      });
       await this.bandRepository.update(band);
     } else {
       const inviteId = uuid();

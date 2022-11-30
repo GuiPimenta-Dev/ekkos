@@ -1,7 +1,6 @@
 import BadRequest from "../../application/http/BadRequest";
 import Forbidden from "../../application/http/Forbidden";
 import MemberDTO from "../../dto/MemberDTO";
-import RoleDTO from "../../dto/RoleDTO";
 
 export default class Band {
   constructor(
@@ -22,10 +21,9 @@ export default class Band {
     this.members.push(member);
   }
 
-  removeMember(adminId: string, profileId: string): void {
+  removeMember(adminId: string, memberId: string): void {
     this.verifyAdmin(adminId);
-    if (adminId === profileId) throw new BadRequest("Admin cannot leave the band");
-    this.members = this.members.filter((m) => m.profileId !== profileId);
+    this.members = this.members.filter((m) => m.memberId !== memberId);
   }
 
   getMembers(): MemberDTO[] {

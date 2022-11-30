@@ -1,19 +1,30 @@
 import Band from "../../domain/entity/Band";
 import BandRepositoryInterface from "../../domain/infra/repository/BandRepository";
 import { InviteDTO, Status } from "../../dto/InviteDTO";
+import MemberDTO from "../../dto/MemberDTO";
 import RoleDTO from "../../dto/RoleDTO";
 
 export default class MemoryBandRepository implements BandRepositoryInterface {
   bands: Band[];
   roles: RoleDTO[];
   invites: InviteDTO[];
+  members: MemberDTO[];
 
   constructor() {
-    const members = [
-      { profileId: "1", bandId: "bandId", role: "guitarist" },
-      { profileId: "2", bandId: "bandId", role: "manager" },
+    this.bands = [
+      new Band(
+        "bandId",
+        "name",
+        "description",
+        "logo",
+        "1",
+        [
+          { memberId: "1", profileId: "1", bandId: "bandId", role: "guitarist" },
+          { memberId: "2", profileId: "2", bandId: "bandId", role: "manager" },
+        ],
+        ["keyboard"]
+      ),
     ];
-    this.bands = [new Band("bandId", "name", "description", "logo", "1", members, ["keyboard"])];
     this.roles = [
       { role: "vocalist", picture: "some mic picture" },
       { role: "guitarist", picture: "some guitar picture" },
@@ -49,10 +60,6 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
 
   async findBandsByProfileId(profileId: string): Promise<Band[]> {
     return this.bands.filter((band) => band.getMembers().find((member) => member.profileId === profileId));
-  }
-
-  async isRoleValid(role: string): Promise<boolean> {
-    return this.roles.find((r) => r.role === role) !== undefined;
   }
 
   async createInvite(invite: InviteDTO): Promise<void> {
