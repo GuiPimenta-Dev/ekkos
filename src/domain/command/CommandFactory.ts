@@ -1,9 +1,9 @@
 import { InviteMemberPayload } from "./Types";
 
-export type Command<T = unknown> = {
+export interface Command<T = unknown> {
   name: string;
   payload: T;
-};
+}
 
 export type InviteMember = Command<InviteMemberPayload>;
 

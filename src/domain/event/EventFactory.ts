@@ -1,9 +1,9 @@
 import { InviteAcceptedPayload, InviteDeclinedPayload, UserCreatedPayload } from "./Types";
 
-export type Event<T = unknown> = {
+export interface Event<T = unknown> {
   name: string;
   payload: T;
-};
+}
 
 export type InviteAccepted = Event<InviteAcceptedPayload>;
 export type InviteDeclined = Event<InviteDeclinedPayload>;
