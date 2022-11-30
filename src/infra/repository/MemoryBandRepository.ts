@@ -13,7 +13,7 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
       { profileId: "1", bandId: "bandId", role: "guitarist" },
       { profileId: "2", bandId: "bandId", role: "manager" },
     ];
-    this.bands = [new Band("bandId", "name", "description", "logo", "1", members)];
+    this.bands = [new Band("bandId", "name", "description", "logo", "1", members, ["keyboard"])];
     this.roles = [
       { role: "vocalist", picture: "some mic picture" },
       { role: "guitarist", picture: "some guitar picture" },

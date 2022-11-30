@@ -65,7 +65,12 @@ test("It should be able to get a band", async () => {
         role: "manager",
       },
     ],
-    vacancies: [],
+    vacancies: [
+      {
+        role: "keyboard",
+        picture: "some keyboard picture",
+      },
+    ],
   });
 });
 

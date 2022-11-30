@@ -127,5 +127,5 @@ test("It should be able to open a vacancy", async () => {
   const usecase = new OpenVacancy(bandRepository);
   await usecase.execute("1", bandId, "guitarist");
   const band = await bandRepository.findBandById(bandId);
-  expect(band.getVacancies()).toHaveLength(1);
+  expect(band.getVacancies()).toHaveLength(2);
 });

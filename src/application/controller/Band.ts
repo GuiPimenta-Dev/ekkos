@@ -63,7 +63,7 @@ export default class BandController {
     const { path } = input;
     const controller = new GetBand(config.bandRepository);
     const band = await controller.execute(path.id);
-    const presenter = new BandPresenter(config.profileRepository);
+    const presenter = new BandPresenter(config.profileRepository, config.bandRepository);
     const data = await presenter.present(band);
     return new Success(data);
   }
