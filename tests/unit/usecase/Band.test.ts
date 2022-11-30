@@ -35,7 +35,6 @@ test("It should be able to create a band", async () => {
     description: "description",
     logo: "logo",
     profileId: "1",
-    role: "guitarist",
   });
   expect(bandRepository.bands).toHaveLength(2);
 });
@@ -141,9 +140,4 @@ test("It should be able to list all roles", async () => {
 test("It should not be able to remove a member if its not found", async () => {
   const usecase = new RemoveMember(bandRepository);
   expect(usecase.execute(bandId, "1", "3")).rejects.toThrow("Member not found");
-});
-
-test("It should not be able to remove a member if its the admin", async () => {
-  const usecase = new RemoveMember(bandRepository);
-  expect(usecase.execute(bandId, "1", "1")).rejects.toThrow("Admin cannot leave the band");
 });

@@ -5,15 +5,15 @@ import MemoryProfileRepository from "./infra/repository/MemoryProfileRepository"
 import MemoryUserRepository from "./infra/repository/MemoryUserRepository";
 import MemoryVideoRepository from "./infra/repository/MemoryVideoRepository";
 import UserCreatedHandler from "./application/handler/UserCreatedHandler";
-import EmailGateway from "./infra/gateway/EmailGateway";
 import InviteAcceptedHandler from "./application/handler/InviteAcceptedHandler";
 import InviteDeclinedHandler from "./application/handler/InviteDeclinedHandler";
 import InviteMemberHandler from "./application/handler/InviteMemberHandler";
+import EmailGatewayFake from "../tests/utils/mocks/gateway/EmailGatewayFake";
 
 const userRepository = new MemoryUserRepository();
 const profileRepository = new MemoryProfileRepository();
 const broker = new MemoryBroker();
-const emailGateway = new EmailGateway();
+const emailGateway = new EmailGatewayFake();
 broker.register(new UserCreatedHandler(emailGateway));
 broker.register(new InviteAcceptedHandler(userRepository, profileRepository, emailGateway));
 broker.register(new InviteDeclinedHandler(userRepository, profileRepository, emailGateway));

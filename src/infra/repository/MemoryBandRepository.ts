@@ -19,8 +19,8 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
         "logo",
         "1",
         [
-          { memberId: "1", profileId: "1", bandId: "bandId", role: "guitarist" },
-          { memberId: "2", profileId: "2", bandId: "bandId", role: "manager" },
+          { memberId: "1", profileId: "1", bandId: "bandId", role: "admin" },
+          { memberId: "2", profileId: "2", bandId: "bandId", role: "guitarist" },
         ],
         ["keyboard"]
       ),

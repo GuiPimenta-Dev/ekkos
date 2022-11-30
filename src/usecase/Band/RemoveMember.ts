@@ -9,8 +9,7 @@ export default class RemoveMember {
     const band = await this.bandRepository.findBandById(bandId);
     const member = band.getMembers().find((m) => m.memberId == memberId);
     if (!member) throw new NotFound("Member not found");
-    if (member.profileId === adminId) throw new Forbidden("Admin cannot leave the band");
-    band.removeMember(adminId, memberId);
+    band.removeMember(adminId, member);
     await this.bandRepository.update(band);
   }
 }

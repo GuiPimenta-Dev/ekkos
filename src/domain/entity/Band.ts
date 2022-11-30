@@ -21,9 +21,10 @@ export default class Band {
     this.members.push(member);
   }
 
-  removeMember(adminId: string, memberId: string): void {
+  removeMember(adminId: string, member: MemberDTO): void {
     this.verifyAdmin(adminId);
-    this.members = this.members.filter((m) => m.memberId !== memberId);
+    if (member.role === "admin") throw new Forbidden("Admin cannot leave the band");
+    this.members = this.members.filter((m) => m !== member);
   }
 
   getMembers(): MemberDTO[] {
