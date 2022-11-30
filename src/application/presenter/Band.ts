@@ -11,6 +11,7 @@ export default class BandPresenter {
     return {
       bandId: band.bandId,
       name: band.name,
+      logo: band.logo,
       description: band.description,
       adminId: band.adminId,
       members: await Promise.all(

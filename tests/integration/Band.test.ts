@@ -49,6 +49,7 @@ test("It should be able to get a band", async () => {
   expect(response.body).toEqual({
     bandId: "bandId",
     name: "name",
+    logo: "logo",
     description: "description",
     adminId: "1",
     members: [
