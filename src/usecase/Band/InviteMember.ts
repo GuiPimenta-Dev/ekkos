@@ -16,11 +16,10 @@ export default class InviteMember {
 
   async execute(input: AddMemberDTO): Promise<string> {
     const band = await this.bandRepository.findBandById(input.bandId);
-    band.verifyAdmin(input.adminId);
     const profile = await this.profileRepository.findProfileById(input.profileId);
     if (!profile) throw new NotFound("Profile not found");
     if (input.adminId === input.profileId) {
-      band.addMember({ profileId: input.profileId, bandId: input.bandId, role: input.role });
+      band.addMember(input.adminId, { profileId: input.profileId, bandId: input.bandId, role: input.role });
       await this.bandRepository.update(band);
     } else {
       const inviteId = uuid();

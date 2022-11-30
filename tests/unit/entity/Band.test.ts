@@ -2,7 +2,7 @@ import Band from "../../../src/domain/entity/Band";
 
 test("It should be able to add member to band", async () => {
   const band = new Band("bandId", "name", "description", "logo", "adminId", []);
-  band.addMember({ profileId: "profileId", bandId: "bandId", role: "guitarist" });
+  band.addMember("adminId", { profileId: "profileId", bandId: "bandId", role: "guitarist" });
   expect(band.getMembers()).toHaveLength(1);
 });
 
@@ -55,4 +55,11 @@ test("It should remove only one vacancy if there are repeated roles", async () =
   expect(band.getVacancies()).toHaveLength(2);
   band.removeVacancy("adminId", "guitarist");
   expect(band.getVacancies()).toHaveLength(1);
+});
+
+test("It should remove a vacancy when adding a member to band", async () => {
+  const band = new Band("bandId", "name", "description", "logo", "adminId", [], ["guitarist"]);
+  band.addMember("adminId", { profileId: "profileId", bandId: "bandId", role: "guitarist" });
+  expect(band.getMembers()).toHaveLength(1);
+  expect(band.getVacancies()).toHaveLength(0);
 });

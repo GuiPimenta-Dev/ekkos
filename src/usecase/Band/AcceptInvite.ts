@@ -9,7 +9,7 @@ export default class AcceptInvite {
   async execute(profileId: string, inviteId: string): Promise<void> {
     const invite = await this.bandRepository.findInviteById(inviteId);
     const band = await this.bandRepository.findBandById(invite.bandId);
-    band.addMember({ profileId, bandId: invite.bandId, role: invite.role });
+    band.addMember(band.adminId, { profileId, bandId: invite.bandId, role: invite.role });
     await this.bandRepository.update(band);
     await this.bandRepository.updateInvite({ ...invite, status: Status.accepted });
     await this.broker.publish(EventFactory.emitInviteAccepted({ profileId, band, role: invite.role }));

@@ -14,7 +14,11 @@ export default class Band {
     private vacancies: string[] = []
   ) {}
 
-  addMember(member: MemberDTO): void {
+  addMember(adminId: string, member: MemberDTO): void {
+    this.verifyAdmin(adminId);
+    if (this.getVacancies().includes(member.role)) {
+      this.removeVacancy(adminId, member.role);
+    }
     this.members.push(member);
   }
 
@@ -43,7 +47,7 @@ export default class Band {
     return this.vacancies;
   }
 
-  verifyAdmin(adminId: string) {
+  private verifyAdmin(adminId: string) {
     if (this.adminId !== adminId) throw new Forbidden("Only the admin can perform this action");
   }
 }
