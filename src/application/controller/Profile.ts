@@ -13,8 +13,8 @@ import HttpSuccess from "../http/extends/HttpSuccess";
 export default class ProfileController {
   static async create(input: InputDTO): Promise<HttpSuccess> {
     const { body, headers, file } = input;
-    const controller = new CreateProfile(config.profileRepository);
-    await controller.execute({
+    const usecase = new CreateProfile(config.profileRepository);
+    await usecase.execute({
       profileId: headers.id,
       nick: body.nick,
       avatar: file.location,
@@ -26,8 +26,8 @@ export default class ProfileController {
 
   static async get(input: InputDTO): Promise<HttpSuccess> {
     const { path } = input;
-    const controller = new GetProfile(config.profileRepository);
-    const profile = await controller.execute(path.id);
+    const usecase = new GetProfile(config.profileRepository);
+    const profile = await usecase.execute(path.id);
     const presenter = new ProfilePresenter(config.videoRepository, config.bandRepository);
     const data = await presenter.present(profile);
     return new Success(data);
@@ -35,22 +35,22 @@ export default class ProfileController {
 
   static async follow(input: InputDTO): Promise<HttpSuccess> {
     const { path, headers } = input;
-    const controller = new FollowProfile(config.profileRepository);
-    await controller.execute(headers.id, path.id);
+    const usecase = new FollowProfile(config.profileRepository);
+    await usecase.execute(headers.id, path.id);
     return new Success();
   }
 
   static async unfollow(input: InputDTO): Promise<HttpSuccess> {
     const { path, headers } = input;
-    const controller = new UnfollowProfile(config.profileRepository);
-    await controller.execute(headers.id, path.id);
+    const usecase = new UnfollowProfile(config.profileRepository);
+    await usecase.execute(headers.id, path.id);
     return new Success();
   }
 
   static async match(input: InputDTO): Promise<HttpSuccess> {
     const { body, headers } = input;
-    const controller = new MatchProfiles(config.profileRepository);
-    const matches = await controller.execute(headers.id, body.distance);
+    const usecase = new MatchProfiles(config.profileRepository);
+    const matches = await usecase.execute(headers.id, body.distance);
     const presenter = new ProfilePresenter(config.videoRepository, config.bandRepository);
     const data = await Promise.all(
       matches.map(async (match) => {
