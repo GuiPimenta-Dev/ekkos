@@ -10,10 +10,10 @@ export default class CreateUser {
 
   async execute(email: string, password: string): Promise<string> {
     if (await this.userRepository.isEmailTaken(email)) throw new BadRequest("Email already taken");
-    const id = uuid();
-    const user = new User(id, email, password);
+    const userId = uuid();
+    const user = new User(userId, email, password);
     this.userRepository.save(user);
     this.broker.publish(EventFactory.emitUserCreated({ email }));
-    return id;
+    return userId;
   }
 }

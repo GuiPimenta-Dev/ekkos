@@ -28,23 +28,23 @@ export default class BandController {
   static async inviteMember(input: InputDTO): Promise<HttpSuccess> {
     const { body, headers, path } = input;
     const controller = new InviteMember(config.bandRepository, config.profileRepository, config.broker);
-    const invitationId = await controller.execute({
+    const inviteId = await controller.execute({
       bandId: path.id,
       adminId: headers.id,
       profileId: body.profileId,
       role: body.role,
     });
-    return new Success({ invitationId });
+    return new Success({ inviteId });
   }
 
-  static async acceptInvitation(input: InputDTO): Promise<HttpSuccess> {
+  static async acceptInvite(input: InputDTO): Promise<HttpSuccess> {
     const { path, headers } = input;
     const controller = new AcceptInvite(config.bandRepository, config.broker);
     await controller.execute(headers.id, path.id);
     return new Success();
   }
 
-  static async declineInvitation(input: InputDTO): Promise<HttpSuccess> {
+  static async declineInvite(input: InputDTO): Promise<HttpSuccess> {
     const { path, headers } = input;
     const controller = new DeclineInvite(config.bandRepository, config.broker);
     await controller.execute(headers.id, path.id);

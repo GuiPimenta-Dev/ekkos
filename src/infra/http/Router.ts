@@ -2,7 +2,7 @@ import {
   updateCoords,
   uploadFile,
   verifyBand,
-  verifyInvitation,
+  verifyInvite,
   verifyToken,
   verifyUser,
   verifyVideo,
@@ -89,18 +89,18 @@ app.post(
   "/band/:id/invite/accept",
   verifyToken,
   verifyUser,
-  verifyInvitation,
+  verifyInvite,
   updateCoords,
-  ExpressAdapter.route(BandController.acceptInvitation)
+  ExpressAdapter.route(BandController.acceptInvite)
 );
 
 app.post(
   "/band/:id/invite/decline",
   verifyToken,
   verifyUser,
-  verifyInvitation,
+  verifyInvite,
   updateCoords,
-  ExpressAdapter.route(BandController.declineInvitation)
+  ExpressAdapter.route(BandController.declineInvite)
 );
 
 app.get("/band/:id", verifyToken, verifyUser, verifyBand, updateCoords, ExpressAdapter.route(BandController.get));

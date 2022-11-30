@@ -2,7 +2,7 @@ import EmailGatewayInterface from "../../domain/infra/gateway/EmailGateway";
 import HandlerInterface from "./implements/Handler";
 import UserRepositoryInterface from "../../domain/infra/repository/UserRepository";
 import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
-import { Event, InviteDeclined } from "../../domain/event/EventFactory";
+import { InviteDeclined } from "../../domain/event/EventFactory";
 
 export default class InviteDeclinedHandler implements HandlerInterface {
   name: string;
@@ -14,7 +14,7 @@ export default class InviteDeclinedHandler implements HandlerInterface {
     this.name = "InviteDeclined";
   }
 
-  async handle({ payload }: Event<InviteDeclined>): Promise<void> {
+  async handle({ payload }: InviteDeclined): Promise<void> {
     const profile = await this.profileRepository.findProfileById(payload.profileId);
     const members = payload.band.getMembers().filter((member) => member.profileId !== payload.profileId);
     const users = await Promise.all(

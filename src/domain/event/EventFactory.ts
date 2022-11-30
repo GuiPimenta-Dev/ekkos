@@ -5,51 +5,42 @@ export interface Event<T = unknown> {
   payload: T;
 }
 
-export interface InviteAccepted {
+interface InviteAcceptedPayload {
   profileId: string;
   band: Band;
   role: string;
 }
 
-export interface InviteDeclined {
+interface InviteDeclinedPayload {
   profileId: string;
   band: Band;
   role: string;
 }
 
-export interface MemberInvited {
-  profileId: string;
-  bandName: string;
-  role: string;
-}
-
-export interface UserCreated {
+interface UserCreatedPayload {
   email: string;
 }
 
+export type InviteAccepted = Event<InviteAcceptedPayload>;
+export type InviteDeclined = Event<InviteDeclinedPayload>;
+export type UserCreated = Event<UserCreatedPayload>;
+
 export default class EventFactory {
-  static emitInviteAccepted(payload: InviteAccepted): Event<InviteAccepted> {
+  static emitInviteAccepted(payload: InviteAcceptedPayload): InviteAccepted {
     return {
       name: "InviteAccepted",
       payload,
     };
   }
 
-  static emitInviteDeclined(payload: InviteDeclined): Event<InviteDeclined> {
+  static emitInviteDeclined(payload: InviteDeclinedPayload): InviteDeclined {
     return {
       name: "InviteDeclined",
       payload,
     };
   }
 
-  static emitMemberInvited(payload: MemberInvited): Event<MemberInvited> {
-    return {
-      name: "MemberInvited",
-      payload,
-    };
-  }
-
-  static emitUserCreated(payload: UserCreated): Event<UserCreated> {
+  static emitUserCreated(payload: UserCreatedPayload): UserCreated {
     return {
       name: "UserCreated",
       payload,

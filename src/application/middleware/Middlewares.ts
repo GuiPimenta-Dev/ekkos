@@ -5,7 +5,7 @@ import { config } from "../../Config";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import Forbidden from "../http/Forbidden";
-import { Status } from "../../dto/InvitationDTO";
+import { Status } from "../../dto/InviteDTO";
 
 export async function verifyToken(req, res, next): Promise<void> {
   try {
@@ -60,10 +60,10 @@ export async function verifyBand(req, res, next): Promise<void> {
   }
 }
 
-export async function verifyInvitation(req, res, next): Promise<void> {
+export async function verifyInvite(req, res, next): Promise<void> {
   try {
     const { params, headers } = req;
-    const invite = await config.bandRepository.findInvitationById(params.id);
+    const invite = await config.bandRepository.findInviteById(params.id);
     if (!invite) throw new NotFound("Invite not found");
     if (invite.status !== Status.pending) throw new BadRequest("Invite is not pending");
     if (invite.profileId !== headers.id) throw new Forbidden("Invite is not for this profile");

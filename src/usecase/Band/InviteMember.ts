@@ -2,11 +2,12 @@ import NotFound from "../../application/http/NotFound";
 import BandRepositoryInterface from "../../domain/infra/repository/BandRepository";
 import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
 import AddMemberDTO from "../../dto/AddMemberDTO";
-import { Status } from "../../dto/InvitationDTO";
+import { Status } from "../../dto/InviteDTO";
 import { v4 as uuid } from "uuid";
 import BrokerInterface from "../../domain/infra/broker/Broker";
 import Forbidden from "../../application/http/Forbidden";
 import EventFactory from "../../domain/event/EventFactory";
+import CommandFactory from "../../domain/command/CommandFactory";
 
 export default class InviteMember {
   constructor(
@@ -26,23 +27,19 @@ export default class InviteMember {
       band.addMember({ profileId: input.profileId, bandId: input.bandId, role: input.role });
       await this.bandRepository.update(band);
     } else {
-      const invitationId = uuid();
+      const inviteId = uuid();
       const invite = {
-        invitationId,
+        inviteId,
         bandId: input.bandId,
         profileId: input.profileId,
         role: input.role,
         status: Status.pending,
       };
-      await this.bandRepository.createInvitation(invite);
+      await this.bandRepository.createInvite(invite);
       await this.broker.publish(
-        EventFactory.emitMemberInvited({
-          profileId: input.profileId,
-          bandName: band.name,
-          role: input.role,
-        })
+        CommandFactory.inviteMember({ profileId: input.profileId, bandName: band.name, role: input.role })
       );
-      return invitationId;
+      return inviteId;
     }
   }
 }

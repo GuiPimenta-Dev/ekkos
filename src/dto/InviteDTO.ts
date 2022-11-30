@@ -4,8 +4,8 @@ export enum Status {
   declined = "declined",
 }
 
-export interface InvitationDTO {
-  invitationId: string;
+export interface InviteDTO {
+  inviteId: string;
   bandId: string;
   profileId: string;
   role: string;

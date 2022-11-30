@@ -8,7 +8,7 @@ import GetBand from "../../../src/usecase/band/GetBand";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
 import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
-import MemberInvitedHandler from "../../../src/application/handler/MemberInvitedHandler";
+import InviteMemberHandler from "../../../src/application/handler/InviteMemberHandler";
 import AcceptInvite from "../../../src/usecase/band/AcceptInvite";
 import InviteAcceptedHandler from "../../../src/application/handler/InviteAcceptedHandler";
 import DeclineInvite from "../../../src/usecase/band/DeclineInvite";
@@ -55,8 +55,8 @@ describe("InviteMember", () => {
   test("It should be able to invite a member", async () => {
     const usecase = new InviteMember(bandRepository, profileRepository, broker);
     const input = { bandId, profileId: "2", adminId: "1", role: "guitarist" };
-    const invitationId = await usecase.execute(input);
-    const invite = await bandRepository.findInvitationById(invitationId);
+    const inviteId = await usecase.execute(input);
+    const invite = await bandRepository.findInviteById(inviteId);
     expect(invite).toBeDefined();
     expect(invite.role).toBe("guitarist");
     expect(invite.status).toBe("pending");
@@ -74,7 +74,7 @@ describe("InviteMember", () => {
     const userRepository = new MemoryUserRepository();
     const broker = new MemoryBroker();
     const emailGateway = new EmailGatewayFake();
-    const handler = new MemberInvitedHandler(userRepository, emailGateway);
+    const handler = new InviteMemberHandler(userRepository, emailGateway);
     broker.register(handler);
     const usecase = new InviteMember(bandRepository, profileRepository, broker);
     const input = { bandId, profileId: "2", adminId: "1", role: "guitarist" };
@@ -97,7 +97,7 @@ describe("InviteMember", () => {
   test("It should be able to accept an invite", async () => {
     const usecase = new AcceptInvite(bandRepository, broker);
     await usecase.execute("3", "2");
-    const invite = await bandRepository.findInvitationById("2");
+    const invite = await bandRepository.findInviteById("2");
     const band = await bandRepository.findBandById(bandId);
     expect(invite.status).toBe("accepted");
     expect(band.getMembers()).toHaveLength(3);
@@ -116,7 +116,7 @@ describe("InviteMember", () => {
   test("It should be able to decline an invite", async () => {
     const usecase = new DeclineInvite(bandRepository, broker);
     await usecase.execute("3", "2");
-    const invite = await bandRepository.findInvitationById("2");
+    const invite = await bandRepository.findInviteById("2");
     const band = await bandRepository.findBandById(bandId);
     expect(invite.status).toBe("declined");
     expect(band.getMembers()).toHaveLength(2);
