@@ -73,6 +73,18 @@ export async function verifyInvite(req, res, next): Promise<void> {
   }
 }
 
+export async function verifyRole(req, res, next): Promise<void> {
+  try {
+    const { body } = req;
+    const roles = await config.bandRepository.findRoles();
+    const isValid = roles.find((r) => r.role === body.role);
+    if (!isValid) throw new BadRequest("Role is invalid");
+    next();
+  } catch (e: any) {
+    res.status(e.statusCode).json({ message: e.message });
+  }
+}
+
 export async function updateCoords(req, _, next): Promise<void> {
   const { headers } = req;
   const profile = await config.profileRepository.findProfileById(headers.id);

@@ -10,6 +10,7 @@ import BandPresenter from "../presenter/Band";
 import AcceptInvite from "../../usecase/band/AcceptInvite";
 import DeclineInvite from "../../usecase/band/DeclineInvite";
 import HttpSuccess from "../http/extends/HttpSuccess";
+import OpenVacancy from "../../usecase/band/OpenVacancy";
 
 export default class BandController {
   static async create(input: InputDTO): Promise<HttpSuccess> {
@@ -65,5 +66,12 @@ export default class BandController {
     const presenter = new BandPresenter(config.profileRepository);
     const data = await presenter.present(band);
     return new Success(data);
+  }
+
+  static async openVacancy(input: InputDTO): Promise<HttpSuccess> {
+    const { headers, path, body } = input;
+    const controller = new OpenVacancy(config.bandRepository);
+    await controller.execute(headers.id, path.id, body.role);
+    return new Success();
   }
 }

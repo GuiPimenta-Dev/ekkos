@@ -1,6 +1,7 @@
 import BadRequest from "../../application/http/BadRequest";
 import Forbidden from "../../application/http/Forbidden";
 import MemberDTO from "../../dto/MemberDTO";
+import RoleDTO from "../../dto/RoleDTO";
 
 export default class Band {
   constructor(
@@ -9,7 +10,8 @@ export default class Band {
     readonly description: string,
     readonly logo: string,
     readonly adminId: string,
-    private members: MemberDTO[]
+    private members: MemberDTO[],
+    private vacancies: string[] = []
   ) {}
 
   addMember(member: MemberDTO): void {
@@ -24,6 +26,21 @@ export default class Band {
 
   getMembers(): MemberDTO[] {
     return this.members;
+  }
+
+  openVacancy(adminId: string, role: string): void {
+    this.verifyAdmin(adminId);
+    this.vacancies.push(role);
+  }
+
+  removeVacancy(adminId: string, role: string): void {
+    this.verifyAdmin(adminId);
+    const index = this.vacancies.findIndex((r) => r === role);
+    this.vacancies.splice(index, 1);
+  }
+
+  getVacancies(): string[] {
+    return this.vacancies;
   }
 
   verifyAdmin(adminId: string) {

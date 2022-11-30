@@ -8,7 +8,6 @@ export default interface BandRepositoryInterface {
   findBandsByProfileId(profileId: string): Promise<Band[]>;
   findRoles(): Promise<RoleDTO[]>;
   update(band: Band): Promise<void>;
-  isRoleValid(role: string): Promise<boolean>;
   createInvite(invite: InviteDTO): Promise<void>;
   findInviteById(id: string): Promise<InviteDTO>;
   updateInvite(invite: InviteDTO): Promise<void>;

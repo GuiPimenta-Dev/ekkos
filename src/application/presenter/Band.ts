@@ -21,6 +21,7 @@ export default class BandPresenter {
           };
         })
       ),
+      vacancies: band.getVacancies(),
     };
   }
 }

@@ -36,7 +36,7 @@ test("It should be able to create a band", async () => {
     .post("/band")
     .field("name", "name")
     .field("description", "description")
-    .field("role", "keyboard")
+    .field("role", "guitarist")
     .attach("logo", avatar)
     .set({ authorization });
   expect(response.statusCode).toBe(201);
@@ -65,6 +65,7 @@ test("It should be able to get a band", async () => {
         role: "manager",
       },
     ],
+    vacancies: [],
   });
 });
 
@@ -90,6 +91,14 @@ test("It should be able to remove a member from a band", async () => {
   const response = await request(app)
     .post(`/band/${bandId}/removeMember`)
     .send({ profileId: 2 })
+    .set({ authorization });
+  expect(response.statusCode).toBe(200);
+});
+
+test("It should be able to open a vacancy in a band", async () => {
+  const response = await request(app)
+    .post(`/band/${bandId}/openVacancy`)
+    .send({ role: "guitarist" })
     .set({ authorization });
   expect(response.statusCode).toBe(200);
 });

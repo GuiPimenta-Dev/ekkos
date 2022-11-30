@@ -1,6 +1,7 @@
 import {
   verifyBand,
   verifyInvite,
+  verifyRole,
   verifyToken,
   verifyUser,
   verifyVideo,
@@ -105,4 +106,11 @@ test("Must throw an error if invite is not for this profile", async () => {
   await verifyInvite(req, res, next);
   expect(res.statusCode).toBe(403);
   expect(res.message).toBe("Invite is not for this profile");
+});
+
+test("Must throw an error if role is invalid", async () => {
+  const req = { body: { role: "invalid" } };
+  await verifyRole(req, res, next);
+  expect(res.statusCode).toBe(400);
+  expect(res.message).toBe("Role is invalid");
 });

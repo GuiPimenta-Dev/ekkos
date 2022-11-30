@@ -1,10 +1,13 @@
 import HttpError from "../../application/http/extends/HttpError";
 import express from "express";
+import bodyParser from "body-parser";
 
 export default class ExpressAdapter {
   static create() {
     const app = express();
     app.use(express.json());
+    app.use(bodyParser.json());
+
     return app;
   }
 
