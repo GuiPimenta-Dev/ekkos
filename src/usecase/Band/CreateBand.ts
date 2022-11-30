@@ -1,5 +1,4 @@
 import { v4 as uuid } from "uuid";
-import NotFound from "../../application/http/NotFound";
 import Band from "../../domain/entity/Band";
 import BandRepositoryInterface from "../../domain/infra/repository/BandRepository";
 import CreateBandDTO from "../../dto/CreateBandDTO";

@@ -12,8 +12,6 @@ export default class AcceptInvitation {
     band.addMember({ profileId, bandId: invitation.bandId, role: invitation.role });
     await this.bandRepository.update(band);
     await this.bandRepository.updateInvitation({ ...invitation, status: Status.accepted });
-    await this.broker.publish(
-      EventFactory.emitInviteAcceptedEvent({ profileId, band, role: invitation.role }),
-    );
+    await this.broker.publish(EventFactory.emitInvitationAccepted({ profileId, band, role: invitation.role }));
   }
 }

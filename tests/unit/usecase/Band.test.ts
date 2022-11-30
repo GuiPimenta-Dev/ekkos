@@ -2,16 +2,16 @@ import BandRepositoryInterface from "../../../src/domain/infra/repository/BandRe
 import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepository";
 import MemoryBandRepository from "../../../src/infra/repository/MemoryBandRepository";
 import MemoryProfileRepository from "../../../src/infra/repository/MemoryProfileRepository";
-import InviteMember from "../../../src/usecase/Band/InviteMember";
-import CreateBand from "../../../src/usecase/Band/CreateBand";
-import GetBand from "../../../src/usecase/Band/GetBand";
+import InviteMember from "../../../src/usecase/band/InviteMember";
+import CreateBand from "../../../src/usecase/band/CreateBand";
+import GetBand from "../../../src/usecase/band/GetBand";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
 import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
 import MemberInvitedHandler from "../../../src/application/handler/MemberInvitedHandler";
-import AcceptInvitation from "../../../src/usecase/Band/AcceptInvitation";
+import AcceptInvitation from "../../../src/usecase/band/AcceptInvitation";
 import InviteAcceptedHandler from "../../../src/application/handler/InviteAcceptedHandler";
-import DeclineInvitation from "../../../src/usecase/Band/DeclineInvitation";
+import DeclineInvitation from "../../../src/usecase/band/DeclineInvitation";
 import InviteDeclinedHandler from "../../../src/application/handler/InviteDeclinedHandler";
 
 let bandRepository: BandRepositoryInterface;

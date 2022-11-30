@@ -6,9 +6,9 @@ import {
   verifyVideo,
 } from "../../../src/application/middleware/Middlewares";
 
-import CreateUser from "../../../src/usecase/User/CreateUser";
+import CreateUser from "../../../src/usecase/user/CreateUser";
 import ExpressResponseFake from "../../utils/mocks/http/ExpressResponseFake";
-import LoginUser from "../../../src/usecase/User/LoginUser";
+import LoginUser from "../../../src/usecase/user/LoginUser";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
 import { config } from "../../../src/Config";

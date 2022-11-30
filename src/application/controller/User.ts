@@ -1,7 +1,7 @@
-import CreateUser from "../../usecase/User/CreateUser";
+import CreateUser from "../../usecase/user/CreateUser";
 import Created from "../http/Created";
 import InputDTO from "../../dto/InputDTO";
-import LoginUser from "../../usecase/User/LoginUser";
+import LoginUser from "../../usecase/user/LoginUser";
 import Success from "../http/Success";
 import { config } from "../../Config";
 import HttpSuccess from "../http/extends/HttpSuccess";

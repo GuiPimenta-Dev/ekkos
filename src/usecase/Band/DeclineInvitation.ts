@@ -10,8 +10,6 @@ export default class DeclineInvitation {
     const invitation = await this.bandRepository.findInvitationById(invitationId);
     const band = await this.bandRepository.findBandById(invitation.bandId);
     await this.bandRepository.updateInvitation({ ...invitation, status: Status.declined });
-    await this.broker.publish(
-      EventFactory.emitInviteDeclinedEvent({ profileId, band, role: invitation.role }),
-    );
+    await this.broker.publish(EventFactory.emitInvitationDeclined({ profileId, band, role: invitation.role }));
   }
 }

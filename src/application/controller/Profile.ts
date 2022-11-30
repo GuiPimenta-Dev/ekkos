@@ -1,12 +1,12 @@
-import CreateProfile from "../../usecase/Profile/CreateProfile";
+import CreateProfile from "../../usecase/profile/CreateProfile";
 import Created from "../http/Created";
-import FollowProfile from "../../usecase/Profile/FollowProfile";
-import GetProfile from "../../usecase/Profile/GetProfile";
+import FollowProfile from "../../usecase/profile/FollowProfile";
+import GetProfile from "../../usecase/profile/GetProfile";
 import InputDTO from "../../dto/InputDTO";
 import Success from "../http/Success";
-import UnfollowProfile from "../../usecase/Profile/UnfollowProfile";
+import UnfollowProfile from "../../usecase/profile/UnfollowProfile";
 import { config } from "../../Config";
-import MatchProfiles from "../../usecase/Profile/MatchProfiles";
+import MatchProfiles from "../../usecase/profile/MatchProfiles";
 import ProfilePresenter from "../presenter/Profile";
 import HttpSuccess from "../http/extends/HttpSuccess";
 

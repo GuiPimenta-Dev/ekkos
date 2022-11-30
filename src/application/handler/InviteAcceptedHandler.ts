@@ -1,7 +1,7 @@
 import EmailGatewayInterface from "../../domain/infra/gateway/EmailGateway";
 import HandlerInterface from "./implements/Handler";
 import UserRepositoryInterface from "../../domain/infra/repository/UserRepository";
-import { Event, InviteAcceptedPayload } from "../../domain/event/EventFactory";
+import { Event, InviteAccepted } from "../../domain/event/EventFactory";
 import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepository";
 
 export default class InviteAcceptedHandler implements HandlerInterface {
@@ -14,13 +14,11 @@ export default class InviteAcceptedHandler implements HandlerInterface {
     this.name = "InviteAccepted";
   }
 
-  async handle({ payload }: Event<InviteAcceptedPayload>): Promise<void> {
+  async handle({ payload }: Event<InviteAccepted>): Promise<void> {
     const profile = await this.profileRepository.findProfileById(payload.profileId);
-    const members = payload.band
-      .getMembers()
-      .filter((member) => member.profileId !== payload.profileId);
+    const members = payload.band.getMembers().filter((member) => member.profileId !== payload.profileId);
     const users = await Promise.all(
-      members.map(async (member) => await this.userRepository.findUserById(member.profileId)),
+      members.map(async (member) => await this.userRepository.findUserById(member.profileId))
     );
     await Promise.all(
       users.map(
@@ -28,9 +26,9 @@ export default class InviteAcceptedHandler implements HandlerInterface {
           await this.emailGateway.send(
             user.email,
             `The user ${profile.nick} has accepted the invitation to join the band ${payload.band.name} as a ${payload.role}!`,
-            `The user ${profile.nick} has accepted the invitation to join the band ${payload.band.name} as a ${payload.role}!`,
-          ),
-      ),
+            `The user ${profile.nick} has accepted the invitation to join the band ${payload.band.name} as a ${payload.role}!`
+          )
+      )
     );
   }
 }

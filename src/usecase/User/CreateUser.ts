@@ -13,7 +13,7 @@ export default class CreateUser {
     const id = uuid();
     const user = new User(id, email, password);
     this.userRepository.save(user);
-    this.broker.publish(EventFactory.emitUserCreatedEvent({ email }));
+    this.broker.publish(EventFactory.emitUserCreated({ email }));
     return id;
   }
 }
