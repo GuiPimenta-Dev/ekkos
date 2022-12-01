@@ -9,11 +9,13 @@ import InviteAcceptedHandler from "./application/handler/InviteAcceptedHandler";
 import InviteDeclinedHandler from "./application/handler/InviteDeclinedHandler";
 import InviteMemberHandler from "./application/handler/InviteMemberHandler";
 import EmailGatewayFake from "../tests/utils/mocks/gateway/EmailGatewayFake";
+import StorageGatewayFake from "../tests/utils/mocks/gateway/StorageGatewayFake";
+import EmailGateway from "./infra/gateway/EmailGateway";
 
 const userRepository = new MemoryUserRepository();
 const profileRepository = new MemoryProfileRepository();
 const broker = new MemoryBroker();
-const emailGateway = new EmailGatewayFake();
+const emailGateway = new EmailGateway();
 broker.register(new UserCreatedHandler(emailGateway));
 broker.register(new InviteAcceptedHandler(userRepository, profileRepository, emailGateway));
 broker.register(new InviteDeclinedHandler(userRepository, profileRepository, emailGateway));
@@ -25,5 +27,5 @@ export const config = {
   videoRepository: new MemoryVideoRepository(),
   bandRepository: new MemoryBandRepository(),
   broker,
-  storage: new S3StorageGateway(),
+  storage: new StorageGatewayFake(),
 };

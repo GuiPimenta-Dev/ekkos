@@ -29,7 +29,7 @@ export default class Video {
 
   deleteComment(profileId: string, comment: CommentDTO): void {
     if (comment.profileId !== profileId) throw new Forbidden("You can't delete this comment");
-    this.comments = this.comments.filter((comment) => comment !== comment);
+    this.comments = this.comments.filter((c) => c.commentId !== comment.commentId);
   }
 
   getLikes(): string[] {
