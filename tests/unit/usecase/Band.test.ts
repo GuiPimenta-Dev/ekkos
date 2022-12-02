@@ -7,7 +7,7 @@ import CreateBand from "../../../src/usecase/band/CreateBand";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
 import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
-import InviteMemberHandler from "../../../src/application/handler/InviteMemberHandler";
+import InviteMemberHandler from "../../../src/application/handler/MemberInvitedHandler";
 import AcceptInvite from "../../../src/usecase/band/AcceptInvite";
 import InviteAcceptedHandler from "../../../src/application/handler/InviteAcceptedHandler";
 import DeclineInvite from "../../../src/usecase/band/DeclineInvite";

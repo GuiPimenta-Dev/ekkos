@@ -5,6 +5,12 @@ export interface Event<T = unknown> {
   payload: T;
 }
 
+export type Memberinvited = Event<{
+  profileId: string;
+  bandName: string;
+  role: string;
+}>;
+
 export type InviteAccepted = Event<{
   profileId: string;
   band: Band;
@@ -22,6 +28,13 @@ export type UserCreated = Event<{
 }>;
 
 export default class EventFactory {
+  static emitMemberInvited(payload: Memberinvited["payload"]): Memberinvited {
+    return {
+      name: "MemberInvited",
+      payload,
+    };
+  }
+
   static emitInviteAccepted(payload: InviteAccepted["payload"]): InviteAccepted {
     return {
       name: "InviteAccepted",

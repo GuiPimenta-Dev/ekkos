@@ -5,7 +5,7 @@ import AddMemberDTO from "../../dto/AddMemberDTO";
 import { Status } from "../../dto/InviteDTO";
 import { v4 as uuid } from "uuid";
 import BrokerInterface from "../../domain/infra/broker/BrokerInterface";
-import CommandFactory from "../../domain/command/CommandFactory";
+import EventFactory from "../../domain/event/EventFactory";
 
 export default class InviteMember {
   constructor(
@@ -36,7 +36,7 @@ export default class InviteMember {
       };
       await this.bandRepository.createInvite(invite);
       await this.broker.publish(
-        CommandFactory.inviteMember({ profileId: input.profileId, bandName: band.name, role: input.role })
+        EventFactory.emitMemberInvited({ profileId: input.profileId, bandName: band.name, role: input.role })
       );
       return inviteId;
     }

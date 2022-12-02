@@ -7,7 +7,7 @@ import MemoryVideoRepository from "./infra/repository/MemoryVideoRepository";
 import UserCreatedHandler from "./application/handler/UserCreatedHandler";
 import InviteAcceptedHandler from "./application/handler/InviteAcceptedHandler";
 import InviteDeclinedHandler from "./application/handler/InviteDeclinedHandler";
-import InviteMemberHandler from "./application/handler/InviteMemberHandler";
+import InviteMemberHandler from "./application/handler/MemberInvitedHandler";
 import EmailGatewayFake from "../tests/utils/mocks/gateway/EmailGatewayFake";
 import StorageGatewayFake from "../tests/utils/mocks/gateway/StorageGatewayFake";
 import EmailGateway from "./infra/gateway/EmailGateway";

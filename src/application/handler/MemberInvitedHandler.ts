@@ -1,15 +1,15 @@
 import EmailGatewayInterface from "../../domain/infra/gateway/EmailGatewayInterface";
 import HandlerInterface from "./implements/Handler";
 import UserRepositoryInterface from "../../domain/infra/repository/UserRepositoryInterface";
-import { InviteMember } from "../../domain/command/CommandFactory";
+import { Memberinvited } from "../../domain/event/EventFactory";
 
 export default class InviteMemberHandler implements HandlerInterface {
   name: string;
   constructor(private userRepository: UserRepositoryInterface, private emailGateway: EmailGatewayInterface) {
-    this.name = "InviteMember";
+    this.name = "MemberInvited";
   }
 
-  async handle({ payload }: InviteMember): Promise<void> {
+  async handle({ payload }: Memberinvited): Promise<void> {
     const user = await this.userRepository.findUserById(payload.profileId);
     await this.emailGateway.send(
       user.email,
