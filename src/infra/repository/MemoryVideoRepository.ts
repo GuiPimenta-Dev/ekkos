@@ -1,12 +1,11 @@
 import Video from "../../domain/entity/Video";
 import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepositoryInterface";
-import CommentDTO from "../../dto/CommentDTO";
 
 export default class MemoryVideoRepository implements VideoRepositoryInterface {
   videos: Video[];
 
   constructor() {
-    const comment = { commentId: "commentId", videoId: "videoId", profileId: "1", text: "text" };
+    const comment = { commentId: "commentId", profileId: "1", text: "text" };
     this.videos = [new Video("videoId", "1", "title", "description", "url", ["2"], [comment])];
   }
 
@@ -28,15 +27,7 @@ export default class MemoryVideoRepository implements VideoRepositoryInterface {
     this.videos[index] = video;
   }
 
-  async getCommentById(id: string): Promise<CommentDTO> {
-    for (let index = 0; index < this.videos.length; index++) {
-      const video = this.videos[index];
-      const comment = video.getComments().find((comment) => comment.commentId === id);
-      if (comment) return comment;
-    }
-  }
-
-  async isVideoDuplicated(url: string): Promise<Boolean> {
+  async isUrlTaken(url: string): Promise<Boolean> {
     const video = this.videos.find((video) => video.url === url);
     return video !== undefined;
   }

@@ -22,7 +22,6 @@ export default class InviteMember {
       band.addMember(input.adminId, {
         memberId: uuid(),
         profileId: input.profileId,
-        bandId: input.bandId,
         role: input.role,
       });
       await this.bandRepository.update(band);

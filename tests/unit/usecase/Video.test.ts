@@ -31,5 +31,5 @@ test("It should be able to get a video by the id", async () => {
 
 test("It should not to be able to delete a comment that does not exists", async () => {
   const usecase = new DeleteComment(videoRepository);
-  expect(usecase.execute("anotherprofileId", "commentID")).rejects.toThrow("Comment not found");
+  expect(usecase.execute("anotherprofileId", "videoId", "commentID")).rejects.toThrow("Comment not found");
 });

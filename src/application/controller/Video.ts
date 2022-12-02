@@ -50,9 +50,9 @@ export default class VideoController {
   }
 
   static async deleteComment(input: InputDTO): Promise<HttpSuccess> {
-    const { path, headers } = input;
+    const { headers, path, body } = input;
     const usecase = new DeleteComment(config.videoRepository);
-    await usecase.execute(headers.id, path.id);
+    await usecase.execute(headers.id, path.id, body.commentId);
     return new Success();
   }
 }

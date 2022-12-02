@@ -11,7 +11,7 @@ export default class AcceptInvite {
     const invite = await this.bandRepository.findInviteById(inviteId);
     const band = await this.bandRepository.findBandById(invite.bandId);
     const memberId = uuid();
-    band.addMember(band.adminId, { memberId, profileId, bandId: invite.bandId, role: invite.role });
+    band.addMember(band.adminId, { memberId, profileId, role: invite.role });
     await this.bandRepository.update(band);
     await this.bandRepository.updateInvite({ ...invite, status: Status.accepted });
     await this.broker.publish(EventFactory.emitInviteAccepted({ profileId, band, role: invite.role }));

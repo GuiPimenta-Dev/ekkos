@@ -29,7 +29,13 @@ app.get("/video/:id", verifyToken, verifyUser, verifyVideo, ExpressAdapter.route
 app.post("/video/:id/like", verifyToken, verifyUser, verifyVideo, ExpressAdapter.route(VideoController.like));
 app.post("/video/:id/unlike", verifyToken, verifyUser, verifyVideo, ExpressAdapter.route(VideoController.unlike));
 app.post("/video/:id/comment", verifyToken, verifyUser, verifyVideo, ExpressAdapter.route(VideoController.comment));
-app.delete("/video/:id/comment", verifyToken, verifyUser, ExpressAdapter.route(VideoController.deleteComment));
+app.delete(
+  "/video/:id/comment",
+  verifyToken,
+  verifyUser,
+  verifyVideo,
+  ExpressAdapter.route(VideoController.deleteComment)
+);
 app.post("/band", verifyToken, verifyUser, uploadFile.single("logo"), ExpressAdapter.route(BandController.create));
 app.post(
   "/band/:id/invite",

@@ -4,10 +4,10 @@ import VideoRepositoryInterface from "../../domain/infra/repository/VideoReposit
 export default class DeleteComment {
   constructor(private videoRepository: VideoRepositoryInterface) {}
 
-  async execute(profileId: string, commentId: string): Promise<void> {
-    const comment = await this.videoRepository.getCommentById(commentId);
+  async execute(profileId: string, videoId: string, commentId: string): Promise<void> {
+    const video = await this.videoRepository.findVideoById(videoId);
+    const comment = video.getComments().find((c) => c.commentId == commentId);
     if (!comment) throw new NotFound("Comment not found");
-    const video = await this.videoRepository.findVideoById(comment.videoId);
     video.deleteComment(profileId, comment);
     await this.videoRepository.update(video);
   }
