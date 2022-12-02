@@ -1,4 +1,3 @@
-import Band from "../../domain/entity/Band";
 import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepositoryInterface";
 import BandRepositoryInterface from "../../domain/infra/repository/BandRepositoryInterface";
 

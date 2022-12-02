@@ -10,7 +10,6 @@ import AcceptInvite from "../../usecase/band/AcceptInvite";
 import DeclineInvite from "../../usecase/band/DeclineInvite";
 import HttpSuccess from "../http/extends/HttpSuccess";
 import OpenVacancy from "../../usecase/band/OpenVacancy";
-import GetRoles from "../../usecase/band/GetRoles";
 
 export default class BandController {
   static async create(input: InputDTO): Promise<HttpSuccess> {
@@ -73,8 +72,7 @@ export default class BandController {
   }
 
   static async getRoles(): Promise<HttpSuccess> {
-    const usecase = new GetRoles(config.bandRepository);
-    const roles = await usecase.execute();
+    const roles = await config.bandRepository.findRoles();
     return new Success({ roles });
   }
 }
