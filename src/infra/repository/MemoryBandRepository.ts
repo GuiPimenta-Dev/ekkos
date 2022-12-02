@@ -71,7 +71,7 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
   }
 
   async updateInvite(invite: InviteDTO): Promise<void> {
-    const filteredInvite = this.invites.filter((i) => i.inviteId === invite.inviteId)[0];
+    const filteredInvite = this.invites.find((i) => i.inviteId === invite.inviteId);
     const index = this.invites.indexOf(filteredInvite);
     this.invites[index] = invite;
   }
