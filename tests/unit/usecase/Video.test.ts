@@ -1,5 +1,4 @@
 import DeleteComment from "../../../src/usecase/video/DeleteComment";
-import GetVideo from "../../../src/usecase/video/GetVideo";
 import MemoryVideoRepository from "../../../src/infra/repository/MemoryVideoRepository";
 import PostVideo from "../../../src/usecase/video/PostVideo";
 import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepositoryInterface";
@@ -21,12 +20,6 @@ test("It should not be able to post a duplicated video", async () => {
   const usecase = new PostVideo(videoRepository);
   const input = { profileId: "profileId", title: "title", description: "description", url: "url" };
   await expect(usecase.execute(input)).rejects.toThrow("Video url already in use");
-});
-
-test("It should be able to get a video by the id", async () => {
-  const usecase = new GetVideo(videoRepository);
-  const video = await usecase.execute("videoId");
-  expect(video).toBeDefined();
 });
 
 test("It should not to be able to delete a comment that does not exists", async () => {

@@ -1,13 +1,18 @@
-import Profile from "../../domain/entity/Profile";
 import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepositoryInterface";
 import BandRepositoryInterface from "../../domain/infra/repository/BandRepositoryInterface";
+import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepositoryInterface";
 
 export default class ProfilePresenter {
-  constructor(private videoRepository: VideoRepositoryInterface, private bandRepository: BandRepositoryInterface) {}
+  constructor(
+    private profileRepository: ProfileRepositoryInterface,
+    private videoRepository: VideoRepositoryInterface,
+    private bandRepository: BandRepositoryInterface
+  ) {}
 
-  async present(profile: Profile) {
-    const videos = await this.videoRepository.findVideosByProfileId(profile.profileId);
-    const bands = await this.bandRepository.findBandsByProfileId(profile.profileId);
+  async present(profileId: string) {
+    const profile = await this.profileRepository.findProfileById(profileId);
+    const videos = await this.videoRepository.findVideosByProfileId(profileId);
+    const bands = await this.bandRepository.findBandsByProfileId(profileId);
     return {
       nick: profile.nick,
       avatar: profile.avatar,

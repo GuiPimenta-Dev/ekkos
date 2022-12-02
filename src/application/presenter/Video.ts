@@ -1,10 +1,14 @@
-import Video from "../../domain/entity/Video";
 import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepositoryInterface";
+import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepositoryInterface";
 
 export default class VideoPresenter {
-  constructor(private profileRepository: ProfileRepositoryInterface) {}
+  constructor(
+    private videoRepository: VideoRepositoryInterface,
+    private profileRepository: ProfileRepositoryInterface
+  ) {}
 
-  async present(video: Video) {
+  async present(videoId: string) {
+    const video = await this.videoRepository.findVideoById(videoId);
     return {
       videoId: video.videoId,
       profileId: video.profileId,

@@ -87,6 +87,5 @@ test("It should be able to delete a comment in a video", async () => {
     .delete(`/video/${videoId}/comment`)
     .send({ commentId: body.commentId })
     .set({ authorization });
-  console.log(response.body);
   expect(response.statusCode).toBe(200);
 });

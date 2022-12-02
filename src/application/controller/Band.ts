@@ -2,7 +2,6 @@ import { config } from "../../Config";
 import InputDTO from "../../dto/InputDTO";
 import InviteMember from "../../usecase/band/InviteMember";
 import CreateBand from "../../usecase/band/CreateBand";
-import GetBand from "../../usecase/band/GetBand";
 import Created from "../http/Created";
 import Success from "../http/Success";
 import RemoveMember from "../../usecase/band/RemoveMember";
@@ -61,10 +60,8 @@ export default class BandController {
 
   static async get(input: InputDTO): Promise<HttpSuccess> {
     const { path } = input;
-    const usecase = new GetBand(config.bandRepository);
-    const band = await usecase.execute(path.id);
-    const presenter = new BandPresenter(config.profileRepository, config.bandRepository);
-    const data = await presenter.present(band);
+    const presenter = new BandPresenter(config.bandRepository, config.profileRepository);
+    const data = await presenter.present(path.id);
     return new Success(data);
   }
 

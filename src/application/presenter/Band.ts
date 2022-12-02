@@ -3,9 +3,10 @@ import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRep
 import BandRepositoryInterface from "../../domain/infra/repository/BandRepositoryInterface";
 
 export default class BandPresenter {
-  constructor(private profileRepository: ProfileRepositoryInterface, private bandRepository: BandRepositoryInterface) {}
+  constructor(private bandRepository: BandRepositoryInterface, private profileRepository: ProfileRepositoryInterface) {}
 
-  async present(band: Band) {
+  async present(bandId: string) {
+    const band = await this.bandRepository.findBandById(bandId);
     const roles = await this.bandRepository.findRoles();
     const vacancies = band.getVacancies();
     return {

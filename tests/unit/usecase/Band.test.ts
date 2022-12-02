@@ -4,7 +4,6 @@ import MemoryBandRepository from "../../../src/infra/repository/MemoryBandReposi
 import MemoryProfileRepository from "../../../src/infra/repository/MemoryProfileRepository";
 import InviteMember from "../../../src/usecase/band/InviteMember";
 import CreateBand from "../../../src/usecase/band/CreateBand";
-import GetBand from "../../../src/usecase/band/GetBand";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
 import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
@@ -111,17 +110,6 @@ test("An email should be sent to each member after an invite is declined", async
   const usecase = new DeclineInvite(bandRepository, broker);
   await usecase.execute("3", "2");
   expect(emailGateway.emails).toHaveLength(2);
-});
-
-test("It should be able to get a band", async () => {
-  const usecase = new GetBand(new MemoryBandRepository());
-  const band = await usecase.execute(bandId);
-  expect(band).toHaveProperty("bandId");
-  expect(band.name).toBe("name");
-  expect(band.logo).toBe("logo");
-  expect(band.description).toBe("description");
-  expect(band.adminId).toBe("1");
-  expect(band.getMembers()).toHaveLength(2);
 });
 
 test("It should be able to open a vacancy", async () => {

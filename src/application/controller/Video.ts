@@ -1,6 +1,5 @@
 import CommentVideo from "../../usecase/video/CommentVideo";
 import DeleteComment from "../../usecase/video/DeleteComment";
-import GetVideo from "../../usecase/video/GetVideo";
 import InputDTO from "../../dto/InputDTO";
 import LikeVideo from "../../usecase/video/LikeVideo";
 import PostVideo from "../../usecase/video/PostVideo";
@@ -21,10 +20,8 @@ export default class VideoController {
 
   static async get(input: InputDTO): Promise<HttpSuccess> {
     const { path } = input;
-    const usecase = new GetVideo(config.videoRepository);
-    const video = await usecase.execute(path.id);
-    const presenter = new VideoPresenter(config.profileRepository);
-    const data = await presenter.present(video);
+    const presenter = new VideoPresenter(config.videoRepository, config.profileRepository);
+    const data = await presenter.present(path.id);
     return new Success(data);
   }
 

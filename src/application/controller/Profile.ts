@@ -1,7 +1,6 @@
 import CreateProfile from "../../usecase/profile/CreateProfile";
 import Created from "../http/Created";
 import FollowProfile from "../../usecase/profile/FollowProfile";
-import GetProfile from "../../usecase/profile/GetProfile";
 import InputDTO from "../../dto/InputDTO";
 import Success from "../http/Success";
 import UnfollowProfile from "../../usecase/profile/UnfollowProfile";
@@ -26,10 +25,8 @@ export default class ProfileController {
 
   static async get(input: InputDTO): Promise<HttpSuccess> {
     const { path } = input;
-    const usecase = new GetProfile(config.profileRepository);
-    const profile = await usecase.execute(path.id);
-    const presenter = new ProfilePresenter(config.videoRepository, config.bandRepository);
-    const data = await presenter.present(profile);
+    const presenter = new ProfilePresenter(config.profileRepository, config.videoRepository, config.bandRepository);
+    const data = await presenter.present(path.id);
     return new Success(data);
   }
 
@@ -51,10 +48,10 @@ export default class ProfileController {
     const { body, headers } = input;
     const usecase = new MatchProfiles(config.profileRepository);
     const matches = await usecase.execute(headers.id, body.distance);
-    const presenter = new ProfilePresenter(config.videoRepository, config.bandRepository);
+    const presenter = new ProfilePresenter(config.profileRepository, config.videoRepository, config.bandRepository);
     const data = await Promise.all(
       matches.map(async (match) => {
-        const profile = await presenter.present(match.profile);
+        const profile = await presenter.present(match.profile.profileId);
         return { profile, distance: match.distance };
       })
     );
