@@ -9,12 +9,12 @@ import {
   verifyVideo,
 } from "../../application/middleware/Middlewares";
 
-import BandController from "../../application/controller/Band";
-import ProfileController from "../../application/controller/Profile";
-import UserController from "../../application/controller/User";
-import VideoController from "../../application/controller/Video";
+import BandController from "../../application/controller/BandController";
+import ProfileController from "../../application/controller/ProfileController";
+import UserController from "../../application/controller/UserController";
+import VideoController from "../../application/controller/VideoController";
 import ExpressAdapter from "./ExpressAdapter";
-import FeedController from "../../application/controller/Feed";
+import FeedController from "../../application/controller/FeedController";
 
 const app = ExpressAdapter.create();
 

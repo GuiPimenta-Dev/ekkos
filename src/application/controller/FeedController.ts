@@ -3,7 +3,7 @@ import { config } from "../../Config";
 import GetFeed from "../../usecase/feed/GetFeed";
 import Success from "../http/Success";
 import HttpSuccess from "../http/extends/HttpSuccess";
-import VideoPresenter from "../presenter/Video";
+import VideoPresenter from "../presenter/VideoPresenter";
 
 export default class FeedController {
   static async get(input: InputDTO): Promise<HttpSuccess> {

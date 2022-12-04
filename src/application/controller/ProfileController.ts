@@ -6,7 +6,7 @@ import Success from "../http/Success";
 import UnfollowProfile from "../../usecase/profile/UnfollowProfile";
 import { config } from "../../Config";
 import MatchProfiles from "../../usecase/profile/MatchProfiles";
-import ProfilePresenter from "../presenter/Profile";
+import ProfilePresenter from "../presenter/ProfilePresenter";
 import HttpSuccess from "../http/extends/HttpSuccess";
 
 export default class ProfileController {

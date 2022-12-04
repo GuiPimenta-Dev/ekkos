@@ -6,7 +6,7 @@ import PostVideo from "../../usecase/video/PostVideo";
 import Success from "../http/Success";
 import UnlikeVideo from "../../usecase/video/UnlikeVideo";
 import { config } from "../../Config";
-import VideoPresenter from "../presenter/Video";
+import VideoPresenter from "../presenter/VideoPresenter";
 import HttpSuccess from "../http/extends/HttpSuccess";
 
 export default class VideoController {

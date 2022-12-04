@@ -5,7 +5,7 @@ import CreateBand from "../../usecase/band/CreateBand";
 import Created from "../http/Created";
 import Success from "../http/Success";
 import RemoveMember from "../../usecase/band/RemoveMember";
-import BandPresenter from "../presenter/Band";
+import BandPresenter from "../presenter/BandPresenter";
 import AcceptInvite from "../../usecase/band/AcceptInvite";
 import DeclineInvite from "../../usecase/band/DeclineInvite";
 import HttpSuccess from "../http/extends/HttpSuccess";

@@ -1,5 +1,5 @@
 import Profile from "../../../src/domain/entity/Profile";
-import ProfileService from "../../../src/domain/service/Profile";
+import ProfileService from "../../../src/domain/service/ProfileService";
 
 test("It should be able to follow a profile", async () => {
   const follower = new Profile("follower", "nick", "avatar", 1, 1, [], []);
