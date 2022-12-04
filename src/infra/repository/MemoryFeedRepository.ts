@@ -2,7 +2,7 @@ import FeedRepositoryInterface from "../../domain/infra/repository/FeedRepositor
 import FeedDTO from "../../dto/FeedDTO";
 
 export default class MemoryFeedRepository implements FeedRepositoryInterface {
-  readonly feeds: FeedDTO[];
+  feeds: FeedDTO[];
 
   constructor() {
     this.feeds = [];
@@ -10,5 +10,13 @@ export default class MemoryFeedRepository implements FeedRepositoryInterface {
 
   async save(input: FeedDTO): Promise<void> {
     this.feeds.push(input);
+  }
+
+  async getFeedByProfileId(profileId: string): Promise<FeedDTO[]> {
+    return this.feeds.filter((feed) => feed.profileId === profileId);
+  }
+
+  async deleteFeedById(postId: string): Promise<void> {
+    this.feeds = this.feeds.filter((feed) => feed.postId !== postId);
   }
 }
