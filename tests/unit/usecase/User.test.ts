@@ -22,17 +22,6 @@ test("It should be able to create an user", async () => {
   expect(userRepository.users).toHaveLength(4);
 });
 
-test("Welcome email should be sent after create an user", async () => {
-  const userRepository = new MemoryUserRepository();
-  const broker = new MemoryBroker();
-  const emailGateway = new EmailGatewayFake();
-  const handler = new UserCreatedHandler(emailGateway);
-  broker.register(handler);
-  const usecase = new CreateUser(userRepository, broker);
-  await usecase.execute("email2@test.com", password);
-  expect(emailGateway.emails).toHaveLength(1);
-});
-
 test("It should not be able to create an user if email is already taken", async () => {
   const usecase = new CreateUser(userRepository, new MemoryBroker());
   await expect(usecase.execute(email, password)).rejects.toThrow("Email already taken");

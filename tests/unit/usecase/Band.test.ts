@@ -55,18 +55,6 @@ test("It should directly add the member if it is the adminId choosing a second r
   expect(band.getMembers()).toHaveLength(3);
 });
 
-test("An email should be sent after inviting a member", async () => {
-  const userRepository = new MemoryUserRepository();
-  const broker = new MemoryBroker();
-  const emailGateway = new EmailGatewayFake();
-  const handler = new InviteMemberHandler(userRepository, emailGateway);
-  broker.register(handler);
-  const usecase = new InviteMember(bandRepository, profileRepository, broker);
-  const input = { bandId, profileId: "2", adminId: "1", role: "guitarist" };
-  await usecase.execute(input);
-  expect(emailGateway.emails).toHaveLength(1);
-});
-
 test("It should not be able to invite a member if member does not exists", async () => {
   const usecase = new InviteMember(bandRepository, profileRepository, broker);
   const input = { bandId, adminId: "1", profileId: "profile", role: "guitarist" };
@@ -99,16 +87,6 @@ test("It should be able to decline an invite", async () => {
   const band = await bandRepository.findBandById(bandId);
   expect(invite.status).toBe("declined");
   expect(band.getMembers()).toHaveLength(2);
-});
-
-test("An email should be sent to each member after an invite is declined", async () => {
-  const broker = new MemoryBroker();
-  const emailGateway = new EmailGatewayFake();
-  const handler = new InviteDeclinedHandler(new MemoryUserRepository(), profileRepository, emailGateway);
-  broker.register(handler);
-  const usecase = new DeclineInvite(bandRepository, broker);
-  await usecase.execute("3", "2");
-  expect(emailGateway.emails).toHaveLength(2);
 });
 
 test("It should be able to open a vacancy", async () => {
