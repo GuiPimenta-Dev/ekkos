@@ -13,26 +13,32 @@ import MemoryUserRepository from "../../../src/infra/repository/MemoryUserReposi
 import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
 import MemberDTO from "../../../src/dto/MemberDTO";
 import BrokerInterface from "../../../src/domain/infra/broker/BrokerInterface";
-import EmailGatewayInterface from "../../../src/domain/infra/gateway/EmailGatewayInterface";
+import FeedRepositoryInterface from "../../../src/domain/infra/repository/FeedRepositoryInterface";
+import MemoryFeedRepository from "../../../src/infra/repository/MemoryFeedRepository";
+import Profile from "../../../src/domain/entity/Profile";
+import VideoPostedHandler from "../../../src/application/handler/VideoPostedHandler";
 
-let members: MemberDTO[];
-let band: Band;
-let broker: BrokerInterface;
 let emailGateway: EmailGatewayFake;
+let feedRepository: MemoryFeedRepository;
+let broker: BrokerInterface;
+const members: MemberDTO[] = [
+  { memberId: "member_2", profileId: "2", role: "guitarist" },
+  { memberId: "member_2", profileId: "2", role: "vocal" },
+];
+const band = new Band("bandId", "name", "description", "logo", "adminId", members);
 beforeEach(async () => {
-  members = [
-    { memberId: "member_2", profileId: "2", role: "guitarist" },
-    { memberId: "member_2", profileId: "2", role: "vocal" },
-  ];
-  band = new Band("bandId", "name", "description", "logo", "adminId", members);
   const userRepository = new MemoryUserRepository();
   const profileRepository = new MemoryProfileRepository();
+  const profile = new Profile("5", "user_2", "avatar", -22.90045, -43.11867, ["1"], []);
+  await profileRepository.save(profile);
   emailGateway = new EmailGatewayFake();
+  feedRepository = new MemoryFeedRepository();
   broker = new MemoryBroker();
   broker.register(new UserCreatedHandler(emailGateway));
   broker.register(new InviteAcceptedHandler(userRepository, profileRepository, emailGateway));
   broker.register(new InviteDeclinedHandler(userRepository, profileRepository, emailGateway));
   broker.register(new InviteMemberHandler(userRepository, emailGateway));
+  broker.register(new VideoPostedHandler(feedRepository, profileRepository));
 });
 
 test("An event should be published when a user is created", async () => {
@@ -53,4 +59,9 @@ test("An email should be sent to the band members after accepting an invite", as
 test("An email should be sent after declining an invite", async () => {
   await broker.publish(EventFactory.emitInviteDeclined({ profileId: "1", band, role: "guitarist" }));
   expect(emailGateway.emails).toHaveLength(1);
+});
+
+test("A follower should be notified by future posts", async () => {
+  await broker.publish(EventFactory.emitVideoPosted({ profileId: "5", videoId: "videoId" }));
+  expect(feedRepository.feeds).toHaveLength(1);
 });

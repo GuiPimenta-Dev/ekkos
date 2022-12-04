@@ -13,7 +13,7 @@ export default class VideoController {
   static async post(input: InputDTO): Promise<HttpSuccess> {
     const { body, headers, file } = input;
     const data = { profileId: headers.id, title: body.title, description: body.description, url: file.location };
-    const usecase = new PostVideo(config.videoRepository);
+    const usecase = new PostVideo(config.videoRepository, config.broker);
     const videoId = await usecase.execute(data);
     return new Success({ videoId });
   }

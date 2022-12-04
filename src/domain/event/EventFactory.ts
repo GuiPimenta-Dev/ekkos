@@ -27,6 +27,11 @@ export type UserCreated = Event<{
   email: string;
 }>;
 
+export type VideoPosted = Event<{
+  profileId: string;
+  videoId: string;
+}>;
+
 export default class EventFactory {
   static emitMemberInvited(payload: Memberinvited["payload"]): Memberinvited {
     return {
@@ -52,6 +57,13 @@ export default class EventFactory {
   static emitUserCreated(payload: UserCreated["payload"]): UserCreated {
     return {
       name: "UserCreated",
+      payload,
+    };
+  }
+
+  static emitVideoPosted(payload: VideoPosted["payload"]): VideoPosted {
+    return {
+      name: "VideoPosted",
       payload,
     };
   }
