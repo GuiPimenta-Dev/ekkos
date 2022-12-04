@@ -11,6 +11,7 @@ import InviteMemberHandler from "./application/handler/MemberInvitedHandler";
 import EmailGatewayFake from "../tests/utils/mocks/gateway/EmailGatewayFake";
 import StorageGatewayFake from "../tests/utils/mocks/gateway/StorageGatewayFake";
 import EmailGateway from "./infra/gateway/EmailGateway";
+import MemoryFeedRepository from "./infra/repository/MemoryFeedRepository";
 
 const userRepository = new MemoryUserRepository();
 const profileRepository = new MemoryProfileRepository();
@@ -26,6 +27,7 @@ export const config = {
   userRepository,
   videoRepository: new MemoryVideoRepository(),
   bandRepository: new MemoryBandRepository(),
+  feedRepository: new MemoryFeedRepository(),
   broker,
   storage: new StorageGatewayFake(),
 };

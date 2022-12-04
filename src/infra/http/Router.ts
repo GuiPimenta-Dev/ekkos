@@ -14,6 +14,7 @@ import ProfileController from "../../application/controller/Profile";
 import UserController from "../../application/controller/User";
 import VideoController from "../../application/controller/Video";
 import ExpressAdapter from "./ExpressAdapter";
+import FeedController from "../../application/controller/Feed";
 
 const app = ExpressAdapter.create();
 
@@ -79,5 +80,6 @@ app.post(
 );
 
 app.get("/roles", verifyToken, verifyUser, ExpressAdapter.route(BandController.getRoles));
+app.get("/feed", verifyToken, verifyUser, ExpressAdapter.route(FeedController.get));
 
 export default app;

@@ -63,5 +63,5 @@ test("An email should be sent after declining an invite", async () => {
 
 test("A follower should be notified by future posts", async () => {
   await broker.publish(EventFactory.emitVideoPosted({ profileId: "5", videoId: "videoId" }));
-  expect(feedRepository.feeds).toHaveLength(1);
+  expect(feedRepository.posts).toHaveLength(2);
 });
