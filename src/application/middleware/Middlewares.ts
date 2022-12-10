@@ -14,7 +14,7 @@ export async function verifyToken(req, res, next): Promise<void> {
     const token = authorization.split(" ")[1];
     if (!token) throw new Unauthorized("JWT token is required");
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded: any = jwt.verify(token, process.env.JWT_SECRET);
       req.headers.id = decoded.id;
       next();
     } catch (e: any) {
