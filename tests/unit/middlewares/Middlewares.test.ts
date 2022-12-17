@@ -1,3 +1,6 @@
+
+import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
+
 import {
   verifyBand,
   verifyInvite,
@@ -6,17 +9,21 @@ import {
   verifyUser,
   verifyVideo,
 } from "../../../src/application/middleware/Middlewares";
-
+import { config } from "../../../src/Config";
 import CreateUser from "../../../src/usecase/user/CreateUser";
 import ExpressResponseFake from "../../utils/mocks/http/ExpressResponseFake";
 import LoginUser from "../../../src/usecase/user/LoginUser";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
-import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
-import { config } from "../../../src/Config";
+import { Status } from "../../../src/dto/InviteDTO";
+
+
 
 let token: string;
 let res: ExpressResponseFake;
+
 const next = jest.fn();
+
+
 beforeAll(async () => {
   const userRepository = new MemoryUserRepository();
   const broker = new MemoryBroker();
@@ -95,14 +102,30 @@ test("Must throw an error if invite is not found", async () => {
 });
 
 test("Must throw an error if invite is not pending", async () => {
-  const req = { params: { id: "3" } };
+  const invite = {
+    inviteId: "1",
+    bandId: "1",
+    profileId: "1",
+    role: "guitarist",
+    status: Status.accepted,
+  }
+  config.bandRepository.createInvite(invite);
+  const req = { params: { id: "1" } };
   await verifyInvite(req, res, next);
   expect(res.statusCode).toBe(400);
   expect(res.message).toBe("Invite is not pending");
 });
 
 test("Must throw an error if invite is not for this profile", async () => {
-  const req = { params: { id: "2" }, headers: { id: 1 } };
+  const invite = {
+    inviteId: "2",
+    bandId: "1",
+    profileId: "1",
+    role: "guitarist",
+    status: Status.pending,
+  }
+  config.bandRepository.createInvite(invite);
+  const req = { params: { id: "2" }, headers: { id: "invalid-profile" } };
   await verifyInvite(req, res, next);
   expect(res.statusCode).toBe(403);
   expect(res.message).toBe("Invite is not for this profile");

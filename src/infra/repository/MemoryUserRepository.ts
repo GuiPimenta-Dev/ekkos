@@ -2,11 +2,7 @@ import User from "../../domain/entity/User";
 import UserRepositoryInterface from "../../domain/infra/repository/UserRepositoryInterface";
 
 export default class MemoryUserRepository implements UserRepositoryInterface {
-  readonly users: User[] = [
-    new User("1", "user_1@test.com", "123456"),
-    new User("2", "user_2@test.com", "123456"),
-    new User("3", "user_3@test.com", "123456"),
-  ];
+  readonly users: User[] = [];
 
   async save(user: User): Promise<void> {
     this.users.push(user);

@@ -47,7 +47,7 @@ app.post(
   ExpressAdapter.route(BandController.inviteMember)
 );
 app.post(
-  "/band/:id/invite/accept",
+  "/band/invite/:id/accept",
   verifyToken,
   verifyUser,
   verifyInvite,
@@ -55,7 +55,7 @@ app.post(
 );
 
 app.post(
-  "/band/:id/invite/decline",
+  "/band/invite/:id/decline",
   verifyToken,
   verifyUser,
   verifyInvite,

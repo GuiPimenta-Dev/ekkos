@@ -6,7 +6,6 @@ export default class MatchProfiles {
 
   async execute(profileId: string, distance: number): Promise<{ profile: Profile; distance: number }[]> {
     const profile = await this.profileRepository.findProfileById(profileId);
-    if (!profile) throw new Error("Profile not found");
     let profiles = await this.profileRepository.getAllProfiles();
     profiles = profiles.filter((profile) => profile.profileId !== profileId);
     const matches = profiles

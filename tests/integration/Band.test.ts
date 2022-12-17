@@ -4,14 +4,20 @@ import MemoryProfileRepository from "../../src/infra/repository/MemoryProfileRep
 import MemoryUserRepository from "../../src/infra/repository/MemoryUserRepository";
 import MemoryVideoRepository from "../../src/infra/repository/MemoryVideoRepository";
 import StorageGatewayFake from "../utils/mocks/gateway/StorageGatewayFake";
+import RepositoryFactory from "../utils/factory/RepositoryFactory";
+import { config } from "../../src/Config";
+import { v4 as uuid } from "uuid";
 import app from "../../src/infra/http/Router";
 import request from "supertest";
+import User from "../../src/domain/entity/User";
+import Profile from '../../src/domain/entity/Profile';
 
 let authorization: string;
 
 const avatar = "tests/utils/files/avatar.jpeg";
-const bandId = "bandId";
-
+let repositoryFactory: RepositoryFactory;
+let user: User;
+let profile: Profile
 jest.mock("../../src/Config", () => ({
   ...(jest.requireActual("../../src/Config") as {}),
   config: {
@@ -25,9 +31,15 @@ jest.mock("../../src/Config", () => ({
 }));
 
 beforeAll(async () => {
-  const email = "user_1@test.com";
-  const password = "123456";
-  const { body } = await request(app).post("/user/login").send({ email, password });
+  repositoryFactory = new RepositoryFactory({
+    profileRepository: config.profileRepository,
+    userRepository: config.userRepository,
+    videoRepository: config.videoRepository,
+    bandRepository: config.bandRepository,
+  });
+  user = repositoryFactory.createUser();
+  profile = repositoryFactory.createProfile(user.userId);
+  const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
   authorization = `Bearer ${body.token}`;
 });
 
@@ -39,76 +51,88 @@ test("It should be able to create a band", async () => {
     .field("role", "guitarist")
     .attach("logo", avatar)
     .set({ authorization });
+
   expect(response.statusCode).toBe(201);
   expect(response.body).toHaveProperty("bandId");
 });
 
 test("It should be able to get a band", async () => {
-  const response = await request(app).get(`/band/${bandId}`).set({ authorization });
+  const band = repositoryFactory.createBand(user.userId);
+  const members = band.getMembers()
+  members[0]["avatar"] = profile.avatar
+  members[0]["nick"] = profile.nick
+
+  const response = await request(app).get(`/band/${band.bandId}`).set({ authorization });
+
   expect(response.statusCode).toBe(200);
   expect(response.body).toEqual({
-    bandId: "bandId",
-    name: "name",
-    logo: "logo",
-    description: "description",
-    members: [
-      {
-        memberId: "1",
-        profileId: "1",
-        nick: "user_1",
-        avatar: "avatar",
-        role: "admin",
-      },
-      {
-        memberId: "2",
-        avatar: "avatar",
-        nick: "user_2",
-        profileId: "2",
-        role: "guitarist",
-      },
-    ],
-    vacancies: [
-      {
-        role: "keyboard",
-        picture: "some keyboard picture",
-      },
-    ],
+    bandId: band.bandId,
+    name: band.name,
+    logo: band.logo,
+    description: band.description,
+    members: members,
+    vacancies: [],
   });
 });
 
 test("It should be able to invite a member to band", async () => {
+  const band = repositoryFactory.createBand(user.userId);
+  const profile = repositoryFactory.createProfile();
+
   const response = await request(app)
-    .post(`/band/${bandId}/invite`)
-    .send({ profileId: "2", role: "guitarist" })
+    .post(`/band/${band.bandId}/invite`)
+    .send({ profileId: profile.profileId, role: "guitarist" })
     .set({ authorization });
+
   expect(response.statusCode).toBe(200);
 });
 
 test("It should be able to accept an invite to band", async () => {
-  const response = await request(app).post(`/band/1/invite/accept`).set({ authorization });
+  const { user, invite } = repositoryFactory.createInvite();
+  const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
+  const authorization = `Bearer ${body.token}`;
+
+  const response = await request(app).post(`/band/invite/${invite.inviteId}/accept`).set({ authorization });
+
   expect(response.statusCode).toBe(200);
 });
 
 test("It should be able to decline an invite to band", async () => {
-  const response = await request(app).post(`/band/4/invite/decline`).set({ authorization });
+  const { user, invite } = repositoryFactory.createInvite();
+  const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
+  const authorization = `Bearer ${body.token}`;
+
+  const response = await request(app).post(`/band/invite/${invite.inviteId}/decline`).set({ authorization });
+
   expect(response.statusCode).toBe(200);
 });
 
 test("It should be able to remove a member from a band", async () => {
-  const response = await request(app).post(`/band/${bandId}/removeMember`).send({ memberId: 2 }).set({ authorization });
+  const member = { memberId: uuid(), profileId: uuid(), role: "guitarist" };
+  const band = repositoryFactory.createBand(user.userId, member);
+
+  const response = await request(app)
+    .post(`/band/${band.bandId}/removeMember`)
+    .send({ memberId: member.memberId })
+    .set({ authorization });
+    
   expect(response.statusCode).toBe(200);
 });
 
 test("It should be able to open a vacancy in a band", async () => {
+  const band = repositoryFactory.createBand(user.userId);
+
   const response = await request(app)
-    .post(`/band/${bandId}/openVacancy`)
+    .post(`/band/${band.bandId}/openVacancy`)
     .send({ role: "guitarist" })
     .set({ authorization });
+  
   expect(response.statusCode).toBe(200);
 });
 
 test("It should be able to list all possible roles for a band", async () => {
   const response = await request(app).get(`/roles`).set({ authorization });
+
   expect(response.statusCode).toBe(200);
   expect(response.body).toEqual({
     roles: [

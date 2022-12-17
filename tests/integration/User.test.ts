@@ -23,12 +23,17 @@ test("It should be able to create a user", async () => {
   const response = await request(app)
     .post("/user/create")
     .send({ email: "random_email@gmail.com", password: "123456" });
+
   expect(response.statusCode).toBe(201);
 });
 
 test("It should be able to login a user", async () => {
-  await request(app).post("/user/create").send({ email: "random_email@gmail.com", password: "123456" });
-  const response = await request(app).post("/user/login").send({ email: "random_email@gmail.com", password: "123456" });
+  const email = "email@test.com";
+  const password = "123456";
+  await request(app).post("/user/create").send({ email, password });
+
+  const response = await request(app).post("/user/login").send({ email, password });
+
   expect(response.statusCode).toBe(200);
   expect(response.body).toHaveProperty("token");
 });

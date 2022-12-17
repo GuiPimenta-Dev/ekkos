@@ -5,8 +5,7 @@ export default class MemoryVideoRepository implements VideoRepositoryInterface {
   videos: Video[];
 
   constructor() {
-    const comment = { commentId: "commentId", profileId: "1", text: "text" };
-    this.videos = [new Video("videoId", "1", "title", "description", "url", ["2"], [comment])];
+    this.videos = [];
   }
 
   async save(video: Video): Promise<void> {

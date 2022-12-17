@@ -1,4 +1,3 @@
-import BadRequest from "../../application/http/BadRequest";
 import Forbidden from "../../application/http/Forbidden";
 import MemberDTO from "../../dto/MemberDTO";
 

@@ -5,10 +5,11 @@ import MemoryUserRepository from "../../src/infra/repository/MemoryUserRepositor
 import MemoryVideoRepository from "../../src/infra/repository/MemoryVideoRepository";
 import StorageGatewayFake from "../utils/mocks/gateway/StorageGatewayFake";
 import MemoryFeedRepository from "../../src/infra/repository/MemoryFeedRepository";
+import { config } from "../../src/Config";
 import app from "../../src/infra/http/Router";
 import request from "supertest";
-
-let authorization: string;
+import RepositoryFactory from "../utils/factory/RepositoryFactory";
+import User from "../../src/domain/entity/User";
 
 jest.mock("../../src/Config", () => ({
   ...(jest.requireActual("../../src/Config") as {}),
@@ -23,33 +24,37 @@ jest.mock("../../src/Config", () => ({
   },
 }));
 
-beforeAll(async () => {
-  const email = "user_2@test.com";
-  const password = "123456";
-  const { body } = await request(app).post("/user/login").send({ email, password });
+let authorization: string;
+let repositoryFactory: RepositoryFactory;
+let user: User;
+beforeEach(async () => {
+  repositoryFactory = new RepositoryFactory({
+    profileRepository: config.profileRepository,
+    userRepository: config.userRepository,
+    videoRepository: config.videoRepository,
+    feedRepository: config.feedRepository,
+  });
+  user = repositoryFactory.createUser();
+  repositoryFactory.createProfile(user.userId);
+  const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
   authorization = `Bearer ${body.token}`;
 });
 
 test("It should be able to get a feed", async () => {
+  const video = repositoryFactory.createFeed(user.userId);
+
   const response = await request(app).get("/feed").set({ authorization });
+
   expect(response.status).toBe(200);
   expect(response.body.feed).toEqual([
     {
-      videoId: "videoId",
-      profileId: "1",
-      title: "title",
-      description: "description",
-      url: "url",
-      likes: 1,
-      comments: [
-        {
-          commentId: "commentId",
-          profileId: "1",
-          nick: "user_1",
-          avatar: "avatar",
-          text: "text",
-        },
-      ],
+      videoId: video.videoId,
+      profileId: user.userId,
+      title: video.title,
+      description: video.description,
+      url: video.url,
+      likes: 0,
+      comments: [],
     },
   ]);
 });

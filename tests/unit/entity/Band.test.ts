@@ -48,7 +48,7 @@ test("It should remove only one vacancy if there are repeated roles", async () =
   expect(band.getVacancies()).toHaveLength(1);
 });
 
-test("It should remove a vacancy when adding a member to band", async () => {
+test("It should remove a vacancy when adding a member to band with same role", async () => {
   const band = new Band("bandId", "name", "description", "logo", "adminId", [], ["guitarist"]);
   band.addMember("adminId", member);
   expect(band.getMembers()).toHaveLength(1);

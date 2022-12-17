@@ -11,20 +11,7 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
   members: MemberDTO[];
 
   constructor() {
-    this.bands = [
-      new Band(
-        "bandId",
-        "name",
-        "description",
-        "logo",
-        "1",
-        [
-          { memberId: "1", profileId: "1", role: "admin" },
-          { memberId: "2", profileId: "2", role: "guitarist" },
-        ],
-        ["keyboard"]
-      ),
-    ];
+    this.bands = [];
     this.roles = [
       { role: "vocalist", picture: "some mic picture" },
       { role: "guitarist", picture: "some guitar picture" },
@@ -33,12 +20,7 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
       { role: "keyboard", picture: "some keyboard picture" },
       { role: "manager", picture: "some manager picture" },
     ];
-    this.invites = [
-      { inviteId: "1", bandId: "bandId", profileId: "1", role: "guitarist", status: Status.pending },
-      { inviteId: "2", bandId: "bandId", profileId: "3", role: "bassist", status: Status.pending },
-      { inviteId: "3", bandId: "bandId", profileId: "3", role: "bassist", status: Status.declined },
-      { inviteId: "4", bandId: "bandId", profileId: "1", role: "guitarist", status: Status.pending },
-    ];
+    this.invites = [];
   }
 
   async save(band: Band): Promise<void> {
