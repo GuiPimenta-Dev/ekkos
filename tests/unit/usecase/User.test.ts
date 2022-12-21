@@ -7,10 +7,10 @@ import jwt from "jsonwebtoken";
 import RepositoryFactory from "../../utils/factory/RepositoryFactory";
 
 let userRepository: UserRepositoryInterface;
-let repositoryFactory: RepositoryFactory;
+let factory: RepositoryFactory;
 beforeEach(async () => {
   userRepository = new MemoryUserRepository();
-  repositoryFactory = new RepositoryFactory({ userRepository });
+  factory = new RepositoryFactory({ userRepository });
 });
 
 test("It should be able to create an user", async () => {
@@ -24,14 +24,14 @@ test("It should be able to create an user", async () => {
 });
 
 test("It should not be able to create an user if email is already taken", async () => {
-  const user = repositoryFactory.createUser();
+  const user = factory.createUser();
 
   const usecase = new CreateUser(userRepository, new MemoryBroker());
   await expect(usecase.execute(user.email, user.password)).rejects.toThrow("Email already taken");
 });
 
 test("It should be able to login", async () => {
-  const user = repositoryFactory.createUser();
+  const user = factory.createUser();
 
   const usecase = new LoginUser(userRepository);
   const token = await usecase.execute(user.email, user.password);
@@ -41,14 +41,14 @@ test("It should be able to login", async () => {
 });
 
 test("It should not be able to login if password is wrong", async () => {
-  const user = repositoryFactory.createUser();
+  const user = factory.createUser();
 
   const usecase = new LoginUser(userRepository);
   expect(usecase.execute(user.email, "invalid-password")).rejects.toThrow("Invalid username or password");
 });
 
 test("It should not be able to login if user does not exists", async () => {
-  const user = repositoryFactory.createUser();
+  const user = factory.createUser();
 
   const usecase = new LoginUser(userRepository);
   expect(usecase.execute("invalid-email", user.password)).rejects.toThrow("Invalid username or password");

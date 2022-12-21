@@ -23,20 +23,20 @@ jest.mock("../../src/Config", () => ({
 }));
 
 let authorization: string;
-let repositoryFactory: RepositoryFactory;
+let factory: RepositoryFactory;
 let user: User;
 
 const avatar = "tests/utils/files/avatar.jpeg";
 
 beforeEach(async () => {
-  repositoryFactory = new RepositoryFactory({
+  factory = new RepositoryFactory({
     profileRepository: config.profileRepository,
     userRepository: config.userRepository,
     videoRepository: config.videoRepository,
     bandRepository: config.bandRepository,
   });
-  user = repositoryFactory.createUser();
-  repositoryFactory.createProfile(user.userId);
+  user = factory.createUser();
+  factory.createProfile(user.userId);
   const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
   authorization = `Bearer ${body.token}`;
 });
@@ -56,7 +56,7 @@ test("It should be able to create a profile", async () => {
 });
 
 test("It should be able to get a profile", async () => {
-  const profile = repositoryFactory.createProfile();
+  const profile = factory.createProfile();
 
   const response = await request(app).get(`/profile/${profile.profileId}`).set({ authorization });
 
@@ -72,7 +72,7 @@ test("It should be able to get a profile", async () => {
 });
 
 test("It should be able to follow a profile", async () => {
-  const profile = repositoryFactory.createProfile();
+  const profile = factory.createProfile();
 
   const response = await request(app).post(`/profile/${profile.profileId}/follow`).set({ authorization });
 
@@ -80,7 +80,7 @@ test("It should be able to follow a profile", async () => {
 });
 
 test("It should be able to unfollow a profile", async () => {
-  const profile = repositoryFactory.createProfile();
+  const profile = factory.createProfile();
   await request(app).post(`/profile/${profile.profileId}/follow`).set({ authorization });
 
   const { statusCode } = await request(app).post(`/profile/${profile.profileId}/unfollow`).set({ authorization });

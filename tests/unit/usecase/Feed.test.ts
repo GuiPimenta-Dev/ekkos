@@ -12,12 +12,15 @@ beforeEach(async () => {
 test("It should be able to get a feed", async () => {
   const usecase = new GetFeed(feedRepository);
   const feed = await usecase.execute("1");
+
   expect(feed).toHaveLength(1);
 });
 
 test("It should delete a post when the video is already seen", async () => {
   await new GetFeed(feedRepository).execute("1");
+
   const usecase = new GetFeed(feedRepository);
   const feed = await usecase.execute("1");
+  
   expect(feed).toHaveLength(0);
 });

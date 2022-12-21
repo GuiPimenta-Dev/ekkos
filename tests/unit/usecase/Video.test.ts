@@ -6,12 +6,12 @@ import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import RepositoryFactory from "../../utils/factory/RepositoryFactory";
 
 let videoRepository: VideoRepositoryInterface;
-let repositoryFactory: RepositoryFactory;
+let factory: RepositoryFactory;
 const broker = new MemoryBroker();
 
 beforeEach(async () => {
   videoRepository = new MemoryVideoRepository();
-  repositoryFactory = new RepositoryFactory({ videoRepository });
+  factory = new RepositoryFactory({ videoRepository });
 });
 
 test("It should be able to post a video", async () => {
@@ -24,7 +24,7 @@ test("It should be able to post a video", async () => {
 });
 
 test("It should not be able to post a duplicated video", async () => {
-  const video = repositoryFactory.createVideo();
+  const video = factory.createVideo();
 
   const usecase = new PostVideo(videoRepository, broker);
   const input = { profileId: "profileId", title: "title", description: "description", url: video.url };
@@ -33,7 +33,7 @@ test("It should not be able to post a duplicated video", async () => {
 });
 
 test("It should not to be able to delete a comment that does not exists", async () => {
-  const video = repositoryFactory.createVideo();
+  const video = factory.createVideo();
 
   const usecase = new DeleteComment(videoRepository);
   expect(usecase.execute("profile", video.videoId, "invalid-comment-id")).rejects.toThrow("Comment not found");

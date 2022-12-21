@@ -21,17 +21,17 @@ jest.mock("../../src/Config", () => ({
 }));
 
 let authorization: string;
-let repositoryFactory: RepositoryFactory;
+let factory: RepositoryFactory;
 let user: User;
 
 beforeEach(async () => {
-  repositoryFactory = new RepositoryFactory({
+  factory = new RepositoryFactory({
     profileRepository: config.profileRepository,
     userRepository: config.userRepository,
     videoRepository: config.videoRepository,
   });
-  user = repositoryFactory.createUser();
-  repositoryFactory.createProfile(user.userId);
+  user = factory.createUser();
+  factory.createProfile(user.userId);
   const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
   authorization = `Bearer ${body.token}`;
 });
@@ -49,7 +49,7 @@ test("It should be able to post a video", async () => {
 });
 
 test("It should be able to get a video", async () => {
-  const video = repositoryFactory.createVideo(user.userId);
+  const video = factory.createVideo(user.userId);
 
   const response = await request(app).get(`/video/${video.videoId}`).set({ authorization });
 
@@ -66,7 +66,7 @@ test("It should be able to get a video", async () => {
 })
 
 test("It should be able to like a video", async () => {
-  const video = repositoryFactory.createVideo(user.userId);
+  const video = factory.createVideo(user.userId);
 
   const response = await request(app).post(`/video/${video.videoId}/like`).set({ authorization });
 
@@ -74,7 +74,7 @@ test("It should be able to like a video", async () => {
 });
 
 test("It should be able to unlike a video", async () => {
-  const video = repositoryFactory.createVideo(user.userId);
+  const video = factory.createVideo(user.userId);
 
   await request(app).post(`/video/${video.videoId}/like`).set({ authorization });
   const response = await request(app).post(`/video/${video.videoId}/unlike`).set({ authorization });
@@ -82,7 +82,7 @@ test("It should be able to unlike a video", async () => {
 });
 
 test("It should be able to comment a video", async () => {
-  const video = repositoryFactory.createVideo(user.userId);
+  const video = factory.createVideo(user.userId);
 
   const response = await request(app)
     .post(`/video/${video.videoId}/comment`)
@@ -92,7 +92,7 @@ test("It should be able to comment a video", async () => {
 });
 
 test("It should be able to delete a comment in a video", async () => {
-  const video = repositoryFactory.createVideo(user.userId);
+  const video = factory.createVideo(user.userId);
 
   const { body } = await request(app).post(`/video/${video. videoId}/comment`).send({ text: "text" }).set({ authorization });
   const response = await request(app)
