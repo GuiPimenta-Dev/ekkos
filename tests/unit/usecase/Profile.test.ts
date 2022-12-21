@@ -4,7 +4,7 @@ import CreateProfile from "../../../src/usecase/profile/CreateProfile";
 import FollowProfile from "../../../src/usecase/profile/FollowProfile";
 import UnfollowProfile from "../../../src/usecase/profile/UnfollowProfile";
 import MatchProfiles from "../../../src/usecase/profile/MatchProfiles";
-import ProfileBuilder from "../../utils/factory/ProfileBuilder";
+import ProfileBuilder from "../../utils/builder/ProfileBuilder";
 
 let profileRepository: ProfileRepositoryInterface;
 let profileBuilder: ProfileBuilder;

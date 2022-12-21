@@ -22,6 +22,8 @@ export default class ProfileBuilder {
     public longitude: number;
     public following: string[];
     public followers: string[];
+    public user: User;
+    private cont: number = 1
 
     constructor (repositories: Repositories) {
         this.userRepository = repositories.userRepository || new MemoryUserRepository();
@@ -30,14 +32,16 @@ export default class ProfileBuilder {
 
     createProfile() {
         this.profileId = uuid();
-        this.nick = `nick_${this.profileId}`;
         this.avatar = "avatar";
         this.latitude = 0;
         this.longitude = 0;
         this.following = [];
         this.followers = [];
-        this.userRepository.save(new User(this.profileId, `email_${this.profileId}`, "password"));
-        this.profileRepository.save(new Profile(this.profileId, `nick_${this.profileId}`, "avatar", 0, 0, [], []));
+        this.nick = `nick_${this.cont}`;
+        this.user = new User(this.profileId, `email_${this.cont}`, "password")
+        this.userRepository.save(this.user);
+        this.profileRepository.save(this.profile);
+        this.cont++;
         return this
     }
     
