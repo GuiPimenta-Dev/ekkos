@@ -2,7 +2,6 @@ import InviteAcceptedHandler from "../../../src/application/handler/InviteAccept
 import InviteDeclinedHandler from "../../../src/application/handler/InviteDeclinedHandler";
 import InviteMemberHandler from "../../../src/application/handler/MemberInvitedHandler";
 import UserCreatedHandler from "../../../src/application/handler/UserCreatedHandler";
-import Band from "../../../src/domain/entity/Band";
 import EventFactory from "../../../src/domain/event/EventFactory";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryProfileRepository from "../../../src/infra/repository/MemoryProfileRepository";
@@ -18,16 +17,13 @@ import RepositoryFactory from "../../utils/factory/RepositoryFactory";
 let emailGateway: EmailGatewayFake;
 let feedRepository: MemoryFeedRepository;
 let broker: BrokerInterface;
-let repositoryFactory: RepositoryFactory;
+let factory: RepositoryFactory;
 
 
 beforeEach(async () => {
   const userRepository = new MemoryUserRepository();
   const profileRepository = new MemoryProfileRepository();
-  repositoryFactory = new RepositoryFactory({
-    profileRepository,
-    userRepository,
-  });
+  factory = new RepositoryFactory({profileRepository, userRepository});
   emailGateway = new EmailGatewayFake();
   feedRepository = new MemoryFeedRepository();
   broker = new MemoryBroker();
@@ -46,7 +42,7 @@ test("An event should be published when a user is created", async () => {
 });
 
 test("An email should be sent after inviting a member", async () => {
-  const user = repositoryFactory.createUser()
+  const user = factory.createUser()
 
   await broker.publish(EventFactory.emitMemberInvited({ profileId: user.userId, bandName: "bandName", role: "guitarist" }));
   
@@ -54,9 +50,9 @@ test("An email should be sent after inviting a member", async () => {
 });
 
 test("An email should be sent to the band members after accepting an invite", async () => {
-  const user = repositoryFactory.createUser()
-  const band = repositoryFactory.createBand(user.userId)
-  const profile = repositoryFactory.createProfile()
+  const user = factory.createUser()
+  const band = factory.createBand(user.userId)
+  const profile = factory.createProfile()
 
   await broker.publish(EventFactory.emitInviteAccepted({ profileId: profile.profileId, band, role: "guitarist" }));
 
@@ -64,9 +60,9 @@ test("An email should be sent to the band members after accepting an invite", as
 });
 
 test("An email should be sent after declining an invite", async () => {
-  const user = repositoryFactory.createUser()
-  const band = repositoryFactory.createBand(user.userId)
-  const profile = repositoryFactory.createProfile()
+  const user = factory.createUser()
+  const band = factory.createBand(user.userId)
+  const profile = factory.createProfile()
 
   await broker.publish(EventFactory.emitInviteDeclined({ profileId: profile.profileId, band, role: "guitarist" }));
   
@@ -74,8 +70,8 @@ test("An email should be sent after declining an invite", async () => {
 });
 
 test("A follower should be notified by future posts", async () => {
-  const profile = repositoryFactory.createProfile()
-  const video = repositoryFactory.createVideo(profile.profileId)
+  const profile = factory.createProfile()
+  const video = factory.createVideo(profile.profileId)
 
   await broker.publish(EventFactory.emitVideoPosted({ profileId: profile.profileId, videoId: video.videoId }));
 

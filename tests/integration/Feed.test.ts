@@ -10,6 +10,9 @@ import app from "../../src/infra/http/Router";
 import request from "supertest";
 import RepositoryFactory from "../utils/factory/RepositoryFactory";
 import User from "../../src/domain/entity/User";
+import VideoBuilder from "../utils/builder/VideoBuilder";
+import { v4 as uuid } from "uuid";
+
 
 jest.mock("../../src/Config", () => ({
   ...(jest.requireActual("../../src/Config") as {}),
@@ -25,23 +28,19 @@ jest.mock("../../src/Config", () => ({
 }));
 
 let authorization: string;
-let repositoryFactory: RepositoryFactory;
+let factory: RepositoryFactory;
 let user: User;
 beforeEach(async () => {
-  repositoryFactory = new RepositoryFactory({
-    profileRepository: config.profileRepository,
-    userRepository: config.userRepository,
-    videoRepository: config.videoRepository,
-    feedRepository: config.feedRepository,
-  });
-  user = repositoryFactory.createUser();
-  repositoryFactory.createProfile(user.userId);
+  factory = new RepositoryFactory({profileRepository: config.profileRepository, userRepository: config.userRepository, videoRepository: config.videoRepository});
+  user = factory.createUser();
   const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
   authorization = `Bearer ${body.token}`;
 });
 
 test("It should be able to get a feed", async () => {
-  const video = repositoryFactory.createFeed(user.userId);
+  const video = factory.createVideo(user.userId);
+  const feed = { postId: uuid(), profileId: user.userId, videoId: video.videoId };
+  config.feedRepository.save(feed);
 
   const response = await request(app).get("/feed").set({ authorization });
 
@@ -50,9 +49,9 @@ test("It should be able to get a feed", async () => {
     {
       videoId: video.videoId,
       profileId: user.userId,
-      title: video.title,
-      description: video.description,
-      url: video.url,
+      title: "title",
+      description: "description",
+      url: "url",
       likes: 0,
       comments: [],
     },

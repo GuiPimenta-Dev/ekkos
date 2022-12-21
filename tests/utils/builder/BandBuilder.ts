@@ -29,8 +29,8 @@ export default class BandBuilder {
         return this
     }
 
-    withMembers(members: MemberDTO[]) {
-        this.members.concat(members);
+    withMember(members: MemberDTO) {
+        this.members.push(members);
         this.bandRepository.save(this.band);
         return this
     }
@@ -41,7 +41,7 @@ export default class BandBuilder {
         return this
     }
 
-    withInvite(profileId: string, role: string) {
+    withInviteTo(profileId: string, role: string) {
         this.invite = {
             inviteId: uuid(),
             bandId: this.bandId,

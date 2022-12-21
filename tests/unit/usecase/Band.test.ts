@@ -22,7 +22,7 @@ let builder: BandBuilder;
 beforeEach(async () => {
   bandRepository = new MemoryBandRepository();
   profileRepository = new MemoryProfileRepository();
-  factory = new RepositoryFactory({ profileRepository, bandRepository });
+  factory = new RepositoryFactory({profileRepository});
   builder = new BandBuilder(bandRepository);
 });
 
@@ -79,7 +79,7 @@ test("It should not be able to invite a member if member does not exists", async
 test("It should be able to accept an invite", async () => {
   const admin = factory.createProfile();
   const member = factory.createProfile();
-  const band = builder.createBand(admin.profileId).withInvite(member.profileId, "guitarist");
+  const band = builder.createBand(admin.profileId).withInviteTo(member.profileId, "guitarist");
 
   const usecase = new AcceptInvite(bandRepository, broker);
   await usecase.execute(member.profileId, band.invite.inviteId);
@@ -93,7 +93,7 @@ test("It should be able to accept an invite", async () => {
 test("It should be able to decline an invite", async () => {
   const admin = factory.createProfile();
   const member = factory.createProfile();
-  const band = builder.createBand(admin.profileId).withInvite(member.profileId, "guitarist");
+  const band = builder.createBand(admin.profileId).withInviteTo(member.profileId, "guitarist");
 
   const usecase = new DeclineInvite(bandRepository, broker);
   await usecase.execute(member.profileId, band.invite.inviteId);
