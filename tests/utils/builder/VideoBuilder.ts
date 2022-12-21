@@ -1,4 +1,4 @@
-import VideoRepositoryInterface from '../../../src/domain/infra/repository/VideoRepositoryInterface';
+import VideoRepositoryInterface from '../../../src/application/infra/repository/VideoRepositoryInterface';
 import CommentDTO from '../../../src/dto/CommentDTO';
 import { v4 as uuid } from "uuid";
 import Video from '../../../src/domain/entity/Video';

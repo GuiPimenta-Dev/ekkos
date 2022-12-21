@@ -1,5 +1,5 @@
 import MemberDTO from "../../../src/dto/MemberDTO";
-import BandRepositoryInterface from '../../../src/domain/infra/repository/BandRepositoryInterface';
+import BandRepositoryInterface from '../../../src/application/infra/repository/BandRepositoryInterface';
 import { v4 as uuid } from "uuid";
 import Band from "../../../src/domain/entity/Band";
 import { InviteDTO, Status } from "../../../src/dto/InviteDTO";

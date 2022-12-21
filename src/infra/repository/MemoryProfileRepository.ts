@@ -1,5 +1,5 @@
 import Profile from "../../domain/entity/Profile";
-import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepositoryInterface";
+import ProfileRepositoryInterface from "../../application/infra/repository/ProfileRepositoryInterface";
 
 export default class MemoryProfileRepository implements ProfileRepositoryInterface {
   public profiles: Profile[] = [];

@@ -1,5 +1,5 @@
 import NotFound from "../../application/http/NotFound";
-import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepositoryInterface";
+import VideoRepositoryInterface from "../../application/infra/repository/VideoRepositoryInterface";
 
 export default class DeleteComment {
   constructor(private videoRepository: VideoRepositoryInterface) {}

@@ -1,6 +1,6 @@
 import BadRequest from "../../application/http/BadRequest";
 import Profile from "../../domain/entity/Profile";
-import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepositoryInterface";
+import ProfileRepositoryInterface from "../../application/infra/repository/ProfileRepositoryInterface";
 import CreateProfileDTO from "../../dto/CreateProfileDTO";
 
 export default class CreateProfile {

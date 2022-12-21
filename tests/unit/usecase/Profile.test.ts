@@ -1,4 +1,4 @@
-import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepositoryInterface";
+import ProfileRepositoryInterface from "../../../src/application/infra/repository/ProfileRepositoryInterface";
 import MemoryProfileRepository from "../../../src/infra/repository/MemoryProfileRepository";
 import CreateProfile from "../../../src/usecase/profile/CreateProfile";
 import FollowProfile from "../../../src/usecase/profile/FollowProfile";

@@ -1,10 +1,10 @@
 import NotFound from "../../application/http/NotFound";
-import BandRepositoryInterface from "../../domain/infra/repository/BandRepositoryInterface";
-import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepositoryInterface";
+import BandRepositoryInterface from "../../application/infra/repository/BandRepositoryInterface";
+import ProfileRepositoryInterface from "../../application/infra/repository/ProfileRepositoryInterface";
 import AddMemberDTO from "../../dto/AddMemberDTO";
 import { Status } from "../../dto/InviteDTO";
 import { v4 as uuid } from "uuid";
-import BrokerInterface from "../../domain/infra/broker/BrokerInterface";
+import BrokerInterface from "../../application/infra/broker/BrokerInterface";
 import EventFactory from "../../domain/event/EventFactory";
 
 export default class InviteMember {

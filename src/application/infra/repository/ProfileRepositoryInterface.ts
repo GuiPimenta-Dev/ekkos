@@ -1,4 +1,4 @@
-import Profile from "../../entity/Profile";
+import Profile from "../../../domain/entity/Profile";
 
 export default interface ProfileRepositoryInterface {
   save(input: Profile): Promise<void>;

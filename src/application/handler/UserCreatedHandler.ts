@@ -1,4 +1,4 @@
-import EmailGatewayInterface from "../../domain/infra/gateway/EmailGatewayInterface";
+import EmailGatewayInterface from "../infra/gateway/EmailGatewayInterface";
 import HandlerInterface from "./implements/Handler";
 import { UserCreated } from "../../domain/event/EventFactory";
 

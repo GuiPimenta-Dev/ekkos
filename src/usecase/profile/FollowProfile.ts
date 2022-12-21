@@ -1,5 +1,5 @@
 import NotFound from "../../application/http/NotFound";
-import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepositoryInterface";
+import ProfileRepositoryInterface from "../../application/infra/repository/ProfileRepositoryInterface";
 import ProfileService from "../../domain/service/ProfileService";
 
 export default class FollowProfile {

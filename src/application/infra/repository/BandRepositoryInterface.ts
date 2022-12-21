@@ -1,4 +1,4 @@
-import Band from "../../entity/Band";
+import Band from "../../../domain/entity/Band";
 import RoleDTO from "../../../dto/RoleDTO";
 import { InviteDTO } from "../../../dto/InviteDTO";
 

@@ -1,5 +1,5 @@
-import HandlerInterface from "../../../application/handler/implements/Handler";
-import { Event } from "../../event/EventFactory";
+import HandlerInterface from "../../handler/implements/Handler";
+import { Event } from "../../../domain/event/EventFactory";
 
 export default interface BrokerInterface {
   handlers: HandlerInterface[];

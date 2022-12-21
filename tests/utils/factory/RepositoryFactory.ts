@@ -1,11 +1,11 @@
 import Profile from "../../../src/domain/entity/Profile";
-import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepositoryInterface";
+import ProfileRepositoryInterface from "../../../src/application/infra/repository/ProfileRepositoryInterface";
 import { v4 as uuid } from "uuid";
-import BandRepositoryInterface from "../../../src/domain/infra/repository/BandRepositoryInterface";
+import BandRepositoryInterface from "../../../src/application/infra/repository/BandRepositoryInterface";
 import Band from "../../../src/domain/entity/Band";
 import { InviteDTO, Status } from "../../../src/dto/InviteDTO";
-import UserRepositoryInterface from "../../../src/domain/infra/repository/UserRepositoryInterface";
-import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepositoryInterface";
+import UserRepositoryInterface from "../../../src/application/infra/repository/UserRepositoryInterface";
+import VideoRepositoryInterface from "../../../src/application/infra/repository/VideoRepositoryInterface";
 import Video from "../../../src/domain/entity/Video";
 import User from "../../../src/domain/entity/User";
 import MemberDTO from "../../../src/dto/MemberDTO";

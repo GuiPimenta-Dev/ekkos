@@ -1,5 +1,5 @@
-import BandRepositoryInterface from "../../../src/domain/infra/repository/BandRepositoryInterface";
-import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepositoryInterface";
+import BandRepositoryInterface from "../../../src/application/infra/repository/BandRepositoryInterface";
+import ProfileRepositoryInterface from "../../../src/application/infra/repository/ProfileRepositoryInterface";
 import MemoryBandRepository from "../../../src/infra/repository/MemoryBandRepository";
 import MemoryProfileRepository from "../../../src/infra/repository/MemoryProfileRepository";
 import InviteMember from "../../../src/usecase/band/InviteMember";

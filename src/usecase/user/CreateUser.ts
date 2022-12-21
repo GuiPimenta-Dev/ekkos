@@ -2,8 +2,8 @@ import { v4 as uuid } from "uuid";
 import BadRequest from "../../application/http/BadRequest";
 import User from "../../domain/entity/User";
 import EventFactory from "../../domain/event/EventFactory";
-import BrokerInterface from "../../domain/infra/broker/BrokerInterface";
-import UserRepositoryInterface from "../../domain/infra/repository/UserRepositoryInterface";
+import BrokerInterface from "../../application/infra/broker/BrokerInterface";
+import UserRepositoryInterface from "../../application/infra/repository/UserRepositoryInterface";
 
 export default class CreateUser {
   constructor(private userRepository: UserRepositoryInterface, private broker: BrokerInterface) {}

@@ -1,4 +1,4 @@
-import FeedRepositoryInterface from "../../domain/infra/repository/FeedRepositoryInterface";
+import FeedRepositoryInterface from "../../application/infra/repository/FeedRepositoryInterface";
 import FeedDTO from "../../dto/FeedDTO";
 
 export default class MemoryFeedRepository implements FeedRepositoryInterface {

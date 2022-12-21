@@ -1,7 +1,7 @@
 import DeleteComment from "../../../src/usecase/video/DeleteComment";
 import MemoryVideoRepository from "../../../src/infra/repository/MemoryVideoRepository";
 import PostVideo from "../../../src/usecase/video/PostVideo";
-import VideoRepositoryInterface from "../../../src/domain/infra/repository/VideoRepositoryInterface";
+import VideoRepositoryInterface from "../../../src/application/infra/repository/VideoRepositoryInterface";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import RepositoryFactory from "../../utils/factory/RepositoryFactory";
 

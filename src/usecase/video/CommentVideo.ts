@@ -1,4 +1,4 @@
-import VideoRepositoryInterface from "../../domain/infra/repository/VideoRepositoryInterface";
+import VideoRepositoryInterface from "../../application/infra/repository/VideoRepositoryInterface";
 import { v4 as uuid } from "uuid";
 
 export default class CommentVideo {

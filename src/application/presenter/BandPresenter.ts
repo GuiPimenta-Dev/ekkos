@@ -1,5 +1,5 @@
-import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepositoryInterface";
-import BandRepositoryInterface from "../../domain/infra/repository/BandRepositoryInterface";
+import ProfileRepositoryInterface from "../infra/repository/ProfileRepositoryInterface";
+import BandRepositoryInterface from "../infra/repository/BandRepositoryInterface";
 
 export default class BandPresenter {
   constructor(private bandRepository: BandRepositoryInterface, private profileRepository: ProfileRepositoryInterface) {}
