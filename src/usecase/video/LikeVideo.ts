@@ -1,4 +1,4 @@
-import VideoRepositoryInterface from "../../application/infra/repository/VideoRepositoryInterface";
+import VideoRepositoryInterface from "../../application/ports/repository/VideoRepositoryInterface";
 
 export default class LikeVideo {
   constructor(private videoRepository: VideoRepositoryInterface) {}

@@ -1,4 +1,4 @@
-import EmailGatewayInterface from "../../../../src/application/infra/gateway/EmailGatewayInterface";
+import EmailGatewayInterface from "../../../../src/application/ports/gateway/EmailGatewayInterface";
 
 export default class EmailGatewayFake implements EmailGatewayInterface {
   emails: { to: string; subject: string; body: string }[] = [];

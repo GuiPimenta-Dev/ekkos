@@ -1,5 +1,5 @@
 import { S3Client } from "@aws-sdk/client-s3";
-import StorageGatewayInterface from "../../application/infra/gateway/StorageGatewayInterface";
+import StorageGatewayInterface from "../../application/ports/gateway/StorageGatewayInterface";
 import crypto from "crypto";
 import multerS3 from "multer-s3";
 

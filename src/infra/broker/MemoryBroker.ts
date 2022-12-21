@@ -1,5 +1,5 @@
 import HandlerInterface from "../../application/handler/implements/Handler";
-import BrokerInterface from "../../application/infra/broker/BrokerInterface";
+import BrokerInterface from "../../application/ports/broker/BrokerInterface";
 import { Event } from "../../domain/event/EventFactory";
 
 export default class MemoryBroker implements BrokerInterface {

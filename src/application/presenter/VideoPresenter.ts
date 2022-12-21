@@ -1,5 +1,5 @@
-import ProfileRepositoryInterface from "../infra/repository/ProfileRepositoryInterface";
-import VideoRepositoryInterface from "../infra/repository/VideoRepositoryInterface";
+import ProfileRepositoryInterface from "../ports/repository/ProfileRepositoryInterface";
+import VideoRepositoryInterface from "../ports/repository/VideoRepositoryInterface";
 
 export default class VideoPresenter {
   constructor(

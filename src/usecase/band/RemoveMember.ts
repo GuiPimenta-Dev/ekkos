@@ -1,4 +1,4 @@
-import BandRepositoryInterface from "../../application/infra/repository/BandRepositoryInterface";
+import BandRepositoryInterface from "../../application/ports/repository/BandRepositoryInterface";
 import NotFound from "../../application/http/NotFound";
 import Forbidden from "../../application/http/Forbidden";
 

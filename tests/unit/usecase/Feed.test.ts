@@ -1,6 +1,6 @@
 import MemoryFeedRepository from "../../../src/infra/repository/MemoryFeedRepository";
 import GetFeed from "../../../src/usecase/feed/GetFeed";
-import FeedRepositoryInterface from "../../../src/application/infra/repository/FeedRepositoryInterface";
+import FeedRepositoryInterface from "../../../src/application/ports/repository/FeedRepositoryInterface";
 
 let feedRepository: FeedRepositoryInterface;
 

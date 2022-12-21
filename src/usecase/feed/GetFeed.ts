@@ -1,4 +1,4 @@
-import FeedRepositoryInterface from "../../application/infra/repository/FeedRepositoryInterface";
+import FeedRepositoryInterface from "../../application/ports/repository/FeedRepositoryInterface";
 
 export default class GetFeed {
   constructor(private feedRepository: FeedRepositoryInterface) {}

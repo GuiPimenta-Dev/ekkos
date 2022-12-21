@@ -1,8 +1,8 @@
-import EmailGatewayInterface from "../infra/gateway/EmailGatewayInterface";
+import EmailGatewayInterface from "../ports/gateway/EmailGatewayInterface";
 import HandlerInterface from "./implements/Handler";
-import UserRepositoryInterface from "../infra/repository/UserRepositoryInterface";
+import UserRepositoryInterface from "../ports/repository/UserRepositoryInterface";
 import { InviteAccepted } from "../../domain/event/EventFactory";
-import ProfileRepositoryInterface from "../infra/repository/ProfileRepositoryInterface";
+import ProfileRepositoryInterface from "../ports/repository/ProfileRepositoryInterface";
 
 export default class InviteAcceptedHandler implements HandlerInterface {
   name: string;

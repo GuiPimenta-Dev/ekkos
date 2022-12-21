@@ -1,7 +1,7 @@
 import { VideoPosted } from "../../domain/event/EventFactory";
-import FeedRepositoryInterface from "../infra/repository/FeedRepositoryInterface";
+import FeedRepositoryInterface from "../ports/repository/FeedRepositoryInterface";
 import HandlerInterface from "./implements/Handler";
-import ProfileRepositoryInterface from "../infra/repository/ProfileRepositoryInterface";
+import ProfileRepositoryInterface from "../ports/repository/ProfileRepositoryInterface";
 import { v4 as uuid } from "uuid";
 
 export default class VideoPostedHandler implements HandlerInterface {

@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import EmailGatewayInterface from "../../application/infra/gateway/EmailGatewayInterface";
+import EmailGatewayInterface from "../../application/ports/gateway/EmailGatewayInterface";
 
 export default class EmailGateway implements EmailGatewayInterface {
   transporter: nodemailer.Transporter;

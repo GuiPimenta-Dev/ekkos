@@ -1,5 +1,5 @@
-import BandRepositoryInterface from "../../application/infra/repository/BandRepositoryInterface";
-import BrokerInterface from "../../application/infra/broker/BrokerInterface";
+import BandRepositoryInterface from "../../application/ports/repository/BandRepositoryInterface";
+import BrokerInterface from "../../application/ports/broker/BrokerInterface";
 import { Status } from "../../dto/InviteDTO";
 import EventFactory from "../../domain/event/EventFactory";
 

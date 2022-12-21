@@ -1,5 +1,5 @@
 import Video from "../../domain/entity/Video";
-import VideoRepositoryInterface from "../../application/infra/repository/VideoRepositoryInterface";
+import VideoRepositoryInterface from "../../application/ports/repository/VideoRepositoryInterface";
 
 export default class MemoryVideoRepository implements VideoRepositoryInterface {
   videos: Video[];
