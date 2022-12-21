@@ -32,7 +32,6 @@ beforeEach(async () => {
   broker.register(new InviteDeclinedHandler(userRepository, profileRepository, emailGateway));
   broker.register(new InviteMemberHandler(userRepository, emailGateway));
   broker.register(new VideoPostedHandler(feedRepository, profileRepository));
- 
 });
 
 test("An event should be published when a user is created", async () => {

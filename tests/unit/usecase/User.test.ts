@@ -2,9 +2,9 @@ import CreateUser from "../../../src/usecase/user/CreateUser";
 import LoginUser from "../../../src/usecase/user/LoginUser";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
-import UserRepositoryInterface from "../../../src/application/infra/repository/UserRepositoryInterface";
 import jwt from "jsonwebtoken";
 import RepositoryFactory from "../../utils/factory/RepositoryFactory";
+import UserRepositoryInterface from "../../../src/application/ports/repository/UserRepositoryInterface";
 
 let userRepository: UserRepositoryInterface;
 let factory: RepositoryFactory;

@@ -15,7 +15,7 @@ export default class VideoBuilder {
 
     constructor(private videoRepository: VideoRepositoryInterface) {}
 
-    createVideo(profileId: string) {
+    createVideo(profileId: string = uuid()) {
         this.videoId = uuid();
         this.profileId = profileId;
         this.title = "title";
