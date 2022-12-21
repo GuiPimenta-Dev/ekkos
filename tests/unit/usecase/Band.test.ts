@@ -10,17 +10,20 @@ import DeclineInvite from "../../../src/usecase/band/DeclineInvite";
 import OpenVacancy from "../../../src/usecase/band/OpenVacancy";
 import RemoveMember from "../../../src/usecase/band/RemoveMember";
 import RepositoryFactory from "../../utils/factory/RepositoryFactory";
+import BandBuilder from "../../utils/builder/BandBuilder";
 
 let bandRepository: BandRepositoryInterface;
 let profileRepository: ProfileRepositoryInterface;
 const broker = new MemoryBroker();
 
-let repositoryFactory: RepositoryFactory;
+let factory: RepositoryFactory;
+let builder: BandBuilder;
 
 beforeEach(async () => {
   bandRepository = new MemoryBandRepository();
   profileRepository = new MemoryProfileRepository();
-  repositoryFactory = new RepositoryFactory({ profileRepository, bandRepository });
+  factory = new RepositoryFactory({ profileRepository, bandRepository });
+  builder = new BandBuilder(bandRepository);
 });
 
 test("It should be able to create a band", async () => {
@@ -38,9 +41,9 @@ test("It should be able to create a band", async () => {
 });
 
 test("It should be able to invite a member", async () => {
-  const band = repositoryFactory.createBand();
-  const admin = repositoryFactory.createProfile();
-  const member = repositoryFactory.createProfile();
+  const admin = factory.createProfile();
+  const member = factory.createProfile();
+  const band = builder.createBand(admin.profileId);
 
   const usecase = new InviteMember(bandRepository, profileRepository, broker);
   const input = { bandId: band.bandId, profileId: member.profileId, adminId: admin.profileId, role: "guitarist" };
@@ -53,8 +56,8 @@ test("It should be able to invite a member", async () => {
 });
 
 test("It should directly add the member if it is the adminId choosing a second role", async () => {
-  const admin = repositoryFactory.createProfile();
-  const { bandId } = repositoryFactory.createBand(admin.profileId);
+  const admin = factory.createProfile();
+  const { bandId } = builder.createBand(admin.profileId);
 
   const usecase = new InviteMember(bandRepository, profileRepository, broker);
   const input = { bandId, profileId: admin.profileId, adminId: admin.profileId, role: "guitarist" };
@@ -65,8 +68,8 @@ test("It should directly add the member if it is the adminId choosing a second r
 });
 
 test("It should not be able to invite a member if member does not exists", async () => {
-  const admin = repositoryFactory.createProfile();
-  const { bandId } = repositoryFactory.createBand(admin.profileId);
+  const admin = factory.createProfile();
+  const { bandId } = builder.createBand(admin.profileId);
 
   const usecase = new InviteMember(bandRepository, profileRepository, broker);
   const input = { bandId, adminId: admin.profileId, profileId: "invalid-profile-id", role: "guitarist" };
@@ -74,32 +77,36 @@ test("It should not be able to invite a member if member does not exists", async
 });
 
 test("It should be able to accept an invite", async () => {
-  const {profile, band: _band, invite} = repositoryFactory.createInvite();
+  const admin = factory.createProfile();
+  const member = factory.createProfile();
+  const band = builder.createBand(admin.profileId).withInvite(member.profileId, "guitarist");
 
   const usecase = new AcceptInvite(bandRepository, broker);
-  await usecase.execute(profile.profileId, invite.inviteId);
+  await usecase.execute(member.profileId, band.invite.inviteId);
 
-  const {status} = await bandRepository.findInviteById(invite.inviteId);
-  const band = await bandRepository.findBandById(_band.bandId);
+  const {status} = await bandRepository.findInviteById(band.invite.inviteId);
+  const _band = await bandRepository.findBandById(band.bandId);
   expect(status).toBe("accepted");
-  expect(band.getMembers()).toHaveLength(2);
+  expect(_band.getMembers()).toHaveLength(2);
 });
 
 test("It should be able to decline an invite", async () => {
-  const {profile, band: _band, invite} = repositoryFactory.createInvite();
+  const admin = factory.createProfile();
+  const member = factory.createProfile();
+  const band = builder.createBand(admin.profileId).withInvite(member.profileId, "guitarist");
 
   const usecase = new DeclineInvite(bandRepository, broker);
-  await usecase.execute(profile.profileId, invite.inviteId);
+  await usecase.execute(member.profileId, band.invite.inviteId);
 
-  const {status} = await bandRepository.findInviteById(invite.inviteId);
-  const band = await bandRepository.findBandById(_band.bandId);
+  const {status} = await bandRepository.findInviteById(band.invite.inviteId);
+  const _band = await bandRepository.findBandById(band.bandId);
   expect(status).toBe("declined");
-  expect(band.getMembers()).toHaveLength(1);
+  expect(_band.getMembers()).toHaveLength(1);
 });
 
 test("It should be able to open a vacancy", async () => {
-  const admin = repositoryFactory.createProfile();
-  const { bandId } = repositoryFactory.createBand(admin.profileId);
+  const admin = factory.createProfile();
+  const { bandId } = builder.createBand(admin.profileId);
 
   const usecase = new OpenVacancy(bandRepository);
   await usecase.execute(admin.profileId, bandId, "guitarist");
@@ -109,8 +116,8 @@ test("It should be able to open a vacancy", async () => {
 });
 
 test("It should not be able to remove a member if its not found", async () => {
-  const admin = repositoryFactory.createProfile();
-  const { bandId } = repositoryFactory.createBand(admin.profileId);
+  const admin = factory.createProfile();
+  const { bandId } = builder.createBand(admin.profileId);
 
   const usecase = new RemoveMember(bandRepository);
   expect(usecase.execute(bandId, admin.profileId, "invalid-profile-id")).rejects.toThrow("Member not found");

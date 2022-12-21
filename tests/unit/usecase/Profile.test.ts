@@ -11,7 +11,7 @@ let profileBuilder: ProfileBuilder;
 
 beforeEach(async () => {
   profileRepository = new MemoryProfileRepository();
-  profileBuilder = new ProfileBuilder({ profileRepository });
+  profileBuilder = new ProfileBuilder(profileRepository);
 });
 
 

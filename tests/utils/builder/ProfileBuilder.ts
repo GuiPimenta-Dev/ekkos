@@ -1,20 +1,8 @@
 import { v4 as uuid } from "uuid";
 import Profile from "../../../src/domain/entity/Profile";
-import User from "../../../src/domain/entity/User";
 import ProfileRepositoryInterface from "../../../src/domain/infra/repository/ProfileRepositoryInterface";
-import UserRepositoryInterface from "../../../src/domain/infra/repository/UserRepositoryInterface";
-import MemoryUserRepository from '../../../src/infra/repository/MemoryUserRepository';
-import MemoryProfileRepository from '../../../src/infra/repository/MemoryProfileRepository';
-
-interface Repositories {
-    userRepository?: UserRepositoryInterface | null;
-    profileRepository?: ProfileRepositoryInterface | null;
-  }
-
 
 export default class ProfileBuilder {
-    private userRepository: UserRepositoryInterface;
-    private profileRepository: ProfileRepositoryInterface;
     public profileId: string;
     public nick: string;
     public avatar: string;
@@ -22,13 +10,9 @@ export default class ProfileBuilder {
     public longitude: number;
     public following: string[];
     public followers: string[];
-    public user: User;
     private cont: number = 1
 
-    constructor (repositories: Repositories) {
-        this.userRepository = repositories.userRepository || new MemoryUserRepository();
-        this.profileRepository = repositories.profileRepository || new MemoryProfileRepository();
-    }
+    constructor (private profileRepository: ProfileRepositoryInterface) {}
 
     createProfile() {
         this.profileId = uuid();
@@ -38,8 +22,6 @@ export default class ProfileBuilder {
         this.following = [];
         this.followers = [];
         this.nick = `nick_${this.cont}`;
-        this.user = new User(this.profileId, `email_${this.cont}`, "password")
-        this.userRepository.save(this.user);
         this.profileRepository.save(this.profile);
         this.cont++;
         return this
