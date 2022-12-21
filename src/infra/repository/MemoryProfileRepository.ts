@@ -2,7 +2,7 @@ import Profile from "../../domain/entity/Profile";
 import ProfileRepositoryInterface from "../../domain/infra/repository/ProfileRepositoryInterface";
 
 export default class MemoryProfileRepository implements ProfileRepositoryInterface {
-  readonly profiles: Profile[] = [];
+  public profiles: Profile[] = [];
 
   async save(profile: Profile): Promise<void> {
     this.profiles.push(profile);
@@ -13,8 +13,8 @@ export default class MemoryProfileRepository implements ProfileRepositoryInterfa
   }
 
   async update(profile: Profile): Promise<void> {
-    const index = this.profiles.indexOf(profile);
-    this.profiles[index] = profile;
+    this.profiles = this.profiles.filter((p) => p.profileId !== profile.profileId);
+    this.profiles.push(profile);
   }
 
   async isNickTaken(nick: string): Promise<Boolean> {
