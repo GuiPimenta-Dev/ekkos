@@ -7,10 +7,8 @@ import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
 import MemoryProfileRepository from "../../../src/infra/repository/MemoryProfileRepository";
 import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
 import EmailGatewayFake from "../../utils/mocks/gateway/EmailGatewayFake";
-import MemberDTO from "../../../src/dto/MemberDTO";
 import BrokerInterface from "../../../src/application/ports/broker/BrokerInterface";
 import MemoryFeedRepository from "../../../src/infra/repository/MemoryFeedRepository";
-import Profile from "../../../src/domain/entity/Profile";
 import VideoPostedHandler from "../../../src/application/handler/VideoPostedHandler";
 import RepositoryFactory from "../../utils/factory/RepositoryFactory";
 

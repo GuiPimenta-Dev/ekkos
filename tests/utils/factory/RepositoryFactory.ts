@@ -3,12 +3,9 @@ import ProfileRepositoryInterface from "../../../src/application/ports/repositor
 import { v4 as uuid } from "uuid";
 import BandRepositoryInterface from "../../../src/application/ports/repository/BandRepositoryInterface";
 import Band from "../../../src/domain/entity/Band";
-import { InviteDTO, Status } from "../../../src/dto/InviteDTO";
 import UserRepositoryInterface from "../../../src/application/ports/repository/UserRepositoryInterface";
 import VideoRepositoryInterface from "../../../src/application/ports/repository/VideoRepositoryInterface";
 import Video from "../../../src/domain/entity/Video";
-import User from "../../../src/domain/entity/User";
-import MemberDTO from "../../../src/dto/MemberDTO";
 import MemoryUserRepository from "../../../src/infra/repository/MemoryUserRepository";
 import MemoryProfileRepository from "../../../src/infra/repository/MemoryProfileRepository";
 import MemoryVideoRepository from "../../../src/infra/repository/MemoryVideoRepository";

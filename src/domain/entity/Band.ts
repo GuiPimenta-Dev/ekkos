@@ -1,5 +1,5 @@
 import Forbidden from "../../application/http/Forbidden";
-import MemberDTO from "../../dto/MemberDTO";
+import Member from './Member';
 
 export default class Band {
   constructor(
@@ -8,11 +8,11 @@ export default class Band {
     readonly description: string,
     readonly logo: string,
     readonly adminId: string,
-    private members: MemberDTO[],
+    private members: Member[],
     private vacancies: string[] = []
   ) {}
 
-  addMember(adminId: string, member: MemberDTO): void {
+  addMember(adminId: string, member: Member): void {
     this.verifyAdmin(adminId);
     if (this.getVacancies().includes(member.role)) {
       this.removeVacancy(adminId, member.role);
@@ -20,13 +20,13 @@ export default class Band {
     this.members.push(member);
   }
 
-  removeMember(adminId: string, member: MemberDTO): void {
+  removeMember(adminId: string, member: Member): void {
     this.verifyAdmin(adminId);
     if (member.role === "admin") throw new Forbidden("Admin cannot leave the band");
     this.members = this.members.filter((m) => m !== member);
   }
 
-  getMembers(): MemberDTO[] {
+  getMembers(): Member[] {
     return this.members;
   }
 

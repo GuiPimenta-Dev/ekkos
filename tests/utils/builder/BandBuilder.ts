@@ -1,8 +1,8 @@
-import MemberDTO from "../../../src/dto/MemberDTO";
 import BandRepositoryInterface from '../../../src/application/ports/repository/BandRepositoryInterface';
 import { v4 as uuid } from "uuid";
 import Band from "../../../src/domain/entity/Band";
 import { InviteDTO, Status } from "../../../src/dto/InviteDTO";
+import Member from '../../../src/domain/entity/Member';
 
 export default class BandBuilder {
     public bandId: string;
@@ -10,7 +10,7 @@ export default class BandBuilder {
     public description: string;
     public logo: string;
     public adminId: string;
-    public members: MemberDTO[];
+    public members: Member[];
     public vacancies: string[];
     public invite: InviteDTO;
 
@@ -29,14 +29,14 @@ export default class BandBuilder {
         return this
     }
 
-    withMember(members: MemberDTO) {
-        this.members.push(members);
+    withMember(member: Member) {
+        this.members.push(member);
         this.bandRepository.save(this.band);
         return this
     }
 
-    withVacancies(vacancies: string[]) {
-        this.vacancies = vacancies;
+    withVacancy(vacancy: string) {
+        this.vacancies.push(vacancy);
         this.bandRepository.save(this.band);
         return this
     }
