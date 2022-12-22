@@ -28,7 +28,7 @@ export default class InviteMember {
   }
 
   private async addAnotherRoleToAdmin(band: Band, profileId: string, role: string) {
-    const member = new Member({ profileId, role });
+    const member = new Member(uuid(), profileId, role);
     band.addMember(profileId, member);
     await this.bandRepository.update(band);
   }
