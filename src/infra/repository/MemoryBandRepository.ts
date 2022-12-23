@@ -2,7 +2,7 @@ import Band from "../../domain/entity/Band";
 import BandRepositoryInterface from "../../application/ports/repository/BandRepositoryInterface";
 import { InviteDTO } from "../../dto/InviteDTO";
 import RoleDTO from "../../dto/RoleDTO";
-import Member from '../../domain/entity/Member';
+import Member from "../../domain/entity/Member";
 
 export default class MemoryBandRepository implements BandRepositoryInterface {
   bands: Band[];
@@ -23,7 +23,7 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
     this.invites = [];
   }
 
-  async save(band: Band): Promise<void> {
+  async create(band: Band): Promise<void> {
     this.bands.push(band);
   }
 

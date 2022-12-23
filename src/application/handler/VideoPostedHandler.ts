@@ -15,12 +15,12 @@ export default class VideoPostedHandler implements HandlerInterface {
     const followers = profile.getFollowers();
     await Promise.all(
       followers.map(async (follower) => {
-        await this.feedRepository.save({
+        await this.feedRepository.create({
           postId: uuid(),
           profileId: follower,
           videoId: payload.videoId,
         });
-      })
+      }),
     );
   }
 }

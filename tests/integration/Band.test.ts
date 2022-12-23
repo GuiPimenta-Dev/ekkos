@@ -10,14 +10,13 @@ import { v4 as uuid } from "uuid";
 import app from "../../src/infra/http/Router";
 import request from "supertest";
 import User from "../../src/domain/entity/User";
-import Profile from '../../src/domain/entity/Profile';
-import BandBuilder from '../utils/builder/BandBuilder';
+import BandBuilder from "../utils/builder/BandBuilder";
 
 let authorization: string;
 
 const avatar = "tests/utils/files/avatar.jpeg";
 let factory: RepositoryFactory;
-let builder: BandBuilder
+let builder: BandBuilder;
 let user: User;
 jest.mock("../../src/Config", () => ({
   ...(jest.requireActual("../../src/Config") as {}),
@@ -32,8 +31,11 @@ jest.mock("../../src/Config", () => ({
 }));
 
 beforeAll(async () => {
-  factory = new RepositoryFactory({profileRepository:config.profileRepository, userRepository:config.userRepository});
-  builder = new BandBuilder(config.bandRepository)
+  factory = new RepositoryFactory({
+    profileRepository: config.profileRepository,
+    userRepository: config.userRepository,
+  });
+  builder = new BandBuilder(config.bandRepository);
   user = factory.createUser();
   const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
   authorization = `Bearer ${body.token}`;
@@ -54,8 +56,8 @@ test("It should be able to create a band", async () => {
 
 test("It should be able to get a band", async () => {
   const band = builder.createBand(user.userId);
-  const member = band.members[0]
-  const profile = await config.profileRepository.findProfileById(user.userId)
+  const member = band.members[0];
+  const profile = await config.profileRepository.findProfileById(user.userId);
 
   const response = await request(app).get(`/band/${band.bandId}`).set({ authorization });
 
@@ -69,10 +71,10 @@ test("It should be able to get a band", async () => {
       {
         memberId: member.memberId,
         profileId: profile.profileId,
-        role: 'admin',
+        role: "admin",
         avatar: profile.avatar,
-        nick: profile.nick
-      }
+        nick: profile.nick,
+      },
     ],
     vacancies: [],
   });
@@ -91,8 +93,8 @@ test("It should be able to invite a member to band", async () => {
 });
 
 test("It should be able to accept an invite to band", async () => {
-  const member = factory.createUser()
-  const band = builder.createBand(user.userId).withInviteTo(member.userId, "guitarist");
+  const member = factory.createUser();
+  const band = builder.createBand(user.userId).withInviteTo(member.userId);
   const { body } = await request(app).post("/user/login").send({ email: member.email, password: member.password });
   const authorization = `Bearer ${body.token}`;
 
@@ -102,8 +104,8 @@ test("It should be able to accept an invite to band", async () => {
 });
 
 test("It should be able to decline an invite to band", async () => {
-  const member = factory.createUser()
-  const band = builder.createBand(user.userId).withInviteTo(member.userId, "guitarist");
+  const member = factory.createUser();
+  const band = builder.createBand(user.userId).withInviteTo(member.userId);
   const { body } = await request(app).post("/user/login").send({ email: member.email, password: member.password });
   const authorization = `Bearer ${body.token}`;
 
@@ -120,7 +122,7 @@ test("It should be able to remove a member from a band", async () => {
     .post(`/band/${band.bandId}/removeMember`)
     .send({ memberId: member.memberId })
     .set({ authorization });
-    
+
   expect(response.statusCode).toBe(200);
 });
 
@@ -131,7 +133,7 @@ test("It should be able to open a vacancy in a band", async () => {
     .post(`/band/${band.bandId}/openVacancy`)
     .send({ role: "guitarist" })
     .set({ authorization });
-  
+
   expect(response.statusCode).toBe(200);
 });
 

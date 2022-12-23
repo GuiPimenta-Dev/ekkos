@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import Band from "../../domain/entity/Band";
 import BandRepositoryInterface from "../../application/ports/repository/BandRepositoryInterface";
 import CreateBandDTO from "../../dto/CreateBandDTO";
-import Member from '../../domain/entity/Member';
+import Member from "../../domain/entity/Member";
 
 export default class CreateBand {
   constructor(private readonly bandRepository: BandRepositoryInterface) {}
@@ -11,7 +11,7 @@ export default class CreateBand {
     const bandId = uuid();
     const member = new Member(uuid(), input.profileId, "admin");
     const band = new Band(bandId, input.name, input.description, input.logo, input.profileId, [member]);
-    await this.bandRepository.save(band);
+    await this.bandRepository.create(band);
     return bandId;
   }
 }

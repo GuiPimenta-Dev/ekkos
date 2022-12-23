@@ -12,7 +12,6 @@ import RepositoryFactory from "../utils/factory/RepositoryFactory";
 import User from "../../src/domain/entity/User";
 import { v4 as uuid } from "uuid";
 
-
 jest.mock("../../src/Config", () => ({
   ...(jest.requireActual("../../src/Config") as {}),
   config: {
@@ -30,7 +29,11 @@ let authorization: string;
 let factory: RepositoryFactory;
 let user: User;
 beforeEach(async () => {
-  factory = new RepositoryFactory({profileRepository: config.profileRepository, userRepository: config.userRepository, videoRepository: config.videoRepository});
+  factory = new RepositoryFactory({
+    profileRepository: config.profileRepository,
+    userRepository: config.userRepository,
+    videoRepository: config.videoRepository,
+  });
   user = factory.createUser();
   const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
   authorization = `Bearer ${body.token}`;
@@ -39,7 +42,7 @@ beforeEach(async () => {
 test("It should be able to get a feed", async () => {
   const video = factory.createVideo(user.userId);
   const feed = { postId: uuid(), profileId: user.userId, videoId: video.videoId };
-  config.feedRepository.save(feed);
+  config.feedRepository.create(feed);
 
   const response = await request(app).get("/feed").set({ authorization });
 

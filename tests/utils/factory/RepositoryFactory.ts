@@ -33,28 +33,27 @@ export default class RepositoryFactory {
 
   createUser() {
     const user = { userId: uuid(), email: `email_${uuid()}@test.com`, password: "password" };
-    this.userRepository.save(user);
+    this.userRepository.create(user);
     this.createProfile(user.userId);
     return user;
   }
 
   createProfile(profileId: string = uuid()): Profile {
     const profile = new Profile(profileId, `nick_${uuid()}`, "avatar", 0, 0, [], []);
-    this.profileRepository.save(profile);
+    this.profileRepository.create(profile);
     return profile;
   }
 
   createVideo(profileId: string = uuid()): Video {
     const video = new Video(uuid(), profileId, "title", "description", "url");
-    this.videoRepository.save(video);
+    this.videoRepository.create(video);
     return video;
   }
 
   createBand(adminId: string = uuid()): Band {
     const members = [{ memberId: uuid(), profileId: adminId, role: "admin" }];
     const band = new Band(uuid(), "name", "description", "logo", adminId, members);
-    this.bandRepository.save(band);
+    this.bandRepository.create(band);
     return band;
   }
-
 }

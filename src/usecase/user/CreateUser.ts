@@ -12,7 +12,7 @@ export default class CreateUser {
     if (await this.userRepository.isEmailTaken(email)) throw new BadRequest("Email already taken");
     const userId = uuid();
     const user = new User(userId, email, password);
-    this.userRepository.save(user);
+    this.userRepository.create(user);
     this.broker.publish(EventFactory.emitUserCreated({ email }));
     return userId;
   }

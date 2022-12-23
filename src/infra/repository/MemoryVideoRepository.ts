@@ -8,7 +8,7 @@ export default class MemoryVideoRepository implements VideoRepositoryInterface {
     this.videos = [];
   }
 
-  async save(video: Video): Promise<void> {
+  async create(video: Video): Promise<void> {
     this.videos.push(video);
   }
 

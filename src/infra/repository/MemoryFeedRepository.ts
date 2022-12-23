@@ -8,7 +8,7 @@ export default class MemoryFeedRepository implements FeedRepositoryInterface {
     this.posts = [{ postId: "1", profileId: "2", videoId: "videoId" }];
   }
 
-  async save(input: FeedDTO): Promise<void> {
+  async create(input: FeedDTO): Promise<void> {
     this.posts.push(input);
   }
 

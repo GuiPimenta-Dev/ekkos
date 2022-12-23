@@ -4,7 +4,7 @@ import UserRepositoryInterface from "../../application/ports/repository/UserRepo
 export default class MemoryUserRepository implements UserRepositoryInterface {
   readonly users: User[] = [];
 
-  async save(user: User): Promise<void> {
+  async create(user: User): Promise<void> {
     this.users.push(user);
   }
 

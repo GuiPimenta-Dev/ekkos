@@ -3,7 +3,7 @@ import RoleDTO from "../../../dto/RoleDTO";
 import { InviteDTO } from "../../../dto/InviteDTO";
 
 export default interface BandRepositoryInterface {
-  save(band: Band): Promise<void>;
+  create(band: Band): Promise<void>;
   findBandById(id: string): Promise<Band>;
   findBandsByProfileId(profileId: string): Promise<Band[]>;
   findRoles(): Promise<RoleDTO[]>;

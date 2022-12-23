@@ -13,7 +13,7 @@ export default class PostVideo {
     if (await this.videoRepository.isUrlTaken(input.url)) throw new BadRequest("Video url already in use");
     const videoId = uuid();
     const video = new Video(videoId, input.profileId, input.title, input.description, input.url);
-    await this.videoRepository.save(video);
+    await this.videoRepository.create(video);
     await this.broker.publish(EventFactory.emitVideoPosted({ profileId: input.profileId, videoId }));
     return videoId;
   }

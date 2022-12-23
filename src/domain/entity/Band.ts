@@ -26,6 +26,8 @@ export default class Band {
     this.members = this.members.filter((m) => m !== member);
   }
 
+
+  
   getMembers(): Member[] {
     return this.members;
   }

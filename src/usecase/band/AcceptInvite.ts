@@ -2,7 +2,7 @@ import BandRepositoryInterface from "../../application/ports/repository/BandRepo
 import BrokerInterface from "../../application/ports/broker/BrokerInterface";
 import { Status } from "../../dto/InviteDTO";
 import EventFactory from "../../domain/event/EventFactory";
-import Member from '../../domain/entity/Member';
+import Member from "../../domain/entity/Member";
 import { v4 as uuid } from "uuid";
 
 export default class AcceptInvite {

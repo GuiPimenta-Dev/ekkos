@@ -4,7 +4,7 @@ import ProfileRepositoryInterface from "../../application/ports/repository/Profi
 export default class MemoryProfileRepository implements ProfileRepositoryInterface {
   public profiles: Profile[] = [];
 
-  async save(profile: Profile): Promise<void> {
+  async create(profile: Profile): Promise<void> {
     this.profiles.push(profile);
   }
 
