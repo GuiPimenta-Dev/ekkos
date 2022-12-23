@@ -1,4 +1,4 @@
-import Profile from "../../domain/entity/Profile";
+import Profile from "../../domain/entity/profile/Profile";
 import ProfileRepositoryInterface from "../../application/ports/repository/ProfileRepositoryInterface";
 
 export default class MatchProfiles {
@@ -14,7 +14,7 @@ export default class MatchProfiles {
           match.latitude,
           match.longitude,
           profile.latitude,
-          profile.longitude
+          profile.longitude,
         );
 
         return distanceBetween <= distance ? { profile: match, distance: distanceBetween } : null;

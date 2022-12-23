@@ -1,5 +1,5 @@
 import {
-  updateCoords,
+  updateCoordinates,
   uploadFile,
   verifyBand,
   verifyInvite,
@@ -21,10 +21,11 @@ const app = ExpressAdapter.create();
 app.post("/user/create", ExpressAdapter.route(UserController.create));
 app.post("/user/login", ExpressAdapter.route(UserController.login));
 app.post("/profile", verifyToken, uploadFile.single("avatar"), ExpressAdapter.route(ProfileController.create));
-app.get("/profile/:id", verifyToken, verifyUser, updateCoords, ExpressAdapter.route(ProfileController.get));
+app.get("/profile/:id", verifyToken, verifyUser, updateCoordinates, ExpressAdapter.route(ProfileController.get));
 app.post("/profile/:id/follow", verifyToken, verifyUser, ExpressAdapter.route(ProfileController.follow));
 app.post("/profile/:id/unfollow", verifyToken, verifyUser, ExpressAdapter.route(ProfileController.unfollow));
-app.post("/profile/match", verifyToken, verifyUser, updateCoords, ExpressAdapter.route(ProfileController.match));
+app.post("/profile/match", verifyToken, verifyUser, updateCoordinates, ExpressAdapter.route(ProfileController.match));
+
 app.post("/video", verifyToken, verifyUser, uploadFile.single("video"), ExpressAdapter.route(VideoController.post));
 app.get("/video/:id", verifyToken, verifyUser, verifyVideo, ExpressAdapter.route(VideoController.get));
 app.post("/video/:id/like", verifyToken, verifyUser, verifyVideo, ExpressAdapter.route(VideoController.like));
@@ -35,8 +36,9 @@ app.delete(
   verifyToken,
   verifyUser,
   verifyVideo,
-  ExpressAdapter.route(VideoController.deleteComment)
+  ExpressAdapter.route(VideoController.deleteComment),
 );
+
 app.post("/band", verifyToken, verifyUser, uploadFile.single("logo"), ExpressAdapter.route(BandController.create));
 app.post(
   "/band/:id/invite",
@@ -44,42 +46,39 @@ app.post(
   verifyUser,
   verifyBand,
   verifyRole,
-  ExpressAdapter.route(BandController.inviteMember)
+  ExpressAdapter.route(BandController.inviteMember),
 );
 app.post(
   "/band/invite/:id/accept",
   verifyToken,
   verifyUser,
   verifyInvite,
-  ExpressAdapter.route(BandController.acceptInvite)
+  ExpressAdapter.route(BandController.acceptInvite),
 );
-
 app.post(
   "/band/invite/:id/decline",
   verifyToken,
   verifyUser,
   verifyInvite,
-  ExpressAdapter.route(BandController.declineInvite)
+  ExpressAdapter.route(BandController.declineInvite),
 );
-
 app.get("/band/:id", verifyToken, verifyUser, verifyBand, ExpressAdapter.route(BandController.get));
 app.post(
   "/band/:id/removeMember",
   verifyToken,
   verifyUser,
   verifyBand,
-  ExpressAdapter.route(BandController.removeMember)
+  ExpressAdapter.route(BandController.removeMember),
 );
-
 app.post(
   "/band/:id/openVacancy",
   verifyToken,
   verifyUser,
   verifyRole,
-  ExpressAdapter.route(BandController.openVacancy)
+  ExpressAdapter.route(BandController.openVacancy),
 );
-
 app.get("/roles", verifyToken, verifyUser, ExpressAdapter.route(BandController.getRoles));
+
 app.get("/feed", verifyToken, verifyUser, ExpressAdapter.route(FeedController.get));
 
 export default app;

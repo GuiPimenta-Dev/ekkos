@@ -52,7 +52,7 @@ test("It should be able to invite a member", async () => {
   const invite = await bandRepository.findInviteById(inviteId);
   expect(invite).toBeDefined();
   expect(invite.role).toBe("guitarist");
-  expect(invite.status).toBe("pending");
+  expect(invite.getStatus()).toBe("pending");
 });
 
 test("It should directly add the member if it is the adminId choosing a second role", async () => {
@@ -84,9 +84,9 @@ test("It should be able to accept an invite", async () => {
   const usecase = new AcceptInvite(bandRepository, broker);
   await usecase.execute(member.profileId, band.invite.inviteId);
 
-  const { status } = await bandRepository.findInviteById(band.invite.inviteId);
+  const invite = await bandRepository.findInviteById(band.invite.inviteId);
   const _band = await bandRepository.findBandById(band.bandId);
-  expect(status).toBe("accepted");
+  expect(invite.getStatus()).toBe("accepted");
   expect(_band.getMembers()).toHaveLength(2);
 });
 
@@ -98,9 +98,9 @@ test("It should be able to decline an invite", async () => {
   const usecase = new DeclineInvite(bandRepository, broker);
   await usecase.execute(member.profileId, band.invite.inviteId);
 
-  const { status } = await bandRepository.findInviteById(band.invite.inviteId);
+  const invite = await bandRepository.findInviteById(band.invite.inviteId);
   const _band = await bandRepository.findBandById(band.bandId);
-  expect(status).toBe("declined");
+  expect(invite.getStatus()).toBe("declined");
   expect(_band.getMembers()).toHaveLength(1);
 });
 

@@ -1,6 +1,6 @@
-import Band from "../../../domain/entity/Band";
+import Band from "../../../domain/entity/band/Band";
+import Invite from "../../../domain/entity/band/Invite";
 import RoleDTO from "../../../dto/RoleDTO";
-import { InviteDTO } from "../../../dto/InviteDTO";
 
 export default interface BandRepositoryInterface {
   create(band: Band): Promise<void>;
@@ -8,7 +8,7 @@ export default interface BandRepositoryInterface {
   findBandsByProfileId(profileId: string): Promise<Band[]>;
   findRoles(): Promise<RoleDTO[]>;
   update(band: Band): Promise<void>;
-  createInvite(invite: InviteDTO): Promise<void>;
-  findInviteById(id: string): Promise<InviteDTO>;
-  updateInvite(invite: InviteDTO): Promise<void>;
+  createInvite(invite: Invite): Promise<void>;
+  findInviteById(id: string): Promise<Invite>;
+  updateInvite(invite: Invite): Promise<void>;
 }

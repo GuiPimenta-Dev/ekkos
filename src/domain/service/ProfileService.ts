@@ -1,5 +1,5 @@
 import BadRequest from "../../application/http/BadRequest";
-import Profile from "../entity/Profile";
+import Profile from "../entity/profile/Profile";
 
 export default class ProfileService {
   static follow(follower: Profile, followee: Profile) {

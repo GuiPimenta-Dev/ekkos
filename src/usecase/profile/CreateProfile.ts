@@ -1,5 +1,5 @@
 import BadRequest from "../../application/http/BadRequest";
-import Profile from "../../domain/entity/Profile";
+import Profile from "../../domain/entity/profile/Profile";
 import ProfileRepositoryInterface from "../../application/ports/repository/ProfileRepositoryInterface";
 import CreateProfileDTO from "../../dto/CreateProfileDTO";
 

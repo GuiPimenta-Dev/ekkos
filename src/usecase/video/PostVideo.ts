@@ -1,6 +1,6 @@
 import BadRequest from "../../application/http/BadRequest";
 import PostVideoDTO from "../../dto/PostVideoDTO";
-import Video from "../../domain/entity/Video";
+import Video from "../../domain/entity/video/Video";
 import VideoRepositoryInterface from "../../application/ports/repository/VideoRepositoryInterface";
 import { v4 as uuid } from "uuid";
 import BrokerInterface from "../../application/ports/broker/BrokerInterface";

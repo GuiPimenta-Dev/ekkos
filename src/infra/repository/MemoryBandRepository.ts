@@ -1,13 +1,13 @@
-import Band from "../../domain/entity/Band";
+import Band from "../../domain/entity/band/Band";
 import BandRepositoryInterface from "../../application/ports/repository/BandRepositoryInterface";
-import { InviteDTO } from "../../dto/InviteDTO";
 import RoleDTO from "../../dto/RoleDTO";
-import Member from "../../domain/entity/Member";
+import Member from "../../domain/entity/band/Member";
+import Invite from "../../domain/entity/band/Invite";
 
 export default class MemoryBandRepository implements BandRepositoryInterface {
   bands: Band[];
   roles: RoleDTO[];
-  invites: InviteDTO[];
+  invites: Invite[];
   members: Member[];
 
   constructor() {
@@ -44,15 +44,15 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
     return this.bands.filter((band) => band.getMembers().find((member) => member.profileId === profileId));
   }
 
-  async createInvite(invite: InviteDTO): Promise<void> {
+  async createInvite(invite: Invite): Promise<void> {
     this.invites.push(invite);
   }
 
-  async findInviteById(id: string): Promise<InviteDTO> {
+  async findInviteById(id: string): Promise<Invite> {
     return this.invites.find((invite) => invite.inviteId === id);
   }
 
-  async updateInvite(invite: InviteDTO): Promise<void> {
+  async updateInvite(invite: Invite): Promise<void> {
     const filteredInvite = this.invites.find((i) => i.inviteId === invite.inviteId);
     const index = this.invites.indexOf(filteredInvite);
     this.invites[index] = invite;

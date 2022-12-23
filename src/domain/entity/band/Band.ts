@@ -1,5 +1,5 @@
-import Forbidden from "../../application/http/Forbidden";
-import Member from './Member';
+import Forbidden from "../../../application/http/Forbidden";
+import Member from "./Member";
 
 export default class Band {
   constructor(
@@ -9,7 +9,7 @@ export default class Band {
     readonly logo: string,
     readonly adminId: string,
     private members: Member[],
-    private vacancies: string[] = []
+    private vacancies: string[] = [],
   ) {}
 
   addMember(adminId: string, member: Member): void {
@@ -26,8 +26,6 @@ export default class Band {
     this.members = this.members.filter((m) => m !== member);
   }
 
-
-  
   getMembers(): Member[] {
     return this.members;
   }

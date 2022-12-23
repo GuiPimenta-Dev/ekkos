@@ -11,8 +11,8 @@ import InviteMemberHandler from "./application/handler/MemberInvitedHandler";
 import StorageGatewayFake from "../tests/utils/mocks/gateway/StorageGatewayFake";
 import EmailGateway from "./infra/gateway/EmailGateway";
 import MemoryFeedRepository from "./infra/repository/MemoryFeedRepository";
-import Profile from "./domain/entity/Profile";
-import User from "./domain/entity/User";
+import Profile from "./domain/entity/profile/Profile";
+import User from "./domain/entity/user/User";
 
 const userRepository = new MemoryUserRepository();
 userRepository.create(new User("1", "user_1@test.com", "123456"));

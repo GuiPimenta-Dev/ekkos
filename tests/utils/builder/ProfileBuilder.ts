@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import Profile from "../../../src/domain/entity/Profile";
+import Profile from "../../../src/domain/entity/profile/Profile";
 import ProfileRepositoryInterface from "../../../src/application/ports/repository/ProfileRepositoryInterface";
 
 export default class ProfileBuilder {

@@ -1,4 +1,4 @@
-import Profile from "../../domain/entity/Profile";
+import Profile from "../../domain/entity/profile/Profile";
 import ProfileRepositoryInterface from "../../application/ports/repository/ProfileRepositoryInterface";
 
 export default class MemoryProfileRepository implements ProfileRepositoryInterface {

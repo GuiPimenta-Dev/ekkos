@@ -5,7 +5,7 @@ import { config } from "../../Config";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import Forbidden from "../http/Forbidden";
-import { Status } from "../../dto/InviteDTO";
+import { Status } from "../../domain/entity/band/Invite";
 
 export async function verifyToken(req, res, next): Promise<void> {
   try {
@@ -65,7 +65,7 @@ export async function verifyInvite(req, res, next): Promise<void> {
     const { params, headers } = req;
     const invite = await config.bandRepository.findInviteById(params.id);
     if (!invite) throw new NotFound("Invite not found");
-    if (invite.status !== Status.pending) throw new BadRequest("Invite is not pending");
+    if (invite.getStatus() !== Status.pending) throw new BadRequest("Invite is not pending");
     if (invite.profileId !== headers.id) throw new Forbidden("Invite is not for this profile");
     next();
   } catch (e: any) {
@@ -85,7 +85,7 @@ export async function verifyRole(req, res, next): Promise<void> {
   }
 }
 
-export async function updateCoords(req, _, next): Promise<void> {
+export async function updateCoordinates(req, _, next): Promise<void> {
   const { headers } = req;
   const profile = await config.profileRepository.findProfileById(headers.id);
   profile.latitude = headers.latitude || profile.latitude;

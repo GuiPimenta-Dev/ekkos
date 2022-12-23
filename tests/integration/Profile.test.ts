@@ -8,7 +8,7 @@ import { config } from "../../src/Config";
 import app from "../../src/infra/http/Router";
 import request from "supertest";
 import RepositoryFactory from "../utils/factory/RepositoryFactory";
-import User from "../../src/domain/entity/User";
+import User from "../../src/domain/entity/user/User";
 
 jest.mock("../../src/Config", () => ({
   ...(jest.requireActual("../../src/Config") as {}),

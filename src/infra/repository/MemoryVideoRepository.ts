@@ -1,4 +1,4 @@
-import Video from "../../domain/entity/Video";
+import Video from "../../domain/entity/video/Video";
 import VideoRepositoryInterface from "../../application/ports/repository/VideoRepositoryInterface";
 
 export default class MemoryVideoRepository implements VideoRepositoryInterface {

@@ -1,4 +1,4 @@
-import Band from "../entity/Band";
+import Band from "../entity/band/Band";
 
 export interface Event<T = unknown> {
   name: string;

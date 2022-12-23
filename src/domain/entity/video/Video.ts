@@ -1,6 +1,6 @@
-import BadRequest from "../../application/http/BadRequest";
-import Forbidden from "../../application/http/Forbidden";
-import CommentDTO from "../../dto/CommentDTO";
+import BadRequest from "../../../application/http/BadRequest";
+import Forbidden from "../../../application/http/Forbidden";
+import Comment from "./Comment";
 
 export default class Video {
   constructor(
@@ -10,7 +10,7 @@ export default class Video {
     readonly description: string,
     readonly url: string,
     private likes: string[] = [],
-    private comments: CommentDTO[] = []
+    private comments: Comment[] = [],
   ) {}
 
   like(profileId: string): void {
@@ -23,11 +23,11 @@ export default class Video {
     this.likes = this.likes.filter((id) => id !== profileId);
   }
 
-  comment(comment: CommentDTO): void {
+  comment(comment: Comment): void {
     this.comments.push(comment);
   }
 
-  deleteComment(profileId: string, comment: CommentDTO): void {
+  deleteComment(profileId: string, comment: Comment): void {
     if (comment.profileId !== profileId) throw new Forbidden("You can't delete this comment");
     this.comments = this.comments.filter((c) => c.commentId !== comment.commentId);
   }
@@ -36,7 +36,7 @@ export default class Video {
     return this.likes;
   }
 
-  getComments(): CommentDTO[] {
+  getComments(): Comment[] {
     return this.comments;
   }
 }

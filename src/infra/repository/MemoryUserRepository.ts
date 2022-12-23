@@ -1,4 +1,4 @@
-import User from "../../domain/entity/User";
+import User from "../../domain/entity/user/User";
 import UserRepositoryInterface from "../../application/ports/repository/UserRepositoryInterface";
 
 export default class MemoryUserRepository implements UserRepositoryInterface {

@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import BadRequest from "../../application/http/BadRequest";
-import User from "../../domain/entity/User";
+import User from "../../domain/entity/user/User";
 import EventFactory from "../../domain/event/EventFactory";
 import BrokerInterface from "../../application/ports/broker/BrokerInterface";
 import UserRepositoryInterface from "../../application/ports/repository/UserRepositoryInterface";

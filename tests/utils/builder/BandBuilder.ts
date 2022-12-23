@@ -1,8 +1,8 @@
 import BandRepositoryInterface from "../../../src/application/ports/repository/BandRepositoryInterface";
 import { v4 as uuid } from "uuid";
-import Band from "../../../src/domain/entity/Band";
-import { InviteDTO, Status } from "../../../src/dto/InviteDTO";
-import Member from "../../../src/domain/entity/Member";
+import Band from "../../../src/domain/entity/band/Band";
+import Member from "../../../src/domain/entity/band/Member";
+import Invite, { Status } from "../../../src/domain/entity/band/Invite";
 
 export default class BandBuilder {
   public bandId: string;
@@ -12,7 +12,7 @@ export default class BandBuilder {
   public adminId: string;
   public members: Member[];
   public vacancies: string[];
-  public invite: InviteDTO;
+  public invite: Invite;
 
   constructor(private bandRepository: BandRepositoryInterface) {}
 
@@ -42,13 +42,7 @@ export default class BandBuilder {
   }
 
   withInviteTo(profileId: string) {
-    this.invite = {
-      inviteId: uuid(),
-      bandId: this.bandId,
-      profileId,
-      role: "guitarrist",
-      status: Status.pending,
-    };
+    this.invite = new Invite(uuid(), this.bandId, profileId, "guitarist", Status.pending);
     this.bandRepository.createInvite(this.invite);
     return this;
   }

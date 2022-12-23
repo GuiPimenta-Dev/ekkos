@@ -13,7 +13,7 @@ import CreateUser from "../../../src/usecase/user/CreateUser";
 import ExpressResponseFake from "../../utils/mocks/http/ExpressResponseFake";
 import LoginUser from "../../../src/usecase/user/LoginUser";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
-import { Status } from "../../../src/dto/InviteDTO";
+import Invite, { Status } from "../../../src/domain/entity/band/Invite";
 
 let token: string;
 let res: ExpressResponseFake;
@@ -116,13 +116,7 @@ test("Must throw an error if invite not found", async () => {
 });
 
 test("Must throw an error if invite not pending", async () => {
-  const invite = {
-    inviteId: "1",
-    bandId: "1",
-    profileId: "1",
-    role: "guitarist",
-    status: Status.accepted,
-  };
+  const invite = new Invite("1", "1", "1", "guitarist", Status.accepted);
   config.bandRepository.createInvite(invite);
   const req = { params: { id: "1" } };
 
@@ -133,13 +127,7 @@ test("Must throw an error if invite not pending", async () => {
 });
 
 test("Must throw an error if invite not for this profile", async () => {
-  const invite = {
-    inviteId: "2",
-    bandId: "1",
-    profileId: "1",
-    role: "guitarist",
-    status: Status.pending,
-  };
+  const invite = new Invite("2", "1", "1", "guitarist", Status.pending);
   config.bandRepository.createInvite(invite);
   const req = { params: { id: "2" }, headers: { id: "invalid-profile" } };
 

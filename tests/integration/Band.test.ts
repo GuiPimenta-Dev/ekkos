@@ -9,7 +9,7 @@ import { config } from "../../src/Config";
 import { v4 as uuid } from "uuid";
 import app from "../../src/infra/http/Router";
 import request from "supertest";
-import User from "../../src/domain/entity/User";
+import User from "../../src/domain/entity/user/User";
 import BandBuilder from "../utils/builder/BandBuilder";
 
 let authorization: string;

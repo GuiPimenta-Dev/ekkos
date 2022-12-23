@@ -2,18 +2,18 @@ import NotFound from "../../application/http/NotFound";
 import BandRepositoryInterface from "../../application/ports/repository/BandRepositoryInterface";
 import ProfileRepositoryInterface from "../../application/ports/repository/ProfileRepositoryInterface";
 import AddMemberDTO from "../../dto/AddMemberDTO";
-import { Status } from "../../dto/InviteDTO";
 import { v4 as uuid } from "uuid";
 import BrokerInterface from "../../application/ports/broker/BrokerInterface";
 import EventFactory from "../../domain/event/EventFactory";
-import Member from '../../domain/entity/Member';
-import Band from "../../domain/entity/Band";
+import Member from "../../domain/entity/band/Member";
+import Band from "../../domain/entity/band/Band";
+import Invite, { Status } from "../../domain/entity/band/Invite";
 
 export default class InviteMember {
   constructor(
     private readonly bandRepository: BandRepositoryInterface,
     private profileRepository: ProfileRepositoryInterface,
-    private broker: BrokerInterface
+    private broker: BrokerInterface,
   ) {}
 
   async execute(input: AddMemberDTO): Promise<string> {
@@ -34,17 +34,9 @@ export default class InviteMember {
   }
 
   private async inviteMemberToJoinBand(band: Band, profileId: string, role: string) {
-    const invite = {
-      inviteId: uuid(),
-      bandId: band.bandId,
-      profileId,
-      role,
-      status: Status.pending,
-    };
+    const invite = new Invite(uuid(), band.bandId, profileId, role, Status.pending);
     await this.bandRepository.createInvite(invite);
-    await this.broker.publish(
-      EventFactory.emitMemberInvited({ profileId, bandName: band.name, role })
-    );
+    await this.broker.publish(EventFactory.emitMemberInvited({ profileId, bandName: band.name, role }));
     return invite.inviteId;
   }
 }

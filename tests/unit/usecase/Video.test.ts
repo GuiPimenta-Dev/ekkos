@@ -2,19 +2,18 @@ import DeleteComment from "../../../src/usecase/video/DeleteComment";
 import MemoryVideoRepository from "../../../src/infra/repository/MemoryVideoRepository";
 import PostVideo from "../../../src/usecase/video/PostVideo";
 import MemoryBroker from "../../../src/infra/broker/MemoryBroker";
-import RepositoryFactory from "../../utils/factory/RepositoryFactory";
-import CommentVideo from '../../../src/usecase/video/CommentVideo';
-import VideoBuilder from '../../utils/builder/VideoBuilder';
+import CommentVideo from "../../../src/usecase/video/CommentVideo";
+import VideoBuilder from "../../utils/builder/VideoBuilder";
 import LikeVideo from "../../../src/usecase/video/LikeVideo";
-import UnlikeVideo from '../../../src/usecase/video/UnlikeVideo';
+import UnlikeVideo from "../../../src/usecase/video/UnlikeVideo";
 
 let videoRepository: MemoryVideoRepository;
-let builder: VideoBuilder;
+let videoBuilder: VideoBuilder;
 const broker = new MemoryBroker();
 
 beforeEach(async () => {
   videoRepository = new MemoryVideoRepository();
-  builder = new VideoBuilder(videoRepository);
+  videoBuilder = new VideoBuilder(videoRepository);
 });
 
 test("It should be able to post a video", async () => {
@@ -27,7 +26,7 @@ test("It should be able to post a video", async () => {
 });
 
 test("It should not be able to post a duplicated video", async () => {
-  const video = builder.createVideo();
+  const video = videoBuilder.createVideo();
 
   const usecase = new PostVideo(videoRepository, broker);
   const input = { profileId: "profileId", title: "title", description: "description", url: video.url };
@@ -36,7 +35,7 @@ test("It should not be able to post a duplicated video", async () => {
 });
 
 test("It should be able to comment a video", async () => {
-  const video = builder.createVideo();
+  const video = videoBuilder.createVideo();
 
   const usecase = new CommentVideo(videoRepository);
   await usecase.execute("profile", video.videoId, "comment");
@@ -45,8 +44,10 @@ test("It should be able to comment a video", async () => {
 });
 
 test("It should be able to delete a comment", async () => {
-  const video = builder.createVideo().withComment({ commentId: "comment-id", profileId: "profile", text: "comment" });
-  
+  const video = videoBuilder
+    .createVideo()
+    .withComment({ commentId: "comment-id", profileId: "profile", text: "comment" });
+
   const usecase = new DeleteComment(videoRepository);
   await usecase.execute("profile", video.videoId, "comment-id");
 
@@ -54,7 +55,7 @@ test("It should be able to delete a comment", async () => {
 });
 
 test("It should be able to like a video", async () => {
-  const video = builder.createVideo();
+  const video = videoBuilder.createVideo();
 
   const usecase = new LikeVideo(videoRepository);
   await usecase.execute("profile", video.videoId);
@@ -63,7 +64,7 @@ test("It should be able to like a video", async () => {
 });
 
 test("It should be able to unlike a video", async () => {
-  const video = builder.createVideo().withLike("profile");
+  const video = videoBuilder.createVideo().withLike("profile");
 
   const usecase = new UnlikeVideo(videoRepository);
   await usecase.execute("profile", video.videoId);
@@ -72,7 +73,7 @@ test("It should be able to unlike a video", async () => {
 });
 
 test("It should not to be able to delete a comment that does not exists", async () => {
-  const video = builder.createVideo();
+  const video = videoBuilder.createVideo();
 
   const usecase = new DeleteComment(videoRepository);
   expect(usecase.execute("profile", video.videoId, "invalid-comment-id")).rejects.toThrow("Comment not found");

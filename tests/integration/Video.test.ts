@@ -7,7 +7,7 @@ import { config } from "../../src/Config";
 import app from "../../src/infra/http/Router";
 import request from "supertest";
 import RepositoryFactory from "../utils/factory/RepositoryFactory";
-import User from "../../src/domain/entity/User";
+import User from "../../src/domain/entity/user/User";
 
 jest.mock("../../src/Config", () => ({
   ...(jest.requireActual("../../src/Config") as {}),
@@ -57,13 +57,13 @@ test("It should be able to get a video", async () => {
   expect(response.body).toEqual({
     videoId: video.videoId,
     profileId: user.userId,
-    title: 'title',
-    description: 'description',
-    url: 'url',
+    title: "title",
+    description: "description",
+    url: "url",
     likes: 0,
-    comments: []
+    comments: [],
   });
-})
+});
 
 test("It should be able to like a video", async () => {
   const video = factory.createVideo(user.userId);
@@ -94,7 +94,10 @@ test("It should be able to comment a video", async () => {
 test("It should be able to delete a comment in a video", async () => {
   const video = factory.createVideo(user.userId);
 
-  const { body } = await request(app).post(`/video/${video. videoId}/comment`).send({ text: "text" }).set({ authorization });
+  const { body } = await request(app)
+    .post(`/video/${video.videoId}/comment`)
+    .send({ text: "text" })
+    .set({ authorization });
   const response = await request(app)
     .delete(`/video/${video.videoId}/comment`)
     .send({ commentId: body.commentId })

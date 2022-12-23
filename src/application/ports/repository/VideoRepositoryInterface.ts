@@ -1,4 +1,4 @@
-import Video from "../../../domain/entity/Video";
+import Video from "../../../domain/entity/video/Video";
 
 export default interface VideoRepositoryInterface {
   create(video: Video): Promise<void>;
