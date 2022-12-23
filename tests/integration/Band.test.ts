@@ -55,9 +55,9 @@ test("It should be able to create a band", async () => {
 });
 
 test("It should be able to get a band", async () => {
-  const band = builder.createBand(user.userId);
+  const band = builder.createBand(user.id);
   const member = band.members[0];
-  const profile = await config.profileRepository.findProfileById(user.userId);
+  const profile = await config.profileRepository.findProfileById(user.id);
 
   const response = await request(app).get(`/band/${band.bandId}`).set({ authorization });
 
@@ -70,7 +70,7 @@ test("It should be able to get a band", async () => {
     members: [
       {
         memberId: member.memberId,
-        profileId: profile.profileId,
+        profileId: profile.id,
         role: "admin",
         avatar: profile.avatar,
         nick: profile.nick,
@@ -81,12 +81,12 @@ test("It should be able to get a band", async () => {
 });
 
 test("It should be able to invite a member to band", async () => {
-  const band = builder.createBand(user.userId);
+  const band = builder.createBand(user.id);
   const profile = factory.createProfile();
 
   const response = await request(app)
     .post(`/band/${band.bandId}/invite`)
-    .send({ profileId: profile.profileId, role: "guitarist" })
+    .send({ profileId: profile.id, role: "guitarist" })
     .set({ authorization });
 
   expect(response.statusCode).toBe(200);
@@ -94,7 +94,7 @@ test("It should be able to invite a member to band", async () => {
 
 test("It should be able to accept an invite to band", async () => {
   const member = factory.createUser();
-  const band = builder.createBand(user.userId).withInviteTo(member.userId);
+  const band = builder.createBand(user.id).withInviteTo(member.id);
   const { body } = await request(app).post("/user/login").send({ email: member.email, password: member.password });
   const authorization = `Bearer ${body.token}`;
 
@@ -105,7 +105,7 @@ test("It should be able to accept an invite to band", async () => {
 
 test("It should be able to decline an invite to band", async () => {
   const member = factory.createUser();
-  const band = builder.createBand(user.userId).withInviteTo(member.userId);
+  const band = builder.createBand(user.id).withInviteTo(member.id);
   const { body } = await request(app).post("/user/login").send({ email: member.email, password: member.password });
   const authorization = `Bearer ${body.token}`;
 
@@ -116,7 +116,7 @@ test("It should be able to decline an invite to band", async () => {
 
 test("It should be able to remove a member from a band", async () => {
   const member = { memberId: uuid(), profileId: uuid(), role: "guitarist" };
-  const band = builder.createBand(user.userId).withMember(member);
+  const band = builder.createBand(user.id).withMember(member);
 
   const response = await request(app)
     .post(`/band/${band.bandId}/removeMember`)
@@ -127,7 +127,7 @@ test("It should be able to remove a member from a band", async () => {
 });
 
 test("It should be able to open a vacancy in a band", async () => {
-  const band = builder.createBand(user.userId);
+  const band = builder.createBand(user.id);
 
   const response = await request(app)
     .post(`/band/${band.bandId}/openVacancy`)

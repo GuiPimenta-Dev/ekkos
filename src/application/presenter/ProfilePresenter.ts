@@ -6,7 +6,7 @@ export default class ProfilePresenter {
   constructor(
     private profileRepository: ProfileRepositoryInterface,
     private videoRepository: VideoRepositoryInterface,
-    private bandRepository: BandRepositoryInterface
+    private bandRepository: BandRepositoryInterface,
   ) {}
 
   async present(profileId: string) {
@@ -19,7 +19,7 @@ export default class ProfilePresenter {
       followers: profile.getFollowers().length,
       following: profile.getFollowing().length,
       videos: videos.map((video) => ({
-        videoId: video.videoId,
+        videoId: video.id,
         title: video.title,
         description: video.description,
         url: video.url,
@@ -27,7 +27,7 @@ export default class ProfilePresenter {
         comments: video.getComments().length,
       })),
       bands: bands.map((band) => ({
-        bandId: band.bandId,
+        bandId: band.id,
         name: band.name,
         logo: band.logo,
       })),

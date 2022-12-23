@@ -13,7 +13,7 @@ export default class MemoryUserRepository implements UserRepositoryInterface {
   }
 
   async findUserById(id: string): Promise<User> {
-    return this.users.find((user) => user.userId === id);
+    return this.users.find((user) => user.id === id);
   }
 
   async isEmailTaken(email: string): Promise<boolean> {

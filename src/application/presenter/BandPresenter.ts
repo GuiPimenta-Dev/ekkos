@@ -9,7 +9,7 @@ export default class BandPresenter {
     const roles = await this.bandRepository.findRoles();
     const vacancies = band.getVacancies();
     return {
-      bandId: band.bandId,
+      bandId: band.id,
       name: band.name,
       logo: band.logo,
       description: band.description,
@@ -23,7 +23,7 @@ export default class BandPresenter {
             avatar: profile.avatar,
             role: member.role,
           };
-        })
+        }),
       ),
       vacancies: vacancies.map((vacancy) => {
         return roles.find((role) => role.role === vacancy);

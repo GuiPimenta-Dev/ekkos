@@ -2,7 +2,7 @@ import BandRepositoryInterface from "../../../src/application/ports/repository/B
 import { v4 as uuid } from "uuid";
 import Band from "../../../src/domain/entity/band/Band";
 import Member from "../../../src/domain/entity/band/Member";
-import Invite, { Status } from "../../../src/domain/entity/band/Invite";
+import Invite from "../../../src/domain/entity/band/Invite";
 
 export default class BandBuilder {
   public bandId: string;
@@ -22,7 +22,7 @@ export default class BandBuilder {
     this.description = "description";
     this.logo = "logo";
     this.adminId = adminId;
-    const member = { memberId: uuid(), profileId: adminId, role: "admin" };
+    const member = Member.create(adminId, "admin");
     this.members = [member];
     this.vacancies = [];
     this.bandRepository.create(this.band);
@@ -42,7 +42,7 @@ export default class BandBuilder {
   }
 
   withInviteTo(profileId: string) {
-    this.invite = new Invite(uuid(), this.bandId, profileId, "guitarist", Status.pending);
+    this.invite = Invite.create(this.bandId, profileId, "guitarist");
     this.bandRepository.createInvite(this.invite);
     return this;
   }

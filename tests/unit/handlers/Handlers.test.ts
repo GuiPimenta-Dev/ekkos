@@ -17,11 +17,10 @@ let feedRepository: MemoryFeedRepository;
 let broker: BrokerInterface;
 let factory: RepositoryFactory;
 
-
 beforeEach(async () => {
   const userRepository = new MemoryUserRepository();
   const profileRepository = new MemoryProfileRepository();
-  factory = new RepositoryFactory({profileRepository, userRepository});
+  factory = new RepositoryFactory({ profileRepository, userRepository });
   emailGateway = new EmailGatewayFake();
   feedRepository = new MemoryFeedRepository();
   broker = new MemoryBroker();
@@ -39,38 +38,38 @@ test("An event should be published when a user is created", async () => {
 });
 
 test("An email should be sent after inviting a member", async () => {
-  const user = factory.createUser()
+  const user = factory.createUser();
 
-  await broker.publish(EventFactory.emitMemberInvited({ profileId: user.userId, bandName: "bandName", role: "guitarist" }));
-  
+  await broker.publish(EventFactory.emitMemberInvited({ profileId: user.id, bandName: "bandName", role: "guitarist" }));
+
   expect(emailGateway.emails).toHaveLength(1);
 });
 
 test("An email should be sent to the band members after accepting an invite", async () => {
-  const user = factory.createUser()
-  const band = factory.createBand(user.userId)
-  const profile = factory.createProfile()
+  const user = factory.createUser();
+  const band = factory.createBand(user.id);
+  const profile = factory.createProfile();
 
-  await broker.publish(EventFactory.emitInviteAccepted({ profileId: profile.profileId, band, role: "guitarist" }));
+  await broker.publish(EventFactory.emitInviteAccepted({ profileId: profile.id, band, role: "guitarist" }));
 
   expect(emailGateway.emails).toHaveLength(1);
 });
 
 test("An email should be sent after declining an invite", async () => {
-  const user = factory.createUser()
-  const band = factory.createBand(user.userId)
-  const profile = factory.createProfile()
+  const user = factory.createUser();
+  const band = factory.createBand(user.id);
+  const profile = factory.createProfile();
 
-  await broker.publish(EventFactory.emitInviteDeclined({ profileId: profile.profileId, band, role: "guitarist" }));
-  
+  await broker.publish(EventFactory.emitInviteDeclined({ profileId: profile.id, band, role: "guitarist" }));
+
   expect(emailGateway.emails).toHaveLength(1);
 });
 
 test("A follower should be notified by future posts", async () => {
-  const profile = factory.createProfile()
-  const video = factory.createVideo(profile.profileId)
+  const profile = factory.createProfile();
+  const video = factory.createVideo(profile.id);
 
-  await broker.publish(EventFactory.emitVideoPosted({ profileId: profile.profileId, videoId: video.videoId }));
+  await broker.publish(EventFactory.emitVideoPosted({ profileId: profile.id, videoId: video.id }));
 
   expect(feedRepository.posts).toHaveLength(1);
 });

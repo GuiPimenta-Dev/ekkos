@@ -78,7 +78,7 @@ test("Must throw an error if user not found", async () => {
 });
 
 test("Must throw an error if profile not found", async () => {
-  await config.userRepository.create({ userId: "id", email: "email", password: "password" });
+  await config.userRepository.create({ id: "id", email: "email", password: "password" });
   const req = { headers: { id: "id" } };
 
   await verifyUser(req, res, next);

@@ -1,9 +1,10 @@
 import Forbidden from "../../../application/http/Forbidden";
 import Member from "./Member";
+import { v4 as uuid } from "uuid";
 
 export default class Band {
   constructor(
-    readonly bandId: string,
+    readonly id: string,
     readonly name: string,
     readonly description: string,
     readonly logo: string,
@@ -11,6 +12,11 @@ export default class Band {
     private members: Member[],
     private vacancies: string[] = [],
   ) {}
+
+  static create(name: string, description: string, logo: string, adminId: string): Band {
+    const member = new Member(uuid(), adminId, "admin");
+    return new Band(uuid(), name, description, logo, adminId, [member]);
+  }
 
   addMember(adminId: string, member: Member): void {
     this.verifyAdmin(adminId);

@@ -7,7 +7,7 @@ export default class MatchProfiles {
   async execute(profileId: string, distance: number): Promise<{ profile: Profile; distance: number }[]> {
     const profile = await this.profileRepository.findProfileById(profileId);
     let profiles = await this.profileRepository.getAllProfiles();
-    profiles = profiles.filter((profile) => profile.profileId !== profileId);
+    profiles = profiles.filter((profile) => profile.id !== profileId);
     const matches = profiles
       .map((match) => {
         const distanceBetween = this.getDistanceFromLatLonInKm(

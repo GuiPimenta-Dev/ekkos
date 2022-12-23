@@ -28,13 +28,13 @@ export default class InviteMember {
   }
 
   private async addAnotherRoleToAdmin(band: Band, profileId: string, role: string) {
-    const member = new Member(uuid(), profileId, role);
+    const member = Member.create(profileId, role);
     band.addMember(profileId, member);
     await this.bandRepository.update(band);
   }
 
   private async inviteMemberToJoinBand(band: Band, profileId: string, role: string) {
-    const invite = new Invite(uuid(), band.bandId, profileId, role, Status.pending);
+    const invite = Invite.create(band.id, profileId, role);
     await this.bandRepository.createInvite(invite);
     await this.broker.publish(EventFactory.emitMemberInvited({ profileId, bandName: band.name, role }));
     return invite.inviteId;

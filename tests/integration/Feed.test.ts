@@ -40,8 +40,8 @@ beforeEach(async () => {
 });
 
 test("It should be able to get a feed", async () => {
-  const video = factory.createVideo(user.userId);
-  const feed = { postId: uuid(), profileId: user.userId, videoId: video.videoId };
+  const video = factory.createVideo(user.id);
+  const feed = { postId: uuid(), profileId: user.id, videoId: video.id };
   config.feedRepository.create(feed);
 
   const response = await request(app).get("/feed").set({ authorization });
@@ -49,8 +49,8 @@ test("It should be able to get a feed", async () => {
   expect(response.status).toBe(200);
   expect(response.body.feed).toEqual([
     {
-      videoId: video.videoId,
-      profileId: user.userId,
+      videoId: video.id,
+      profileId: user.id,
       title: "title",
       description: "description",
       url: "url",

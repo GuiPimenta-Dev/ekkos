@@ -1,4 +1,3 @@
-import BadRequest from "../../application/http/BadRequest";
 import NotFound from "../../application/http/NotFound";
 import ProfileRepositoryInterface from "../../application/ports/repository/ProfileRepositoryInterface";
 import ProfileService from "../../domain/service/ProfileService";

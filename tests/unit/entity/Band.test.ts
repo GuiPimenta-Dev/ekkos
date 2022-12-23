@@ -2,12 +2,20 @@ import Band from "../../../src/domain/entity/band/Band";
 
 const member = { memberId: "memberId", profileId: "profileId", bandId: "bandId", role: "guitarist" };
 
+test("It should be have one member as admin when creating a band", async () => {
+  const band = Band.create("name", "description", "logo", "adminId");
+
+  const members = band.getMembers();
+  expect(members).toHaveLength(1);
+  expect(members[0].role).toBe("admin");
+});
+
 test("It should be able to add member to band", async () => {
   const band = new Band("bandId", "name", "description", "logo", "adminId", []);
 
   band.addMember("adminId", member);
 
-  expect(band.getMembers()).toHaveLength(1);
+  expect(band.getMembers()).toContain(member);
 });
 
 test("It should be able to remove member from band", async () => {

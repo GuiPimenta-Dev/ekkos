@@ -1,3 +1,5 @@
+import { v4 as uuid } from "uuid";
+
 export enum Status {
   pending = "pending",
   accepted = "accepted",
@@ -12,6 +14,10 @@ export default class Invite {
     readonly role: string,
     private status: Status,
   ) {}
+
+  static create(bandId: string, profileId: string, role: string): Invite {
+    return new Invite(uuid(), bandId, profileId, role, Status.pending);
+  }
 
   accept(): void {
     this.status = Status.accepted;

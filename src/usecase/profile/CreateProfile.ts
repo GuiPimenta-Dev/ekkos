@@ -8,7 +8,7 @@ export default class CreateProfile {
 
   async execute(input: CreateProfileDTO): Promise<void> {
     if (await this.profileRepository.isNickTaken(input.nick)) throw new BadRequest("Nick is already taken");
-    const profile = new Profile(input.profileId, input.nick, input.avatar, input.latitude, input.longitude, [], []);
+    const profile = Profile.create(input.nick, input.avatar, input.latitude, input.longitude);
     await this.profileRepository.create(profile);
   }
 }

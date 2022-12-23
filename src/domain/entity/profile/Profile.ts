@@ -1,13 +1,19 @@
+import { v4 as uuid } from "uuid";
+
 export default class Profile {
   constructor(
-    readonly profileId: string,
+    readonly id: string,
     readonly nick: string,
     readonly avatar: string,
     public latitude: number,
     public longitude: number,
     private followers: string[],
-    private following: string[]
+    private following: string[],
   ) {}
+
+  static create(nick: string, avatar: string, latitude: number, longitude: number) {
+    return new Profile(uuid(), nick, avatar, latitude, longitude, [], []);
+  }
 
   addFollower(profileId: string) {
     this.followers.push(profileId);

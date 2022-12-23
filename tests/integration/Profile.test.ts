@@ -36,7 +36,7 @@ beforeEach(async () => {
     bandRepository: config.bandRepository,
   });
   user = factory.createUser();
-  factory.createProfile(user.userId);
+  factory.createProfile(user.id);
   const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
   authorization = `Bearer ${body.token}`;
 });
@@ -58,7 +58,7 @@ test("It should be able to create a profile", async () => {
 test("It should be able to get a profile", async () => {
   const profile = factory.createProfile();
 
-  const response = await request(app).get(`/profile/${profile.profileId}`).set({ authorization });
+  const response = await request(app).get(`/profile/${profile.id}`).set({ authorization });
 
   expect(response.statusCode).toBe(200);
   expect(response.body).toEqual({
@@ -74,16 +74,16 @@ test("It should be able to get a profile", async () => {
 test("It should be able to follow a profile", async () => {
   const profile = factory.createProfile();
 
-  const response = await request(app).post(`/profile/${profile.profileId}/follow`).set({ authorization });
+  const response = await request(app).post(`/profile/${profile.id}/follow`).set({ authorization });
 
   expect(response.statusCode).toBe(200);
 });
 
 test("It should be able to unfollow a profile", async () => {
   const profile = factory.createProfile();
-  await request(app).post(`/profile/${profile.profileId}/follow`).set({ authorization });
+  await request(app).post(`/profile/${profile.id}/follow`).set({ authorization });
 
-  const { statusCode } = await request(app).post(`/profile/${profile.profileId}/unfollow`).set({ authorization });
+  const { statusCode } = await request(app).post(`/profile/${profile.id}/unfollow`).set({ authorization });
 
   expect(statusCode).toBe(200);
 });

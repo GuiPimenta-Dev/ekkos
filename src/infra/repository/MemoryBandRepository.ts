@@ -28,7 +28,7 @@ export default class MemoryBandRepository implements BandRepositoryInterface {
   }
 
   async findBandById(id: string): Promise<Band> {
-    return this.bands.find((band) => band.bandId === id);
+    return this.bands.find((band) => band.id === id);
   }
 
   async update(band: Band): Promise<void> {

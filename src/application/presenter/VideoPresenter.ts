@@ -4,13 +4,13 @@ import VideoRepositoryInterface from "../ports/repository/VideoRepositoryInterfa
 export default class VideoPresenter {
   constructor(
     private videoRepository: VideoRepositoryInterface,
-    private profileRepository: ProfileRepositoryInterface
+    private profileRepository: ProfileRepositoryInterface,
   ) {}
 
   async present(videoId: string) {
     const video = await this.videoRepository.findVideoById(videoId);
     return {
-      videoId: video.videoId,
+      videoId: video.id,
       profileId: video.profileId,
       title: video.title,
       description: video.description,
@@ -20,13 +20,13 @@ export default class VideoPresenter {
         video.getComments().map(async (comment) => {
           const profile = await this.profileRepository.findProfileById(comment.profileId);
           return {
-            commentId: comment.commentId,
+            commentId: comment.id,
             profileId: comment.profileId,
             nick: profile.nick,
             avatar: profile.avatar,
             text: comment.text,
           };
-        })
+        }),
       ),
     };
   }

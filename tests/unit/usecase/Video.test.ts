@@ -44,9 +44,7 @@ test("It should be able to comment a video", async () => {
 });
 
 test("It should be able to delete a comment", async () => {
-  const video = videoBuilder
-    .createVideo()
-    .withComment({ commentId: "comment-id", profileId: "profile", text: "comment" });
+  const video = videoBuilder.createVideo().withComment({ id: "comment-id", profileId: "profile", text: "comment" });
 
   const usecase = new DeleteComment(videoRepository);
   await usecase.execute("profile", video.videoId, "comment-id");
