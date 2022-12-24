@@ -31,13 +31,13 @@ export default class BandBuilder {
 
   withMember(member: Member) {
     this.members.push(member);
-    this.bandRepository.create(this.band);
+    this.bandRepository.update(this.band);
     return this;
   }
 
   withVacancy(vacancy: string) {
     this.vacancies.push(vacancy);
-    this.bandRepository.create(this.band);
+    this.bandRepository.update(this.band);
     return this;
   }
 
