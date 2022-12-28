@@ -9,7 +9,6 @@ import UnlikeVideo from "../../../src/usecase/video/UnlikeVideo";
 import Builder from "../../utils/builder/Builder";
 
 let videoRepository: MemoryVideoRepository;
-let videoBuilder: VideoBuilder;
 const broker = new MemoryBroker();
 let A: Builder;
 

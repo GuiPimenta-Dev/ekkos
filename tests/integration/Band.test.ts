@@ -32,7 +32,7 @@ beforeAll(async () => {
   A = new Builder();
   user = A.User.build();
   config.userRepository.create(user);
-  config.profileRepository.create(A.Profile.withProfileId(user.id).build());
+  config.profileRepository.create(A.Profile.withId(user.id).build());
   const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
   authorization = `Bearer ${body.token}`;
 });
@@ -71,7 +71,7 @@ test("It should be able to get a band", async () => {
 });
 
 test("It should be able to invite a member to band", async () => {
-  const profile = A.Profile.withProfileId("adminId").build();
+  const profile = A.Profile.withId("adminId").build();
   const band = A.Band.build();
   config.profileRepository.create(profile);
   config.bandRepository.create(band);
@@ -89,7 +89,7 @@ test("It should be able to accept an invite to band", async () => {
   const band = A.Band.withAdminId(user.id).build();
   const invite = Invite.create(band.id, member.id, "guitarist");
   config.userRepository.create(member);
-  config.profileRepository.create(A.Profile.withProfileId(member.id).build());
+  config.profileRepository.create(A.Profile.withId(member.id).build());
   config.bandRepository.create(band);
   config.bandRepository.createInvite(invite);
   const { body } = await request(app).post("/user/login").send({ email: member.email, password: member.password });
@@ -105,7 +105,7 @@ test("It should be able to decline an invite to band", async () => {
   const band = A.Band.withAdminId(user.id).build();
   const invite = Invite.create(band.id, member.id, "guitarist");
   config.userRepository.create(member);
-  config.profileRepository.create(A.Profile.withProfileId(member.id).build());
+  config.profileRepository.create(A.Profile.withId(member.id).build());
   config.bandRepository.create(band);
   config.bandRepository.createInvite(invite);
   const { body } = await request(app).post("/user/login").send({ email: member.email, password: member.password });

@@ -28,7 +28,7 @@ beforeAll(async () => {
   A = new Builder();
   user = A.User.build();
   config.userRepository.create(user);
-  config.profileRepository.create(A.Profile.withProfileId(user.id).build());
+  config.profileRepository.create(A.Profile.withId(user.id).build());
   const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
   authorization = `Bearer ${body.token}`;
 });

@@ -2,7 +2,7 @@ import Band from "../../../src/domain/entity/band/Band";
 import Member from "../../../src/domain/entity/band/Member";
 
 export default class BandBuilder {
-  public bandId: string = "bandId";
+  public id: string = "bandId";
   public name: string = "name";
   public description: string = "description";
   public logo: string = "logo";
@@ -30,6 +30,6 @@ export default class BandBuilder {
   }
 
   build() {
-    return new Band(this.bandId, this.name, this.description, this.logo, this.adminId, this.members, this.vacancies);
+    return new Band(this.id, this.name, this.description, this.logo, this.adminId, this.members, this.vacancies);
   }
 }

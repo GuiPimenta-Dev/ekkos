@@ -7,8 +7,8 @@ import StorageGatewayFake from "../utils/mocks/gateway/StorageGatewayFake";
 import { config } from "../../src/Config";
 import app from "../../src/infra/http/Router";
 import request from "supertest";
-import RepositoryFactory from "../utils/factory/RepositoryFactory";
 import User from "../../src/domain/entity/user/User";
+import Builder from "../utils/builder/Builder";
 
 jest.mock("../../src/Config", () => ({
   ...(jest.requireActual("../../src/Config") as {}),
@@ -23,20 +23,16 @@ jest.mock("../../src/Config", () => ({
 }));
 
 let authorization: string;
-let factory: RepositoryFactory;
 let user: User;
+let A: Builder;
 
 const avatar = "tests/utils/files/avatar.jpeg";
 
 beforeEach(async () => {
-  factory = new RepositoryFactory({
-    profileRepository: config.profileRepository,
-    userRepository: config.userRepository,
-    videoRepository: config.videoRepository,
-    bandRepository: config.bandRepository,
-  });
-  user = factory.createUser();
-  factory.createProfile(user.id);
+  A = new Builder();
+  user = A.User.build();
+  config.userRepository.create(user);
+  config.profileRepository.create(A.Profile.withId(user.id).build());
   const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
   authorization = `Bearer ${body.token}`;
 });
@@ -56,7 +52,8 @@ test("It should be able to create a profile", async () => {
 });
 
 test("It should be able to get a profile", async () => {
-  const profile = factory.createProfile();
+  const profile = A.Profile.build();
+  config.profileRepository.create(profile);
 
   const response = await request(app).get(`/profile/${profile.id}`).set({ authorization });
 
@@ -72,7 +69,8 @@ test("It should be able to get a profile", async () => {
 });
 
 test("It should be able to follow a profile", async () => {
-  const profile = factory.createProfile();
+  const profile = A.Profile.withId("some-profile-id").build();
+  config.profileRepository.create(profile);
 
   const response = await request(app).post(`/profile/${profile.id}/follow`).set({ authorization });
 
@@ -80,12 +78,13 @@ test("It should be able to follow a profile", async () => {
 });
 
 test("It should be able to unfollow a profile", async () => {
-  const profile = factory.createProfile();
+  const profile = A.Profile.withId("some-profile-id").build();
+  config.profileRepository.create(profile);
   await request(app).post(`/profile/${profile.id}/follow`).set({ authorization });
 
-  const { statusCode } = await request(app).post(`/profile/${profile.id}/unfollow`).set({ authorization });
+  const response = await request(app).post(`/profile/${profile.id}/unfollow`).set({ authorization });
 
-  expect(statusCode).toBe(200);
+  expect(response.statusCode).toBe(200);
 });
 
 test("It should be able to match profiles", async () => {

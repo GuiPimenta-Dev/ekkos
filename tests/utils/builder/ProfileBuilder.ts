@@ -1,7 +1,7 @@
 import Profile from "../../../src/domain/entity/profile/Profile";
 
 export default class ProfileBuilder {
-  public profileId: string = "profileId";
+  public id: string = "profileId";
   public nick: string = "nick";
   public avatar: string = "avatar";
   public latitude: number = 0;
@@ -13,8 +13,8 @@ export default class ProfileBuilder {
     return new ProfileBuilder();
   }
 
-  withProfileId(profileId: string) {
-    this.profileId = profileId;
+  withId(id: string) {
+    this.id = id;
     return this;
   }
 
@@ -40,14 +40,6 @@ export default class ProfileBuilder {
   }
 
   build() {
-    return new Profile(
-      this.profileId,
-      this.nick,
-      this.avatar,
-      this.latitude,
-      this.longitude,
-      this.following,
-      this.followers,
-    );
+    return new Profile(this.id, this.nick, this.avatar, this.latitude, this.longitude, this.following, this.followers);
   }
 }

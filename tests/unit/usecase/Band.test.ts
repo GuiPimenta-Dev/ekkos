@@ -39,8 +39,8 @@ test("It should be able to create a band", async () => {
 });
 
 test("It should be able to invite a member", async () => {
-  profileRepository.create(A.Profile.withProfileId("adminId").build());
-  profileRepository.create(A.Profile.withProfileId("memberId").build());
+  profileRepository.create(A.Profile.withId("adminId").build());
+  profileRepository.create(A.Profile.withId("memberId").build());
   bandRepository.create(A.Band.withAdminId("adminId").build());
 
   const usecase = new InviteMember(bandRepository, profileRepository, broker);
@@ -54,7 +54,7 @@ test("It should be able to invite a member", async () => {
 });
 
 test("It should directly add the member if it is the adminId choosing a second role", async () => {
-  profileRepository.create(A.Profile.withProfileId("adminId").build());
+  profileRepository.create(A.Profile.withId("adminId").build());
   bandRepository.create(A.Band.build());
 
   const usecase = new InviteMember(bandRepository, profileRepository, broker);
@@ -66,7 +66,7 @@ test("It should directly add the member if it is the adminId choosing a second r
 });
 
 test("It should not be able to invite a member if member does not exists", async () => {
-  profileRepository.create(A.Profile.withProfileId("adminId").build());
+  profileRepository.create(A.Profile.withId("adminId").build());
   bandRepository.create(A.Band.build());
 
   const usecase = new InviteMember(bandRepository, profileRepository, broker);
@@ -76,8 +76,8 @@ test("It should not be able to invite a member if member does not exists", async
 
 test("It should be able to accept an invite", async () => {
   const invite = Invite.create("bandId", "memberId", "guitarist");
-  profileRepository.create(A.Profile.withProfileId("adminId").build());
-  profileRepository.create(A.Profile.withProfileId("memberId").build());
+  profileRepository.create(A.Profile.withId("adminId").build());
+  profileRepository.create(A.Profile.withId("memberId").build());
   bandRepository.create(A.Band.build());
   bandRepository.createInvite(invite);
 
@@ -93,8 +93,8 @@ test("It should be able to accept an invite", async () => {
 test("It should be able to decline an invite", async () => {
   bandRepository = new MemoryBandRepository();
   const invite = Invite.create("bandId", "memberId", "guitarist");
-  profileRepository.create(A.Profile.withProfileId("adminId").build());
-  profileRepository.create(A.Profile.withProfileId("memberId").build());
+  profileRepository.create(A.Profile.withId("adminId").build());
+  profileRepository.create(A.Profile.withId("memberId").build());
   bandRepository.create(A.Band.build());
   bandRepository.createInvite(invite);
 
@@ -108,7 +108,7 @@ test("It should be able to decline an invite", async () => {
 });
 
 test("It should be able to open a vacancy", async () => {
-  profileRepository.create(A.Profile.withProfileId("adminId").build());
+  profileRepository.create(A.Profile.withId("adminId").build());
   bandRepository.create(A.Band.build());
 
   const usecase = new OpenVacancy(bandRepository);
@@ -119,7 +119,7 @@ test("It should be able to open a vacancy", async () => {
 });
 
 test("It should not be able to remove a member if its not found", async () => {
-  profileRepository.create(A.Profile.withProfileId("adminId").build());
+  profileRepository.create(A.Profile.withId("adminId").build());
   bandRepository.create(A.Band.build());
 
   const usecase = new RemoveMember(bandRepository);

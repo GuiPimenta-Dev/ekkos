@@ -8,9 +8,9 @@ import MemoryFeedRepository from "../../src/infra/repository/MemoryFeedRepositor
 import { config } from "../../src/Config";
 import app from "../../src/infra/http/Router";
 import request from "supertest";
-import RepositoryFactory from "../utils/factory/RepositoryFactory";
 import User from "../../src/domain/entity/user/User";
 import { v4 as uuid } from "uuid";
+import Builder from "../utils/builder/Builder";
 
 jest.mock("../../src/Config", () => ({
   ...(jest.requireActual("../../src/Config") as {}),
@@ -26,31 +26,29 @@ jest.mock("../../src/Config", () => ({
 }));
 
 let authorization: string;
-let factory: RepositoryFactory;
 let user: User;
+let A: Builder;
+
 beforeEach(async () => {
-  factory = new RepositoryFactory({
-    profileRepository: config.profileRepository,
-    userRepository: config.userRepository,
-    videoRepository: config.videoRepository,
-  });
-  user = factory.createUser();
+  A = new Builder();
+  user = A.User.build();
+  config.userRepository.create(user);
+  config.profileRepository.create(A.Profile.withId(user.id).build());
   const { body } = await request(app).post("/user/login").send({ email: user.email, password: user.password });
   authorization = `Bearer ${body.token}`;
 });
 
 test("It should be able to get a feed", async () => {
-  const video = factory.createVideo(user.id);
-  const feed = { postId: uuid(), profileId: user.id, videoId: video.id };
-  config.feedRepository.create(feed);
+  config.videoRepository.create(A.Video.build());
+  config.feedRepository.create({ postId: uuid(), profileId: user.id, videoId: "videoId" });
 
   const response = await request(app).get("/feed").set({ authorization });
 
   expect(response.status).toBe(200);
   expect(response.body.feed).toEqual([
     {
-      videoId: video.id,
-      ownerId: user.id,
+      videoId: "videoId",
+      ownerId: "ownerId",
       title: "title",
       description: "description",
       url: "url",

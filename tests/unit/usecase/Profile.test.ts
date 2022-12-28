@@ -50,7 +50,7 @@ test("It should be able to match all profiles that is near you 15km away", async
   profileRepository.create(A.Profile.withCoordinates(-22.90045, -43.11867).build());
   profileRepository.create(A.Profile.withCoordinates(-22.93749, -43.17597).build());
   profileRepository.create(A.Profile.withCoordinates(-22.8219, -43.03092).build());
-  profileRepository.create(A.Profile.withProfileId("sutProfileId").withCoordinates(-22.90463, -43.1053).build());
+  profileRepository.create(A.Profile.withId("sutProfileId").withCoordinates(-22.90463, -43.1053).build());
 
   const usecase = new MatchProfiles(profileRepository);
   const profiles = await usecase.execute("sutProfileId", 15);
@@ -62,7 +62,7 @@ test("It should not be able to match a profile that is far away from you 0.5km a
   profileRepository.create(A.Profile.withCoordinates(-22.90045, -43.11867).build());
   profileRepository.create(A.Profile.withCoordinates(-22.93749, -43.17597).build());
   profileRepository.create(A.Profile.withCoordinates(-22.8219, -43.03092).build());
-  profileRepository.create(A.Profile.withProfileId("sutProfileId").withCoordinates(-22.90463, -43.1053).build());
+  profileRepository.create(A.Profile.withId("sutProfileId").withCoordinates(-22.90463, -43.1053).build());
 
   const usecase = new MatchProfiles(profileRepository);
   const profiles = await usecase.execute("sutProfileId", 0.5);
@@ -72,7 +72,7 @@ test("It should not be able to match a profile that is far away from you 0.5km a
 
 test("It should return distance 0 if profile is in same place", async () => {
   profileRepository.create(A.Profile.withCoordinates(-22.90463, -43.1053).build());
-  profileRepository.create(A.Profile.withProfileId("sutProfileId").withCoordinates(-22.90463, -43.1053).build());
+  profileRepository.create(A.Profile.withId("sutProfileId").withCoordinates(-22.90463, -43.1053).build());
 
   const usecase = new MatchProfiles(profileRepository);
   const profiles = await usecase.execute("sutProfileId", 1);

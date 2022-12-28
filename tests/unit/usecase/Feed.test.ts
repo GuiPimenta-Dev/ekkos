@@ -6,10 +6,11 @@ let feedRepository: FeedRepositoryInterface;
 
 beforeEach(async () => {
   feedRepository = new MemoryFeedRepository();
-  await feedRepository.create({ postId: "1", profileId: "1", videoId: "1" });
 });
 
 test("It should be able to get a feed", async () => {
+  feedRepository.create({ postId: "1", profileId: "1", videoId: "1" });
+
   const usecase = new GetFeed(feedRepository);
   const feed = await usecase.execute("1");
 
@@ -17,6 +18,7 @@ test("It should be able to get a feed", async () => {
 });
 
 test("It should delete a post when the video is already seen", async () => {
+  feedRepository.create({ postId: "1", profileId: "1", videoId: "1" });
   await new GetFeed(feedRepository).execute("1");
 
   const usecase = new GetFeed(feedRepository);
