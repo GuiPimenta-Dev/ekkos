@@ -1,53 +1,35 @@
-import BandRepositoryInterface from "../../../src/application/ports/repository/BandRepositoryInterface";
-import { v4 as uuid } from "uuid";
 import Band from "../../../src/domain/entity/band/Band";
 import Member from "../../../src/domain/entity/band/Member";
-import Invite from "../../../src/domain/entity/band/Invite";
 
 export default class BandBuilder {
-  public bandId: string;
-  public name: string;
-  public description: string;
-  public logo: string;
-  public adminId: string;
-  public members: Member[];
-  public vacancies: string[];
-  public invite: Invite;
+  public bandId: string = "bandId";
+  public name: string = "name";
+  public description: string = "description";
+  public logo: string = "logo";
+  public adminId: string = "adminId";
+  public members: Member[] = [];
+  public vacancies: string[] = [];
 
-  constructor(private bandRepository: BandRepositoryInterface) {}
+  static createBand() {
+    return new BandBuilder();
+  }
 
-  createBand(adminId: string) {
-    this.bandId = uuid();
-    this.name = "name";
-    this.description = "description";
-    this.logo = "logo";
+  withAdminId(adminId: string) {
     this.adminId = adminId;
-    const member = Member.create(adminId, "admin");
-    this.members = [member];
-    this.vacancies = [];
-    this.bandRepository.create(this.band);
     return this;
   }
 
   withMember(member: Member) {
     this.members.push(member);
-    this.bandRepository.update(this.band);
     return this;
   }
 
   withVacancy(vacancy: string) {
     this.vacancies.push(vacancy);
-    this.bandRepository.update(this.band);
     return this;
   }
 
-  withInviteTo(profileId: string) {
-    this.invite = Invite.create(this.bandId, profileId, "guitarist");
-    this.bandRepository.createInvite(this.invite);
-    return this;
-  }
-
-  private get band() {
+  build() {
     return new Band(this.bandId, this.name, this.description, this.logo, this.adminId, this.members, this.vacancies);
   }
 }

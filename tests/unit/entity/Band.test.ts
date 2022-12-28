@@ -1,6 +1,6 @@
 import Band from "../../../src/domain/entity/band/Band";
 
-const member = { memberId: "memberId", profileId: "profileId", bandId: "bandId", role: "guitarist" };
+const member = { id: "memberId", profileId: "profileId", bandId: "bandId", role: "guitarist" };
 
 test("It should be have one member as admin when creating a band", async () => {
   const band = Band.create("name", "description", "logo", "adminId");
@@ -33,7 +33,7 @@ test("It should not be able to remove a member if you are not the adminId", asyn
 });
 
 test("It should not be able to remove an admin", async () => {
-  const member = { memberId: "memberId", profileId: "profileId", bandId: "bandId", role: "admin" };
+  const member = { id: "memberId", profileId: "profileId", bandId: "bandId", role: "admin" };
 
   const band = new Band("bandId", "name", "description", "logo", "adminId", [member]);
 

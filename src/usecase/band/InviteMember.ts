@@ -37,6 +37,6 @@ export default class InviteMember {
     const invite = Invite.create(band.id, profileId, role);
     await this.bandRepository.createInvite(invite);
     await this.broker.publish(EventFactory.emitMemberInvited({ profileId, bandName: band.name, role }));
-    return invite.inviteId;
+    return invite.id;
   }
 }

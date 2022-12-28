@@ -8,7 +8,7 @@ export enum Status {
 
 export default class Invite {
   constructor(
-    readonly inviteId: string,
+    readonly id: string,
     readonly bandId: string,
     readonly profileId: string,
     readonly role: string,

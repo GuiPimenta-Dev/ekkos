@@ -6,7 +6,7 @@ export default class RemoveMember {
 
   async execute(bandId: string, adminId: string, memberId: string): Promise<void> {
     const band = await this.bandRepository.findBandById(bandId);
-    const member = band.getMembers().find((m) => m.memberId == memberId);
+    const member = band.getMembers().find((m) => m.id == memberId);
     if (!member) throw new NotFound("Member not found");
     band.removeMember(adminId, member);
     await this.bandRepository.update(band);

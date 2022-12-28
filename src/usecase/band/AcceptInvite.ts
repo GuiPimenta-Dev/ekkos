@@ -15,6 +15,6 @@ export default class AcceptInvite {
     await this.bandRepository.update(band);
     await this.bandRepository.updateInvite(invite);
     await this.broker.publish(EventFactory.emitInviteAccepted({ profileId, band, role: invite.role }));
-    return member.memberId;
+    return member.id;
   }
 }
