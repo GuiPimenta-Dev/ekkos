@@ -11,17 +11,17 @@ export default class VideoPresenter {
     const video = await this.videoRepository.findVideoById(videoId);
     return {
       videoId: video.id,
-      profileId: video.profileId,
+      ownerId: video.ownerId,
       title: video.title,
       description: video.description,
       url: video.url,
       likes: video.getLikes().length,
       comments: await Promise.all(
         video.getComments().map(async (comment) => {
-          const profile = await this.profileRepository.findProfileById(comment.profileId);
+          const profile = await this.profileRepository.findProfileById(comment.ownerId);
           return {
             commentId: comment.id,
-            profileId: comment.profileId,
+            ownerId: comment.ownerId,
             nick: profile.nick,
             avatar: profile.avatar,
             text: comment.text,

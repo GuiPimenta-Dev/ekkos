@@ -6,7 +6,7 @@ import { v4 as uuid } from "uuid";
 export default class Video {
   constructor(
     readonly id: string,
-    readonly profileId: string,
+    readonly ownerId: string,
     readonly title: string,
     readonly description: string,
     readonly url: string,
@@ -14,8 +14,8 @@ export default class Video {
     private comments: Comment[],
   ) {}
 
-  static create(profileId: string, title: string, description: string, url: string) {
-    return new Video(uuid(), profileId, title, description, url, [], []);
+  static create(ownerId: string, title: string, description: string, url: string) {
+    return new Video(uuid(), ownerId, title, description, url, [], []);
   }
 
   like(profileId: string): void {
@@ -33,7 +33,7 @@ export default class Video {
   }
 
   deleteComment(profileId: string, comment: Comment): void {
-    if (comment.profileId !== profileId) throw new Forbidden("You can't delete this comment");
+    if (comment.ownerId !== profileId) throw new Forbidden("You can't delete this comment");
     this.comments = this.comments.filter((c) => c.id !== comment.id);
   }
 

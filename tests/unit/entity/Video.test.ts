@@ -34,7 +34,7 @@ test("It should not be able to unlike a video you don't like", async () => {
 test("It should be able to comment a video", async () => {
   const video = new Video("videoId", "profileId", "title", "description", "url", [], []);
 
-  const comment = { id: "commentId", videoId: "videoId", profileId: "profileId", text: "text" };
+  const comment = { id: "commentId", videoId: "videoId", ownerId: "profileId", text: "text" };
   video.comment(comment);
 
   expect(video.getComments()).toHaveLength(1);
@@ -42,8 +42,8 @@ test("It should be able to comment a video", async () => {
 
 test("It should be able to delete a comment on a video", async () => {
   const video = new Video("videoId", "profileId", "title", "description", "url", [], []);
-  const comment = { id: "commentId", videoId: "videoId", profileId: "profileId", text: "text" };
-  const comment2 = { id: "comment2Id", videoId: "videoId", profileId: "profileId", text: "text" };
+  const comment = { id: "commentId", videoId: "videoId", ownerId: "profileId", text: "text" };
+  const comment2 = { id: "comment2Id", videoId: "videoId", ownerId: "profileId", text: "text" };
   video.comment(comment);
   video.comment(comment2);
 
@@ -54,7 +54,7 @@ test("It should be able to delete a comment on a video", async () => {
 
 test("It should not be able to delete a comment on a video you don't own", async () => {
   const video = new Video("videoId", "profileId", "title", "description", "url", [], []);
-  const comment = { id: "commentId", videoId: "videoId", profileId: "profileId", text: "text" };
+  const comment = { id: "commentId", videoId: "videoId", ownerId: "profileId", text: "text" };
   video.comment(comment);
 
   expect(() => video.deleteComment("profileId2", comment)).toThrow("You can't delete this comment");

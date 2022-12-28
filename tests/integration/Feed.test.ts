@@ -50,7 +50,7 @@ test("It should be able to get a feed", async () => {
   expect(response.body.feed).toEqual([
     {
       videoId: video.id,
-      profileId: user.id,
+      ownerId: user.id,
       title: "title",
       description: "description",
       url: "url",

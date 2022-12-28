@@ -11,7 +11,7 @@ export default class ProfilePresenter {
 
   async present(profileId: string) {
     const profile = await this.profileRepository.findProfileById(profileId);
-    const videos = await this.videoRepository.findVideosByProfileId(profileId);
+    const videos = await this.videoRepository.findVideosByOwnerId(profileId);
     const bands = await this.bandRepository.findBandsByProfileId(profileId);
     return {
       nick: profile.nick,
